@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: SDL2.0 | SDL中文教程]]></title>
+  <link href="http://adolfans.github.com/sdltutorialcn/blog/categories/sdl2-0/atom.xml" rel="self"/>
+  <link href="http://adolfans.github.com/sdltutorialcn/"/>
+  <updated>2013-01-25T23:46:55+08:00</updated>
+  <id>http://adolfans.github.com/sdltutorialcn/</id>
+  <author>
+    <name><![CDATA[Adolfans]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[【翻译SDL2.0教程】目录]]></title>
+    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/"/>
+    <updated>2013-01-25T23:12:00+08:00</updated>
+    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index</id>
+    <content type="html"><![CDATA[<p>原文地址:<a href = "http://twinklebeardev.blogspot.com/p/sdl-20-tutorial-index.html">SDL 2.0 Tutorial Index</a></p>
+
+<h3>Welcome!</h3>
+
+
+<p>下面的教程目的是为你提供一个关于SDL2.0以及c++中游戏设计主题和概念的介绍。在本教程中，我们假定你对C++有一定程度上的知识，至少了解数组，vector，控制结构，函数还有指针。<br /><br />
+如果你觉得理解教程中的代码有困难，你可以在教程后面随意留言，或者在<a href="http://stackoverflow.com/questions/388242/the-definitive-c-book-guide-and-list">StackOverflow</a>上的这个列表里抓一本书来读。<br /><br />
+如果你想要查看或者下载全部的程序代码，你可以在<a href="https://github.com/Twinklebear/TwinklebearDev-Lessons">Github</a>上下载到。但是不要复制！<br /><br />
+SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage">online wiki</a>上查看到。<br /><br /></p>
+
+<h3>教程目录：</h3>
+
+
+<p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-0-setting-up-sdl.html"><b>Lesson 0: Setting up SDL</b></a>&nbsp;<a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/">第0节：配置SDL</a> <br />
+<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-1-hello-world.html"><b>Lesson 1: Hello World!</b></a><br />
+<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-2-dont-put-everything-in-main.html"><b>Lesson 2: Don't Put Everything in Main</b></a><br />
+<b><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-3-sdl-extension-libraries.html">Lesson 3: SDL Extension Libraries&nbsp;</a></b><br />
+<b><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">Lesson 4: Event Driven Programming</a></b><br />
+<a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html"><b>Lesson 5: Clipping Sprite Sheets&nbsp;&nbsp;</b></a><br />
+<a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html"><b>Lesson 6: True Type Fonts with SDL_ttf</b></a><br />
+<b><a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">Lesson 7: Taking Advantage of Classes</a></b><br />
+<a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html"><b>Lesson 8: Timers </b></a></p>
+]]></content>
+  </entry>
+  
+</feed>

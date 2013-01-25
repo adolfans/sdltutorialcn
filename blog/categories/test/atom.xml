@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: test | SDL中文教程]]></title>
+  <link href="http://adolfans.github.com/sdltutorialcn/blog/categories/test/atom.xml" rel="self"/>
+  <link href="http://adolfans.github.com/sdltutorialcn/"/>
+  <updated>2013-01-25T23:46:55+08:00</updated>
+  <id>http://adolfans.github.com/sdltutorialcn/</id>
+  <author>
+    <name><![CDATA[Adolfans]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[hello world]]></title>
+    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/hello-world/"/>
+    <updated>2013-01-25T21:16:00+08:00</updated>
+    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/hello-world</id>
+    <content type="html"><![CDATA[<p>这是一个测试。</p>
+
+<pre><code>这是一个代码区块。
+</code></pre>
+
+]]></content>
+  </entry>
+  
+</feed>
