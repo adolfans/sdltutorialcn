@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: http://adolfans.github.com/sdltutorialcn/
+title: SDL中文教程
+subtitle: #A blogging framework for hackers.
+author: Adolfans
 simple_search: http://google.com/search
 description:
 
