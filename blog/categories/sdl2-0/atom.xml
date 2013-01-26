@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SDL2.0 | SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/blog/categories/sdl2-0/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-01-25T23:46:55+08:00</updated>
+  <updated>2013-01-26T18:29:00+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[【翻译SDL2.0教程】在Visual Studio中配置SDL]]></title>
+    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/"/>
+    <updated>2013-01-26T13:34:00+08:00</updated>
+    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio</id>
+    <content type="html"><![CDATA[<p>既然我们已经把库配置好了，我们就需要在我们的项目中链接SDL库。打开Visual Studio，创建一个新的空白C++工程。<br></p>
+
+<!-- more -->
+
+
+<p><img src="/images/blogimages/1-26/setruntimelib.png" title="新建工程" alt="新建工程" /><br>
+要让工程识别SDL的头文件和库文件，我们需要编辑几项简单的与包含路径和链接设置有关的选项。
+右键单击项目名，打开属性菜单。在C/C++列表下，选择“常规”，然后单击最上面的“附加包含目录”。<br>
+<img src="/images/blogimages/1-26/settingincludedir.png" title="设置包含目录" alt="设置包含目录" /><br>
+选择"编辑"。<br>
+<img src="/images/blogimages/1-26/additionalincludedir.png" title="附加包含目录" alt="附加包含目录" /><br>
+单击“新行”图标增加一行，然后单击文本框右面的浏览按钮（三个点的那个），找到你的SDL文件夹，在其中选择“include”文件夹。点“选择文件夹”，确定并应用以保存你的设置。
+下一步我们需要更改运行库。在C/C++列表下，选择“代码生成”，然后找到“运行库”项，把它改为“多线程 DLL (/MD)”。<br>
+<img src="/images/blogimages/1-26/setruntimelib.png" title="运行库" alt="运行库" /><br>
+要把库链接上，选择C/c++下面的“连接器（linker）”,选择“常规”，然后点击窗口中间的“附加库目录”。<br>
+<img src="/images/blogimages/1-26/settinglinkerdir.png" title="链接目录" alt="链接目录" /><br>
+和之前一样，点击文本框右侧的朝下的三角箭头按钮，选择编辑。
+<img src="/images/blogimages/1-26/additionallibdir.png" title="附加库目录" alt="附加库目录" /><br>
+再一次选择新建，单击浏览按钮。找到你的SDL文件夹，打开lib文件夹，你会看到两个文件夹，32位的x86和64位的x64。你可以任选其一，但是你必须明白VC++默认是编译的32位
+程序，你可能需要更改其他设置。在这个教程中，我选择的是x86。点击选择，确认，应用来保存你的设置。<br>
+下一步我们必须指定我们将要链接的库文件。于是在连接器菜单里，选择“输入”菜单，点击“附加依赖项”文本框，像之前一样点击右面的三角箭头并选择“编辑”。<br>
+<img src="/images/blogimages/1-26/settinglibinput.png" title="附加依赖项" alt="附加依赖项" /><br>
+要让VC++知道我们想要使用的库，填入</p>
+
+<pre><code>SDL.lib; SDLmain.lib;
+</code></pre>
+
+
+<br>
+
+
+<p><img src="/images/blogimages/1-26/setadditiondep.png" title="附加依赖项" alt="附加依赖项" /><br>
+点击确认，应用来保存设置。
+随后一步是将子系统目标改为windows。选择连接器下的“系统”菜单，将“子系统”条目改为Windows。</p>
+
+<br>
+
+
+<p><img src="/images/blogimages/1-26/setsubsystem.png" title="setsubsystem" alt="setsubsystem" /><br>
+点击应用，以保存设置，确认关闭窗口。</p>
+
+<br>
+
+
+<p>现在我们来测试一下我们的配置是否正确。给工程添加一个C++源文件并输入：</p>
+
+<script src="https://gist.github.com/3139836.js"></script>
+
+
+<p>这段简单的代码将初始化SDL，然后退出。你不会看到任何事发生。尝试编译这个项目，如果有错误提示的话，确认你没有跳过之前任何一步，并确认你是否选择了正确的文件夹。在运行这段代码之前，你应该把SDL路径下，bin文件夹内的动态链接库SDL.dll放到项目可执行文件的文件夹里。否则的话，程序将会运行失败并弹出找不到SDL的错误。<br>
+作为最后一件为以后每次创建SDL项目省下麻烦的额外工作，你可以把这个项目导出为一个模板。选择文件菜单然后点击导出模板，然后把它导出为项目模板。你可以给它取个名字也可以为它增加任意你喜欢的描述。现在当我们创建一个新的SDL项目的时候，你只需要选择这个模板，只要你的SDL文件夹没有移动，那么所有的东西都被设置好了。
+<img src="/images/blogimages/1-26/exporttemplate.png" title="exporttemplate" alt="exporttemplate" /><br></p>
+
+<br>
+
+
+<p><img src="/images/blogimages/1-26/sdltemplate.png" title="sdltemplate" alt="sdltemplate" /><br></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[【翻译SDL2.0教程】目录]]></title>

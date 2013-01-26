@@ -4,7 +4,7 @@
   <title><![CDATA[SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-01-25T23:46:55+08:00</updated>
+  <updated>2013-01-26T18:29:00+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -14,15 +14,83 @@
 
   
   <entry>
+    <title type="html"><![CDATA[【翻译SDL2.0教程】在Visual Studio中配置SDL]]></title>
+    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/"/>
+    <updated>2013-01-26T13:34:00+08:00</updated>
+    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio</id>
+    <content type="html"><![CDATA[<p>既然我们已经把库配置好了，我们就需要在我们的项目中链接SDL库。打开Visual Studio，创建一个新的空白C++工程。<br></p>
+
+<!-- more -->
+
+
+<p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/setruntimelib.png" title="新建工程" alt="新建工程" /><br>
+要让工程识别SDL的头文件和库文件，我们需要编辑几项简单的与包含路径和链接设置有关的选项。
+右键单击项目名，打开属性菜单。在C/C++列表下，选择“常规”，然后单击最上面的“附加包含目录”。<br>
+<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/settingincludedir.png" title="设置包含目录" alt="设置包含目录" /><br>
+选择&#8221;编辑&#8221;。<br>
+<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/additionalincludedir.png" title="附加包含目录" alt="附加包含目录" /><br>
+单击“新行”图标增加一行，然后单击文本框右面的浏览按钮（三个点的那个），找到你的SDL文件夹，在其中选择“include”文件夹。点“选择文件夹”，确定并应用以保存你的设置。
+下一步我们需要更改运行库。在C/C++列表下，选择“代码生成”，然后找到“运行库”项，把它改为“多线程 DLL (/MD)”。<br>
+<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/setruntimelib.png" title="运行库" alt="运行库" /><br>
+要把库链接上，选择C/c++下面的“连接器（linker）”,选择“常规”，然后点击窗口中间的“附加库目录”。<br>
+<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/settinglinkerdir.png" title="链接目录" alt="链接目录" /><br>
+和之前一样，点击文本框右侧的朝下的三角箭头按钮，选择编辑。
+<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/additionallibdir.png" title="附加库目录" alt="附加库目录" /><br>
+再一次选择新建，单击浏览按钮。找到你的SDL文件夹，打开lib文件夹，你会看到两个文件夹，32位的x86和64位的x64。你可以任选其一，但是你必须明白VC++默认是编译的32位
+程序，你可能需要更改其他设置。在这个教程中，我选择的是x86。点击选择，确认，应用来保存你的设置。<br>
+下一步我们必须指定我们将要链接的库文件。于是在连接器菜单里，选择“输入”菜单，点击“附加依赖项”文本框，像之前一样点击右面的三角箭头并选择“编辑”。<br>
+<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/settinglibinput.png" title="附加依赖项" alt="附加依赖项" /><br>
+要让VC++知道我们想要使用的库，填入</p>
+
+<pre><code>SDL.lib; SDLmain.lib;
+</code></pre>
+
+
+<br>
+
+
+<p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/setadditiondep.png" title="附加依赖项" alt="附加依赖项" /><br>
+点击确认，应用来保存设置。
+随后一步是将子系统目标改为windows。选择连接器下的“系统”菜单，将“子系统”条目改为Windows。</p>
+
+<br>
+
+
+<p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/setsubsystem.png" title="setsubsystem" alt="setsubsystem" /><br>
+点击应用，以保存设置，确认关闭窗口。</p>
+
+<br>
+
+
+<p>现在我们来测试一下我们的配置是否正确。给工程添加一个C++源文件并输入：</p>
+
+<script src="https://gist.github.com/3139836.js"></script>
+
+
+<p>这段简单的代码将初始化SDL，然后退出。你不会看到任何事发生。尝试编译这个项目，如果有错误提示的话，确认你没有跳过之前任何一步，并确认你是否选择了正确的文件夹。在运行这段代码之前，你应该把SDL路径下，bin文件夹内的动态链接库SDL.dll放到项目可执行文件的文件夹里。否则的话，程序将会运行失败并弹出找不到SDL的错误。<br>
+作为最后一件为以后每次创建SDL项目省下麻烦的额外工作，你可以把这个项目导出为一个模板。选择文件菜单然后点击导出模板，然后把它导出为项目模板。你可以给它取个名字也可以为它增加任意你喜欢的描述。现在当我们创建一个新的SDL项目的时候，你只需要选择这个模板，只要你的SDL文件夹没有移动，那么所有的东西都被设置好了。
+<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/exporttemplate.png" title="exporttemplate" alt="exporttemplate" /><br></p>
+
+<br>
+
+
+<p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/sdltemplate.png" title="sdltemplate" alt="sdltemplate" /><br></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[【翻译SDL2.0教程】第0节：配置SDL]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/"/>
     <updated>2013-01-25T23:28:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl</id>
-    <content type="html"><![CDATA[<div class="post-body entry-content" id="post-body-7251983941245369312" itemprop="articleBody">
-  <h3>
+    <content type="html"><![CDATA[<p>  <h3>
 SDL2.0说明</h3>
-截至到2012年6月17日我写这篇帖子为止，SDL2.0还没有发布官方正式版本，因此你需要用你所用的编辑器自行编译。
-  <br>
+截至到2012年6月17日我写这篇帖子为止，SDL2.0还没有发布官方正式版本，因此你需要用你所用的编辑器自行编译。</p>
+
+<!-- more -->
+
+
+<p>  <br>
   <br>
   你可以在<a href="http://www.libsdl.org/hg.php">这里</a>下载它。
   <br>
@@ -30,9 +98,9 @@ SDL2.0说明</h3>
 你可以从Mecurial版本库里clone一份最新的源码，但下载一份快照也是个不错的选择。在实际写代码的时候，需要clone他们的Mercurial版本库来下载我们要用到的扩展库。
   <br>
   <br>
-在下载完之后，就很容易设置了。注意扩展库SDL_image, SDL_ttf还有SDL_mixer是依赖于SDL的，你需要指定包含路径和链接设置来编译，其中SDL要先编译。
+在下载完之后，就很容易设置了。注意扩展库SDL_image, SDL_ttf还有SDL_mixer是依赖于SDL的，你需要指定包含路径和链接设置来编译，其中SDL要先编译。</p>
 
-  <br>
+<p>  <br>
   <br>
 注意源码文件夹里已经包含了怎样在各个平台上编译构建的文档说明，它们应该能够帮你构建并确认一切是否正常，你也可以继续阅读。
   <br>
@@ -42,19 +110,18 @@ SDL2.0发布官方正式版时，我会更新链接，这样你们就可以直�
   <br>
   <h3>
 C++11说明</h3>
-在这个教程中，我们会使用一些C++11新标准中的特性，因此你可以选择使用支持这些新标准的编译器，也可以把这些代码翻译成你所使用的编译器所支持的代码，这不会太痛苦。Visual Studio 2012支持C++11,如果你用的是GCC，你可以通过增加-std=c++0x的编译选项来启用C++11特性。
+在这个教程中，我们会使用一些C++11新标准中的特性，因此你可以选择使用支持这些新标准的编译器，也可以把这些代码翻译成你所使用的编译器所支持的代码，这不会太痛苦。Visual Studio 2012支持C++11,如果你用的是GCC，你可以通过增加-std=c++0x的编译选项来启用C++11特性。</p>
 
+<p>  <br>
   <br>
-  <br>
-  <h3>
+  <h3></p>
 
-
-Visual Studio</h3>
+<p>Visual Studio</h3>
 源码文件夹里应该包含了一个叫VisualC的文件夹，如果你打开项目解决方案时被提示更新项目，照做就是。在构建之前，确定你选择生成的是Release版本。这样解决方案应该会顺利生成。主目录里有一个VisualC.html文件，里面包含的信息如果你在编译出问题的时候应该很有用。
   <br>
-  <br>
-  
-在生成扩展库的时候，确认你生成的是Release版本。注意在你编译之前，你需要指定SDL2.0的包含路径(include directory，头文件路径)和库路径(library directory)。
+  <br></p>
+
+<p>在生成扩展库的时候，确认你生成的是Release版本。注意在你编译之前，你需要指定SDL2.0的包含路径(include directory，头文件路径)和库路径(library directory)。
   <br>
   <br>
   <b>SDL_mixer的说明：</b>
@@ -64,30 +131,25 @@ Visual Studio</h3>
 当你全部生成完所有的库之后，你要把头文件，lib库文件还有dll放到你不会忘得地方，因为我们会在我们的项目中使用到这些文件。我的路径是C:\
   <br>
   <br>
-  <a href="http://twinklebeardev.blogspot.com/2012/07/setting-up-sdl-in-visual-studio.html">这里</a>有如何创建你第一个SDL项目的教程。
+  <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/">这里</a>有如何创建你第一个SDL项目的教程。
   <br>
   <br>
   <h3>
 Linux </h3>
 Linux用户只需要使用标准的configure,make,make install.注意要记下你的头文件和库文件的安装路径，因为你在之后编译项目的时候需要指定这些路径。另外你也可以把库和头文件移到标准路径下。你可以把运行库放到或者链接到/lib/路径下，或者放到其他存放运行库的备用路径下面。
   <br>
-  <br>
-  
-关于Linux里编译命令的教程在
+  <br></p>
+
+<p>关于Linux里编译命令的教程在
   <a href="http://twinklebeardev.blogspot.com/2012/07/setting-up-sdl-on-linux-command-line.html">这里</a>。
   .
   <br>
   <br>
-  <h3>
+  <h3></p>
 
+<p>Mac</h3></p>
 
-
-
-Mac</h3>
-  
-源代码文件夹还包含了一个XCode的工程，但我没有Mac电脑所以很不幸我无法提供更多的指导。在源码中包含的文档里查找关于构建这些库以及如何包含头文件和库文件的信息吧。  <div style="clear: both;"></div>
-</div>
-
+<p>源代码文件夹还包含了一个XCode的工程，但我没有Mac电脑所以很不幸我无法提供更多的指导。在源码中包含的文档里查找关于构建这些库以及如何包含头文件和库文件的信息吧。</p>
 ]]></content>
   </entry>
   

@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>【翻译SDL2.0教程】在Visual Studio中配置SDL - SDL中文教程</title>
+  <meta name="author" content="Adolfans">
+
+  
+  <meta name="description" content="既然我们已经把库配置好了，我们就需要在我们的项目中链接SDL库。打开Visual Studio，创建一个新的空白C++工程。 要让工程识别SDL的头文件和库文件，我们需要编辑几项简单的与包含路径和链接设置有关的选项。
+右键单击项目名，打开属性菜单。在C/C++列表下，选择“常规”，然后单击最上面的 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/">
+  <link href="/sdltutorialcn/favicon.png" rel="icon">
+  <link href="/sdltutorialcn/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/sdltutorialcn/javascripts/modernizr-2.0.js"></script>
+  <script src="/sdltutorialcn/javascripts/ender.js"></script>
+  <script src="/sdltutorialcn/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/sdltutorialcn/atom.xml" rel="alternate" title="SDL中文教程" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/sdltutorialcn/">SDL中文教程</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/sdltutorialcn/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:adolfans.github.com/sdltutorialcn" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/sdltutorialcn/">Blog</a></li>
+  <li><a href="/sdltutorialcn/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">【翻译SDL2.0教程】在Visual Studio中配置SDL</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-26T13:34:00+08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>既然我们已经把库配置好了，我们就需要在我们的项目中链接SDL库。打开Visual Studio，创建一个新的空白C++工程。<br></p>
+
+<!-- more -->
+
+
+<p><img src="/sdltutorialcn/images/blogimages/1-26/setruntimelib.png" title="新建工程" alt="新建工程" /><br>
+要让工程识别SDL的头文件和库文件，我们需要编辑几项简单的与包含路径和链接设置有关的选项。
+右键单击项目名，打开属性菜单。在C/C++列表下，选择“常规”，然后单击最上面的“附加包含目录”。<br>
+<img src="/sdltutorialcn/images/blogimages/1-26/settingincludedir.png" title="设置包含目录" alt="设置包含目录" /><br>
+选择&#8221;编辑&#8221;。<br>
+<img src="/sdltutorialcn/images/blogimages/1-26/additionalincludedir.png" title="附加包含目录" alt="附加包含目录" /><br>
+单击“新行”图标增加一行，然后单击文本框右面的浏览按钮（三个点的那个），找到你的SDL文件夹，在其中选择“include”文件夹。点“选择文件夹”，确定并应用以保存你的设置。
+下一步我们需要更改运行库。在C/C++列表下，选择“代码生成”，然后找到“运行库”项，把它改为“多线程 DLL (/MD)”。<br>
+<img src="/sdltutorialcn/images/blogimages/1-26/setruntimelib.png" title="运行库" alt="运行库" /><br>
+要把库链接上，选择C/c++下面的“连接器（linker）”,选择“常规”，然后点击窗口中间的“附加库目录”。<br>
+<img src="/sdltutorialcn/images/blogimages/1-26/settinglinkerdir.png" title="链接目录" alt="链接目录" /><br>
+和之前一样，点击文本框右侧的朝下的三角箭头按钮，选择编辑。
+<img src="/sdltutorialcn/images/blogimages/1-26/additionallibdir.png" title="附加库目录" alt="附加库目录" /><br>
+再一次选择新建，单击浏览按钮。找到你的SDL文件夹，打开lib文件夹，你会看到两个文件夹，32位的x86和64位的x64。你可以任选其一，但是你必须明白VC++默认是编译的32位
+程序，你可能需要更改其他设置。在这个教程中，我选择的是x86。点击选择，确认，应用来保存你的设置。<br>
+下一步我们必须指定我们将要链接的库文件。于是在连接器菜单里，选择“输入”菜单，点击“附加依赖项”文本框，像之前一样点击右面的三角箭头并选择“编辑”。<br>
+<img src="/sdltutorialcn/images/blogimages/1-26/settinglibinput.png" title="附加依赖项" alt="附加依赖项" /><br>
+要让VC++知道我们想要使用的库，填入</p>
+
+<pre><code>SDL.lib; SDLmain.lib;
+</code></pre>
+
+
+<br>
+
+
+<p><img src="/sdltutorialcn/images/blogimages/1-26/setadditiondep.png" title="附加依赖项" alt="附加依赖项" /><br>
+点击确认，应用来保存设置。
+随后一步是将子系统目标改为windows。选择连接器下的“系统”菜单，将“子系统”条目改为Windows。</p>
+
+<br>
+
+
+<p><img src="/sdltutorialcn/images/blogimages/1-26/setsubsystem.png" title="setsubsystem" alt="setsubsystem" /><br>
+点击应用，以保存设置，确认关闭窗口。</p>
+
+<br>
+
+
+<p>现在我们来测试一下我们的配置是否正确。给工程添加一个C++源文件并输入：</p>
+
+<script src="https://gist.github.com/3139836.js"></script>
+
+
+<p>这段简单的代码将初始化SDL，然后退出。你不会看到任何事发生。尝试编译这个项目，如果有错误提示的话，确认你没有跳过之前任何一步，并确认你是否选择了正确的文件夹。在运行这段代码之前，你应该把SDL路径下，bin文件夹内的动态链接库SDL.dll放到项目可执行文件的文件夹里。否则的话，程序将会运行失败并弹出找不到SDL的错误。<br>
+作为最后一件为以后每次创建SDL项目省下麻烦的额外工作，你可以把这个项目导出为一个模板。选择文件菜单然后点击导出模板，然后把它导出为项目模板。你可以给它取个名字也可以为它增加任意你喜欢的描述。现在当我们创建一个新的SDL项目的时候，你只需要选择这个模板，只要你的SDL文件夹没有移动，那么所有的东西都被设置好了。
+<img src="/sdltutorialcn/images/blogimages/1-26/exporttemplate.png" title="exporttemplate" alt="exporttemplate" /><br></p>
+
+<br>
+
+
+<p><img src="/sdltutorialcn/images/blogimages/1-26/sdltemplate.png" title="sdltemplate" alt="sdltemplate" /><br></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Adolfans</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-26T13:34:00+08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/sdltutorialcn/blog/categories/sdl2-0/'>SDL2.0</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/" data-via="" data-counturl="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/" title="Previous Post: 【翻译SDL2.0教程】第0节：配置SDL">&laquo; 【翻译SDL2.0教程】第0节：配置SDL</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/">【翻译SDL2.0教程】在Visual Studio中配置SDL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/">【翻译SDL2.0教程】第0节：配置SDL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/">【翻译SDL2.0教程】目录</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/25/hello-world/">hello world</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Adolfans -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
