@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>第一节: Hello World! - SDL中文教程</title>
+  <meta name="author" content="Adolfans">
+
+  
+  <meta name="description" content="这一节我们将学习将一张图片绘制到屏幕上的简单方法。具体来讲是绘制下面这张图片。 你可以通过右键另存为下载这张图片。这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 这个版本库同时也是我教程中例子的源代码和其他相关资源（assets） &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/">
+  <link href="/sdltutorialcn/favicon.png" rel="icon">
+  <link href="/sdltutorialcn/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/sdltutorialcn/javascripts/modernizr-2.0.js"></script>
+  <script src="/sdltutorialcn/javascripts/ender.js"></script>
+  <script src="/sdltutorialcn/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/sdltutorialcn/atom.xml" rel="alternate" title="SDL中文教程" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/sdltutorialcn/">SDL中文教程</a></h1>
+  
+    <h2>_(:3」∠)_因为嫌麻烦吾就不先加评论功能了，各位有意见建议问题请发我邮箱adolfans@gmail.com。总之各位随意~</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/sdltutorialcn/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:adolfans.github.com/sdltutorialcn" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/sdltutorialcn/">Blog</a></li>
+  <li><a href="/sdltutorialcn/blog/archives">Archives</a></li>
+  <li><a href="/sdltutorialcn/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">第一节: Hello World!</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-26T20:22:00+08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>这一节我们将学习将一张图片绘制到屏幕上的简单方法。具体来讲是绘制下面这张图片。</p>
+
+<!-- more -->
+
+
+<p><img src="/sdltutorialcn/images/blogimages/1-26/hello.bmp">
+你可以通过右键另存为下载这张图片。<del>这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 </del>这个版本库同时也是我教程中例子的源代码和其他相关资源（assets）的主页。如果你丢了资源或者想要偷看一下我的代码，就从<a href = "https://github.com/Twinklebear/TwinklebearDev-Lessons">这里</a>抓好了。但是，不要复制粘贴！</p>
+
+<p>第一步总是include SDL的头文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include "SDL.h"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，这依赖于你的SDL设置。对Linux用户来说，也许需要这样做：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#include "SDL/SDL.h"
+</span><span class='line'>//or
+</span><span class='line'>#include "SDL2/SDL.h"
+</span><span class='line'>//depending on your configuration</span></code></pre></td></tr></table></div></figure>
+
+
+<p>——除非你在编译选项里指定了头文件的绝对路径（对linux用户来说）。</p>
+
+<p>首先我们需要启动SDL以便使用它。注意：如果SDL初始化失败的话，它会返回-1。这样的情况下，我们可以使用SDL_GetError()函数来输出错误消息，然后退出程序。</p>
+
+<p>对Visual Studio用户的特殊说明：如果你在连接器选项中把子系统设置为了windows，你将不会看到输出到控制台的结果。要获得这个结果，你必须把子系统改为“未设置”并且把#undef main放到main函数前面。当改回windows子系统的时候，你要确认一下你把#undef main这行代码去掉了，否则你会得到链接错误。</p>
+
+<div><script src='https://gist.github.com/3139888.js?file=a.cpp'></script>
+<noscript><pre><code>int main(int argc, char** argv){
+    if (SDL_Init(SDL_INIT_EVERYTHING) == -1){
+        std::cout &lt;&lt; SDL_GetError() &lt;&lt; std::endl;
+        return 1;
+    }</code></pre></noscript></div>
+
+
+<p>然后我们还需要创建一个能让我们绘制图像的窗口，我们可以使用SDL_Window:</p>
+
+<div><script src='https://gist.github.com/3139888.js?file=b.cpp'></script>
+<noscript><pre><code>    SDL_Window *win = nullptr;
+    win = SDL_CreateWindow(&quot;Hello World!&quot;, 100, 100, 640, 480, SDL_WINDOW_SHOWN);
+    if (win == nullptr){
+        std::cout &lt;&lt; SDL_GetError() &lt;&lt; std::endl;
+        return 1;
+    }</code></pre></noscript></div>
+
+
+<p>SDL_CreateWindow这个函数的作用是为我们创建一个窗口，并且返回一个SDL_Window指针。这个函数的第一个参数是窗口的标题，之后是窗口所打开的位置的x,y坐标，之后的参数是窗口的长度和宽度。最后一个参数是窗口的各种flag，因为我们想要窗口在创建之后马上弹出，所以这里我们填SDL_WINDOW_SHOWN。</p>
+
+<p>我们也提供了一些错误安全保障，把指针初始化为了nullptr，并在创建了窗口之后，检查了这个指针是否仍为空。如果创建窗口失败了，这个指针将仍然是空的，这样我们就需要中止这个程序。把指针初始化为空NULL总是很重要的，或者也可以利用C++ 11新标准把它初始化为nullptr。</p>
+
+<p>现在，仅仅只是打开一个窗口对我们来说意义不大，我们需要把东西画到窗口上。所以现在让我们获取一个SDL_Renderer并且运行吧。</p>
+
+<div><script src='https://gist.github.com/3139888.js?file=c.cpp'></script>
+<noscript><pre><code>    SDL_Renderer *ren = nullptr;
+    ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (ren == nullptr){
+        std::cout &lt;&lt; SDL_GetError() &lt;&lt; std::endl;
+        return 1;
+    }</code></pre></noscript></div>
+
+
+<p>我们的renderer（渲染器）是用SDL_CreateRenderer这个函数创建的，这个函数还需要我们指定用来绘制的窗口。我们也可以指定一个可选的显卡驱动，或者直接把参数设为-1，好让SDL自动选择适合我们指定的选项的驱动。这样做可能是最好的选择，因为这会让SDL为你选择你所需要的——也就是你在最后一个参数中用那些标志指定的——合适的驱动。</p>
+
+<p>在这里我们指定了SDL_RENDERER_ACCELERATED，因为我们想使用硬件加速的renderer，换句话说就是想利用显卡的力量。我们还指定了 SDL_RENDERER_PRESENTVSYNC标志，因为我们想要使用SDL_RendererPresent这个函数，这个函数将会以显示器的刷新率来更新画面。</p>
+
+<p>注意，在这里我们使用了和之前创建窗口时一样的错误处理方式。</p>
+
+<p>现在是时候加载一张图片并把它画到屏幕上啦！
+ It&#8217;s time to load an image to draw to the screen! You should have downloaded the image from the Github repository and saved it in the same folder, or nearby to where your executable will be built too.</p>
+
+<p> Although SDL 2.0 uses SDL_Textures for hardware accelerated rendering, we&#8217;ll still need to load our image to an SDL_Surface using SDL_LoadBMP, as this lesson isn&#8217;t using the fantastic SDL_image extension library (we&#8217;ll get to it soon).</p>
+
+<div><script src='https://gist.github.com/3139888.js?file=d.cpp'></script>
+<noscript><pre><code>    SDL_Surface *bmp = nullptr;
+    bmp = SDL_LoadBMP(&quot;../res/Lesson1/hello.bmp&quot;);
+    if (bmp == nullptr){
+        std::cout &lt;&lt; SDL_GetError() &lt;&lt; std::endl;
+        return 1;
+    }</code></pre></noscript></div>
+
+
+<p>Note that you will need to change the filepath passed to SDL_LoadBMP to match the location of the image on your machine, or leave it the same if you&#8217;ve decided to follow my folder structure exactly.</p>
+
+<p> To take advantage of hardware accelerated rendering we must next convert our SDL_Surface to an SDL_Texture that the renderer can draw.</p>
+
+<div><script src='https://gist.github.com/3139888.js?file=e.cpp'></script>
+<noscript><pre><code>    SDL_Texture *tex = nullptr;
+    tex = SDL_CreateTextureFromSurface(ren, bmp);
+    SDL_FreeSurface(bmp);</code></pre></noscript></div>
+
+
+<p>We also free the SDL_Surface at this point because it is no longer needed.</p>
+
+<p> We can now draw our texture to the renderer. First we clear the screen with SDL_RenderClear, then we can draw the texture with SDL_RenderCopy. Finally we update the screen with SDL_RenderPresent.</p>
+
+<div><script src='https://gist.github.com/3139888.js?file=f.cpp'></script>
+<noscript><pre><code>    SDL_RenderClear(ren);
+    SDL_RenderCopy(ren, tex, NULL, NULL);
+    SDL_RenderPresent(ren);</code></pre></noscript></div>
+
+
+<p>We also pass two NULL values to RenderCopy, the first one is a pointer to the source rectangle, ie. a clip to take of the image sheet while the second is a pointer to the destination rectangle. By passing NULL to both parameters we tell SDL to take the whole image (first NULL) and draw it at 0, 0 and stretch it to fill the entire screen (second NULL), more on this later.</p>
+
+<p> We also tell our program to wait for 2000milliseconds with SDL_Delay so that we can see the screen. Without the delay the window would pop up and then close as the program finishes very quickly.</p>
+
+<div><script src='https://gist.github.com/3139888.js?file=g.cpp'></script>
+<noscript><pre><code>    SDL_Delay(2000);</code></pre></noscript></div>
+
+
+<p> Before we exit our program it is necessary to free the memory used by our window, renderer and texture. This is done using the various SDL_Destroy functions</p>
+
+<div><script src='https://gist.github.com/3139888.js?file=h.cpp'></script>
+<noscript><pre><code>    SDL_DestroyTexture(tex);
+    SDL_DestroyRenderer(ren);
+    SDL_DestroyWindow(win);</code></pre></noscript></div>
+
+
+<p> Finish the program by quitting SDL, and returning 0.</p>
+
+<p> <div><script src='https://gist.github.com/3139888.js?file=i.cpp'></script>
+<noscript><pre><code>    SDL_Quit();</p>
+
+<pre><code>return 0;
+</code></pre>
+
+<p>}</code></pre></noscript></div></p>
+
+<p>This Gist brought to you by GitHub.
+ Compile the program and check it out! Don&#8217;t forget to put SDL.dll in the same directory as your executable or you&#8217;ll get an error pop-up. If you&#8217;re using Linux you should already have the shared libraries installed in your path so you shouldn&#8217;t have any issues</p>
+
+<p>Congratulations on your first SDL 2.0 program!</p>
+
+<p> Troubleshooting
+ If your program fails to compile make sure you&#8217;ve properly configured your libraries and linked to the correct path in your include statement.</p>
+
+<p> If your program complains about SDL.dll missing, make sure it is located in the same folder as the executable.</p>
+
+<p> If your program runs but exits with out displaying anything make sure your image path is set correctly. If that doesn&#8217;t help try writing some cout or file output into the program, although depending on your platform and configuration settings cout may not appear.</p>
+
+<p> End of Lesson 1
+ That does it for Lesson 1, I&#8217;ll see you again soon in Lesson 2: Don&#8217;t Put Everything in Main</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Adolfans</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-26T20:22:00+08:00" pubdate data-updated="true">Jan 26<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/" data-via="" data-counturl="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/" title="Previous Post: 【翻译SDL2.0教程】在Visual Studio中配置SDL">&laquo; 【翻译SDL2.0教程】在Visual Studio中配置SDL</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/">第一节: Hello World!</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/">【翻译SDL2.0教程】在Visual Studio中配置SDL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/">【翻译SDL2.0教程】第0节：配置SDL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/">【翻译SDL2.0教程】目录</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/25/hello-world/">hello world</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Adolfans -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
