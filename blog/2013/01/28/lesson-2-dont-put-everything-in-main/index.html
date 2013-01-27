@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>第二节：别什么都塞进main里 - SDL中文教程</title>
+  <meta name="author" content="Adolfans">
+
+  
+  <meta name="description" content="In this lesson we will begin organizing our code from the previous lesson by writing some very useful functions, along with discussing how images are &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/">
+  <link href="/sdltutorialcn/favicon.png" rel="icon">
+  <link href="/sdltutorialcn/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/sdltutorialcn/javascripts/modernizr-2.0.js"></script>
+  <script src="/sdltutorialcn/javascripts/ender.js"></script>
+  <script src="/sdltutorialcn/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/sdltutorialcn/atom.xml" rel="alternate" title="SDL中文教程" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/sdltutorialcn/">SDL中文教程</a></h1>
+  
+    <h2>_(:3」∠)_因为嫌麻烦吾就不先加评论功能了，各位有意见建议问题请发我邮箱adolfans@gmail.com。总之各位随意~</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/sdltutorialcn/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:adolfans.github.com/sdltutorialcn" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/sdltutorialcn/">Blog</a></li>
+  <li><a href="/sdltutorialcn/blog/archives">Archives</a></li>
+  <li><a href="/sdltutorialcn/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">第二节：别什么都塞进main里</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-28T00:46:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In this lesson we will begin organizing our code from the previous lesson by writing some very useful functions, along with discussing how images are positioned and scaled in the SDL window.</p>
+
+<!-- more -->
+
+
+<p>As always we&#8217;ll need to start our program off by including SDL. We&#8217;ll also need the string class in this lesson so we include that as well.</p>
+
+<div><script src='https://gist.github.com/3139927.js?file=1.cpp'></script>
+<noscript><pre><code>#include &quot;SDL.h&quot;
+#include &lt;string&gt;
+
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+
+SDL_Window *window = nullptr;
+SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
+
+
+<p>We&#8217;ll also declare some constant values for our screen width and height along with global declarations of a window and renderer so that they&#8217;re accessible by our functions. Again we initialize the pointers as nullptr for safety. If you&#8217;re not using C++11 initialize them as NULL.</p>
+
+<p>Note: You should avoid using non-constant global values or global values in general as much as possible, ie. you should never ever declare a global SDL_Window or SDL_Renderer. However, for this simple lesson we&#8217;ll let it slide. But it&#8217;s ok if you feel grossed out. We&#8217;ll cover a solution to global objects in a few lessons.</p>
+
+<p> Remember from Lesson 1 where we loaded a texture? It wasn&#8217;t so bad to just have it in main for loading one image, but what if we had lots images to load? We&#8217;d have to type it out every time! We can do much better, instead let&#8217;s define a function for loading textures from a filename:</p>
+
+<div><script src='https://gist.github.com/3139927.js?file=2.cpp'></script>
+<noscript><pre><code>SDL_Texture* LoadImage(std::string file){
+    SDL_Surface *loadedImage = nullptr;
+    SDL_Texture *texture = nullptr;
+  
+    loadedImage = SDL_LoadBMP(file.c_str());
+    if (loadedImage != nullptr){
+        texture = SDL_CreateTextureFromSurface(renderer, loadedImage);
+        SDL_FreeSurface(loadedImage);
+    }
+    else
+        std::cout &lt;&lt; SDL_GetError() &lt;&lt; std::endl;
+    return texture;
+}</code></pre></noscript></div>
+
+
+<p> The function here should look very familiar as it&#8217;s the exact same code we wrote in Lesson 1, but now we have wrapped it up in a nice function. With this function we can pass a file name as a string and get back a pointer to the loaded SDL_Texture. Note that the pointer will be nullptr if the loading fails because we initialize both pointers as nullptr for error checking.</p>
+
+<p> Next we&#8217;ll want to write a function to simplify our draw calls and also allow us to specify a position to draw the image too on the screen. We&#8217;ll want it to be able to take an x, y coordinate position along with a texture pointer and a renderer pointer and then draw the texture to that position.</p>
+
+<div><script src='https://gist.github.com/3139927.js?file=3.cpp'></script>
+<noscript><pre><code>void ApplySurface(int x, int y, SDL_Texture *tex, SDL_Renderer *rend){
+    SDL_Rect pos;
+    pos.x = x;
+    pos.y = y;
+    SDL_QueryTexture(tex, NULL, NULL, &amp;pos.w, &amp;pos.h);
+ 
+    SDL_RenderCopy(rend, tex, NULL, &amp;pos);
+}</code></pre></noscript></div>
+
+
+<p> In order to specify a position for the texture to be drawn too we need to create a SDL_Rect that we can pass the address to SDL_RenderCopy&#8217;s destination rect parameter. This is done because the last two parameters of SDL_RenderCopy are SDL_Rect pointers, so it&#8217;s expecting an address.</p>
+
+<p> To create our rectangle we take the x and y values that we passed in and the set rectangle&#8217;s values equal to them. However we must also specify the width and height we want the texture to be drawn with as SDL 2.0 also gives us the ability to scale our textures. Try playing with the width and height values once the tutorial is done and see what happens!</p>
+
+<p> For now we just want to pass the texture&#8217;s width and height so that we draw it at a 1:1 scale. We can get these values by using SDL_QueryTexture. This function takes the texture pointer we want to query, the two parameters we pass NULL to are the format and access level parameters respectively, which we can ignore. Finally we must pass the addresses of the variables that we want to fill with the width and height of the texture.</p>
+
+<p> Now that we&#8217;ve got our SDL_Rect set up we can pass it, along with the renderer and texture as before, to SDL_RenderCopy so that our texture will be drawn at the point specified and with its original width and height. The remaining NULL parameter in this function is for taking a clip of the source texture, which we&#8217;ll cover later.</p>
+
+<p> Let&#8217;s see our functions in action. First we&#8217;ve got to start up SDL and create our window and renderer as before. We&#8217;ve also got something new here, SDL_WINDOWPOS_CENTERED. This is an option we can use when creating our window to tell SDL to center its position on the specified axis, here we do it for x and y.</p>
+
+<div><script src='https://gist.github.com/3139927.js?file=4.cpp'></script>
+<noscript><pre><code>int main(int argc, char** argv){
+    if (SDL_Init(SDL_INIT_EVERYTHING) == -1){
+        std::cout &lt;&lt; SDL_GetError() &lt;&lt; std::endl;
+        return 1;
+    }
+ 
+    window = SDL_CreateWindow(&quot;Lesson 2&quot;, SDL_WINDOWPOS_CENTERED, 
+        SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    if (window == nullptr){
+        std::cout &lt;&lt; SDL_GetError() &lt;&lt; std::endl;
+        return 2;
+    }
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED 
+        | SDL_RENDERER_PRESENTVSYNC);
+    if (renderer == nullptr){
+        std::cout &lt;&lt; SDL_GetError() &lt;&lt; std::endl;
+        return 3;
+    }</code></pre></noscript></div>
+
+
+<p> Now let&#8217;s load up our images. For this lesson we&#8217;ll be drawing a tiled background image and drawing a centered image on top of it. Here&#8217;s our background:</p>
+
+<p> And this will be our foreground image:</p>
+
+<p> Let&#8217;s load them up with the LoadImage function we just wrote.</p>
+
+<div><script src='https://gist.github.com/3139927.js?file=5.cpp'></script>
+<noscript><pre><code>    SDL_Texture *background = nullptr, *image = nullptr;
+    background = LoadImage(&quot;Lesson2res/background.bmp&quot;);
+    image = LoadImage(&quot;Lesson2res/image.bmp&quot;);
+    if (background == nullptr || image == nullptr)
+        return 4;</code></pre></noscript></div>
+
+
+<p> Note that you will have to change the file paths to match the relative location of the image to the executable on your system.</p>
+
+<p> Before we draw the images we&#8217;ll need to know where we want to position them, specifically how we&#8217;ll tile our background and also how we can draw the foreground image centered on the screen. First we&#8217;ll have to understand how SDL&#8217;s coordinate system works, as it is a bit different than the standard 2D Cartesian coordinate system. SDL&#8217;s coordinate system looks like this:</p>
+
+<p> With 0, 0 being in the top-left corner of the screen. Y values increase as we move down the screen and X values increase as we move to the right on the screen. Another thing to note about SDL&#8217;s coordinate system is that the x, y point specified to draw an image at is used as the location to draw the top-left corner of the image, as opposed to the center of the image like some other libraries.</p>
+
+<p>Before we draw: A note about SDL&#8217;s drawing order: The order in which things are drawn will be the order in which they sit on top of each other, so the first thing drawn is the bottom-most image, and the last image drawn will sit on top of everything.</p>
+
+<p> If you&#8217;ve taken a peek at the background image yet you&#8217;ll have noticed that it has a width of 320 and a height of 240, with a screen that is 640x280 we&#8217;ll need to draw the background image four times to tile it over the window scooting it over by its width or height each time.</p>
+
+<p> Before drawing anything, we&#8217;ll want to clear the screen, next we&#8217;ll want to setup the positioning of elements on the window. We can get the width and height of the image again by using the QueryTexture function on the background, this gives us a more versatile method in which we could instead create a for loop to iterate over the positions based on the image width and height, perhaps if we were placing many small tiles. For this case we&#8217;re only drawing it four times, so we can take the &#8216;dumb&#8217; route and just type it out.</p>
+
+<div><script src='https://gist.github.com/3139927.js?file=6.cpp'></script>
+<noscript><pre><code>    SDL_RenderClear(renderer);
+
+    int bW, bH;
+    SDL_QueryTexture(background, NULL, NULL, &amp;bW, &amp;bH);
+    ApplySurface(0, 0, background, renderer);
+    ApplySurface(bW, 0, background, renderer);
+    ApplySurface(0, bH, background, renderer);
+    ApplySurface(bW, bH, background, renderer);</code></pre></noscript></div>
+
+
+<p> Now we want to draw our foreground image on top of the background, and centered in the window. We can calculate the center point quite easily but because the point we pass to ApplySurface is the location of the top-left corner of the image we must also apply an offset to the point relative to the image&#8217;s width for x and height for y to put the real center of the image at the center point of the screen.</p>
+
+<div><script src='https://gist.github.com/3139927.js?file=7.cpp'></script>
+<noscript><pre><code>    int iW, iH;
+    SDL_QueryTexture(image, NULL, NULL, &amp;iW, &amp;iH);
+    int x = SCREEN_WIDTH / 2 - iW / 2;
+    int y = SCREEN_HEIGHT / 2 - iH / 2;
+    ApplySurface(x, y, image, renderer);</code></pre></noscript></div>
+
+
+<p> In order to see our drawing we&#8217;ll have to present the renderer and then have SDL wait for a second or two so we have a chance to see the image.</p>
+
+<div><script src='https://gist.github.com/3139927.js?file=8.cpp'></script>
+<noscript><pre><code>    SDL_RenderPresent(renderer);
+    SDL_Delay(2000);</code></pre></noscript></div>
+
+
+<p> Finally, we wrap up the program by freeing the memory being used by the textures, renderer and window, quit SDL and return.</p>
+
+<div><script src='https://gist.github.com/3139927.js?file=9.cpp'></script>
+<noscript><pre><code>    SDL_DestroyTexture(background);
+    SDL_DestroyTexture(image);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+ 
+    SDL_Quit();
+  
+    return 0;
+}</code></pre></noscript></div>
+
+
+<p> When you compile and run the program your window should look like this:</p>
+
+<p> Lesson 2 Extra Challenge!
+ Find a way to convert our dumb method of tiling the background into a lean mean for loop! While it may not be so effecient for four background tiles, using a for loop for tiling is a very nice method for placing a large amount of tiles.
+ Hint</p>
+
+<p> End of Lesson 2: Don&#8217;t Put Everything in Main
+ If you have trouble compiling or running the program make sure you&#8217;ve set up the includes, include directories, linker settings and linker directories correctly, along with setting the correct path to the images and placing the SDL.dll in your executable folder. For Linux users there is no SDL.dll but instead make sure you have the runtime libraries in the correct place in your system.</p>
+
+<p> I&#8217;ll see you again soon in Lesson 3: SDL Extension Libraries!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Adolfans</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-28T00:46:00+08:00" pubdate data-updated="true">Jan 28<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/" data-via="" data-counturl="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/" title="Previous Post: 第一节: Hello World!">&laquo; 第一节: Hello World!</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/">第二节：别什么都塞进main里</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/">第一节: Hello World!</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/">【翻译SDL2.0教程】在Visual Studio中配置SDL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/">【翻译SDL2.0教程】第0节：配置SDL</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/">【翻译SDL2.0教程】目录</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Adolfans -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

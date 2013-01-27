@@ -163,10 +163,9 @@
 
 <p>注意，在这里我们使用了和之前创建窗口时一样的错误处理方式。</p>
 
-<p>现在是时候加载一张图片并把它画到屏幕上啦！
- It&#8217;s time to load an image to draw to the screen! You should have downloaded the image from the Github repository and saved it in the same folder, or nearby to where your executable will be built too.</p>
+<p>现在是时候加载一张图片并把它画到屏幕上啦！你应该已经把这张图片下载到同一个文件夹下了，或者把这张图放在你生成的可执行文件附近也是可以的。</p>
 
-<p> Although SDL 2.0 uses SDL_Textures for hardware accelerated rendering, we&#8217;ll still need to load our image to an SDL_Surface using SDL_LoadBMP, as this lesson isn&#8217;t using the fantastic SDL_image extension library (we&#8217;ll get to it soon).</p>
+<p>尽管SDL2.0使用SDL_Texture来用硬件加速绘制图像，我们还是需要使用SDL_LoadBMP函数将图片加载到SDL_Surface中，因为本节我们没有使用SDL_image这个神奇的扩展库（我们以后会用到的）。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=d.cpp'></script>
 <noscript><pre><code>    SDL_Surface *bmp = nullptr;
@@ -177,9 +176,9 @@
     }</code></pre></noscript></div>
 
 
-<p>Note that you will need to change the filepath passed to SDL_LoadBMP to match the location of the image on your machine, or leave it the same if you&#8217;ve decided to follow my folder structure exactly.</p>
+<p>注意在这里你需要更改传给SDL_LoadBMP的图片路径，以便和你电脑上的图片路径匹配。或者如果你想使用我现在这样的文件结构的话，你也可以保持这个参数原来的样子而不改动。</p>
 
-<p> To take advantage of hardware accelerated rendering we must next convert our SDL_Surface to an SDL_Texture that the renderer can draw.</p>
+<p>要有效地利用硬件加速来绘制，我们必须把SDL_Surface转化为SDL_Texture，这样renderer才能够绘制。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=e.cpp'></script>
 <noscript><pre><code>    SDL_Texture *tex = nullptr;
@@ -187,9 +186,9 @@
     SDL_FreeSurface(bmp);</code></pre></noscript></div>
 
 
-<p>We also free the SDL_Surface at this point because it is no longer needed.</p>
+<p>在这里我们也把刚才的SDL_Surface释放掉，因为以后就用不着它了。</p>
 
-<p> We can now draw our texture to the renderer. First we clear the screen with SDL_RenderClear, then we can draw the texture with SDL_RenderCopy. Finally we update the screen with SDL_RenderPresent.</p>
+<p>现在我们可以把Texture画到renderer上了。首先，我们先使用SDL_RenderClear来清空屏幕，然后我们使用SDL_RenderCopy来把texture画上去。最后，我们使用SDL_RenderPresent来更新屏幕的画面。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=f.cpp'></script>
 <noscript><pre><code>    SDL_RenderClear(ren);
@@ -197,15 +196,15 @@
     SDL_RenderPresent(ren);</code></pre></noscript></div>
 
 
-<p>We also pass two NULL values to RenderCopy, the first one is a pointer to the source rectangle, ie. a clip to take of the image sheet while the second is a pointer to the destination rectangle. By passing NULL to both parameters we tell SDL to take the whole image (first NULL) and draw it at 0, 0 and stretch it to fill the entire screen (second NULL), more on this later.</p>
+<p>这里我们给SDL_RenderCopy传了两个NULL值。第一个NULL是一个指向源矩形的指针，也就是说，从图像上裁剪下的一块矩形；而另一个是指向目标矩形的指针。我们将NULL传入这两个参数，是告诉SDL绘制整个源图像（第一个NULL），并把它画在屏幕上（0，0 ）的位置，并拉伸这个图像让它填满整个窗口（第二个NULL）。这一点以后还会详细说明。</p>
 
-<p> We also tell our program to wait for 2000milliseconds with SDL_Delay so that we can see the screen. Without the delay the window would pop up and then close as the program finishes very quickly.</p>
+<p>我们还用SDL_Delay告诉程序让它等2000毫秒，以便于我们可以看到这个窗口。不让它等待的话，这个窗口就会在弹出之后立刻退出程序。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=g.cpp'></script>
 <noscript><pre><code>    SDL_Delay(2000);</code></pre></noscript></div>
 
 
-<p> Before we exit our program it is necessary to free the memory used by our window, renderer and texture. This is done using the various SDL_Destroy functions</p>
+<p>在我们退出程序之前，我们有必要释放掉我们这个窗口、renderer还有texture所用的全部内存。这可以通过调用几个SDL_Destroy来完成。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=h.cpp'></script>
 <noscript><pre><code>    SDL_DestroyTexture(tex);
@@ -213,20 +212,17 @@
     SDL_DestroyWindow(win);</code></pre></noscript></div>
 
 
-<p> Finish the program by quitting SDL, and returning 0.</p>
+<p>退出SDL以停止程序，并且返回0.</p>
 
-<p> <div><script src='https://gist.github.com/3139888.js?file=i.cpp'></script>
-<noscript><pre><code>    SDL_Quit();</p>
+<div><script src='https://gist.github.com/3139888.js?file=i.cpp'></script>
+<noscript><pre><code>    SDL_Quit();
+    return 0;
+}</code></pre></noscript></div>
 
-<pre><code>return 0;
-</code></pre>
 
-<p>}</code></pre></noscript></div></p>
+<p>编译并检查这个程序吧！不要忘了把SDL.dll放到你的可执行文件的文件夹里，否则你会得到一个弹出的错误提示。如果你用的是linux系统，你应该已经安装了SDL的共享库了，所以你应该不会遇到什么问题。</p>
 
-<p>This Gist brought to you by GitHub.
- Compile the program and check it out! Don&#8217;t forget to put SDL.dll in the same directory as your executable or you&#8217;ll get an error pop-up. If you&#8217;re using Linux you should already have the shared libraries installed in your path so you shouldn&#8217;t have any issues</p>
-
-<p>Congratulations on your first SDL 2.0 program!</p>
+<p>现在，恭喜你写出第一个SDL2.0程序！</p>
 
 <p> Troubleshooting
  If your program fails to compile make sure you&#8217;ve properly configured your libraries and linked to the correct path in your include statement.</p>
@@ -235,8 +231,9 @@
 
 <p> If your program runs but exits with out displaying anything make sure your image path is set correctly. If that doesn&#8217;t help try writing some cout or file output into the program, although depending on your platform and configuration settings cout may not appear.</p>
 
-<p> End of Lesson 1
- That does it for Lesson 1, I&#8217;ll see you again soon in Lesson 2: Don&#8217;t Put Everything in Main</p>
+<p>第一节结束。</p>
+
+<p>这就是第一节了。我们第二节：别把什么都放到main里再见吧！</p>
 </div>
 
 
@@ -279,6 +276,8 @@
         <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/" title="Previous Post: 【翻译SDL2.0教程】在Visual Studio中配置SDL">&laquo; 【翻译SDL2.0教程】在Visual Studio中配置SDL</a>
       
       
+        <a class="basic-alignment right" href="/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/" title="Next Post: 第二节：别什么都塞进main里">第二节：别什么都塞进main里 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -290,6 +289,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/">第二节：别什么都塞进main里</a>
+      </li>
     
       <li class="post">
         <a href="/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/">第一节: Hello World!</a>
@@ -305,10 +308,6 @@
     
       <li class="post">
         <a href="/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/">【翻译SDL2.0教程】目录</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sdltutorialcn/blog/2013/01/25/hello-world/">hello world</a>
       </li>
     
   </ul>
