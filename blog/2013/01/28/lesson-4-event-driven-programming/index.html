@@ -9,8 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="Now that we&#8217;ve learned how to draw images to the screen it&#8217;s time to learn how to read user input. Our game won&#8217;t be very good if &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,7 +91,68 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><p>Now that we&#8217;ve learned how to draw images to the screen it&#8217;s time to learn how to read user input. Our game won&#8217;t be very good if there&#8217;s no way to play it! In this lesson we will cover simple event handling using SDL and begin designing a primitive &#8216;main loop&#8217;.</p>
+
+<!-- more -->
+
+
+<p> Before we begin it&#8217;s important to mention that the majority of the code being used for this lesson is the code that we&#8217;ve built up from previous lessons, and as such the repeated code will not be shown as it is assumed you have it already and  are using what you&#8217;re learning here to add on to the previous lesson&#8217;s code. If you don&#8217;t have the code, head back to the earlier lessons, or if you already understand the material grab the code from Lesson 3 off Github and let&#8217;s get started modifying it.</p>
+
+<p> We&#8217;ll create the renderer and window the same as before, and our LoadImage and ApplySurface functions remain unchanged. The first change to our program is the loading of a different image, note that you will need to change the filepath to match the location of the image relative to the executable on your system, or the program will fail to run.</p>
+
+<div><script src='https://gist.github.com/3161759.js?file=1.cpp'></script>
+<noscript><pre><code>//In main...
+    SDL_Texture *image = nullptr;
+    try {
+        image = LoadImage(&quot;../res/Lesson4/image.png&quot;);
+    }
+    catch (const std::runtime_error &amp;e){
+        std::cout &lt;&lt; e.what() &lt;&lt; std::endl;
+        return 4;
+    }
+    int iW, iH;
+    SDL_QueryTexture(image, NULL, NULL, &amp;iW, &amp;iH);
+    int x = SCREEN_WIDTH / 2 - iW / 2;
+    int y = SCREEN_HEIGHT / 2 - iH / 2;</code></pre></noscript></div>
+
+
+<p>We also use the same equation as before for centering our image in the window. For this lesson our image will be:</p>
+
+<p><img src="https://github.com/Twinklebear/TwinklebearDev-Lessons/blob/master/res/Lesson4/image.png"></p>
+
+<p> Now before we dive into writing our main loop and event handling code, we&#8217;ll want to get an understanding of how the SDL event system works.</p>
+
+<p> An event is any interaction with the program done by the user: keypresses, mouse motion, mouse presses, joystick movement, window resizing, minimizing or closing, etc. SDL provides a structure for storing these events called SDL_Event. Let&#8217;s create one now.
+ Whenever an event occurs it&#8217;s added to a stack in chronological order. If we want to read an event from this stack we can pull the oldest event using SDL_PollEvent. This may be a bit confusing, hopefully this handy graphic will help make it a bit clearer.
+<img src="/sdltutorialcn/images/blogimages/lesson4/evntstack.png">
+ So in this case the user resized the window, then clicked the mouse, then pushed a key. When we call SDL_PollEvent on this queue it will get the event that happened first, or the oldest event, and put it into our SDL_Event structure so that we can look at the event data in our program.</p>
+
+<p> So if each frame of our game we want to process all events in the queue we&#8217;ll want to loop through until there&#8217;s nothing left to read, then continue on and do our other stuff like logic and rendering. This is starting to sound like something we could call our main loop!</p>
+
+<p> In each iteration of the loop we&#8217;ll want to process our event queue, do some program logic and draw the frame and then do it all over again until the user quits.</p>
+
+<div><script src='https://gist.github.com/3161759.js?file=2.cpp'></script>
+<noscript><pre><code>    SDL_Event e;</code></pre></noscript></div>
+
+
+<p> Next we&#8217;ll want to do our event polling. Our goal was to run over all the events in the queue each frame, so let&#8217;s use another while loop, as PollEvent will return 1, &#8216;true&#8217;, if there are any pending events, so our loop will run until there are no more events in the queue.
+ First we get an event from the queue with SDL_PollEvent, which we pass an address too as its signature is SDL_PollEvent(SDL_Event*) and then we do whatever we want to with the input. In this case we&#8217;re just going to quit the program if the user pushes any key, clicks the mouse or closes the window, so if just about anything happens we set quit to true. Note that clicking the X on the window is read as SDL_QUIT.</p>
+
+<p> SDL&#8217;s event structure is able to read many different types of events and provides all the valid information tied to each event that may be needed in deciding what to do with the input. For more information on the various event types and the data that comes with them, check out the SDL_Event documentation.</p>
+
+<p> The next step in our loop would be to do various calculations that our program needs to do, such as determining movement, collision outcomes and etc. However since our program is very primitive we don&#8217;t need to do any logic at the moment, so we&#8217;ll continue on to rendering.
+ The code is identical to before, but we must be sure each time to clear the screen before drawing our new scene or we could have images left over from previous frames start showing up.</p>
+
+<p> You&#8217;ll want to wrap up the program by destroying the texture, renderer and window and quit SDL.</p>
+
+<p> When you run the program you should be able to quit by clicking the X on the window, clicking in the window or pressing a key while the window is selected. You may also notice something a bit interesting when running the program if you check its CPU usage. If you&#8217;ve seen tutorials where the main loop is discussed or have written SDL1.2 code you&#8217;d expect that our program for this lesson would max out one of your CPU cores because there&#8217;s no framerate limiting being done. This is no longer the case with our program as we have created our renderer with the SDL_PRESENTVSYNC flag which tells the renderer to delay and match the framerate of our monitor, letting SDL take care of the framerate limiting for us, and letting us skip writing a line or two of code.</p>
+
+<p> Lesson 4 Extra Challenge!
+ Try getting the image to move on the screen.
+ Hint</p>
+
+<p> End of Lesson 4: Event Driven Programming
+ Thanks for joining me! I&#8217;ll see you again soon in Lesson 5: Clipping Sprite Sheets</p>
 </div>
 
 
