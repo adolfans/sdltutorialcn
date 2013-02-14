@@ -9,8 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="原文链接: http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html It&#8217;s very common in sprite based games to use a large &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,7 +91,147 @@
   </header>
 
 
-<div class="entry-content">
+<div class="entry-content"><p>原文链接: <a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html</a></p>
+
+<p>It&#8217;s very common in sprite based games to use a large image file containing many smaller images, such as tiles for a tileset, as opposed to having a separate image file for each tile. This type of image is known as a sprite sheet, and is very useful because we don&#8217;t need to have a separate image file for each image in the game but instead can just draw the subset of the sheet that we want.</p>
+
+<p>在基于精灵的游戏中，使用一幅包含了许多小图的大图——比如说使用包含tile的tile集，而不是一个tile就是一张独立的图片——这种方式是非常常见的。这种图像的类型被称作精灵表（sprite sheet，我不能确定我这么翻译是否恰当——译注）。这种方式很有用，因为这样做我们的游戏就用不着每幅图像都用一个独立的文件来存储，而直接绘制表中我们需要的一部分就好了。</p>
+
+<!-- more -->
+
+
+<p><em>译注：我不确定看这篇文章的初学者们——仅针对初学者们——是否理解诸如精灵、tile之类词语的含义。在2D游戏中，精灵大概就是2D游戏中能够移动来移动去的图块；至于tile，它大概算是精灵的子集，它的中文名称本来是瓦片，一般我们可以看到很多2D游戏的场景是由很多相同的图块拼出来的，那一块一块儿的玩意儿就是tile.欲纠结此问题请看维基百科Sprite_(computer_graphics)词条……= =</em></p>
+
+<p>In this lesson we will learn how to use a simple sprite sheet in our program and how we can specify the desired subset, known as a clip, to draw. The sprite sheet for this lesson is a simple one containing four circles:</p>
+
+<p>本节中我们将学习怎样使用一个简单的精灵表以及怎样指定精灵表中我们需要的子集，也就是绘制时的裁剪。本节的精灵表是一幅有四个圆形的简单图像。</p>
+
+<p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson5/image.png"></p>
+
+<p>In a sprite sheet images are divided up into sections of some sort of basic shape that we can clip. In this sheet each circle is within a 100x100 rectangle that we can pick to draw, instead of the entire image.</p>
+
+<p>在一个精灵表中，像被分割成了一些我们能够裁剪的基础图形。在这个表中呢，每个圆形都处于一个100x100的矩形中，这样我们就可以单独绘制而不是绘制整个图像。</p>
+
+<p>The code from this lesson will be building upon the code from Lesson 4, if you haven&#8217;t done Lesson 4 you should head back and do it. If you already know the material covered in Lesson 4 grab the code and let&#8217;s get started.</p>
+
+<p>本节的代码都是基于第四节中的代码的。如果你没有学完第四节，你需要回头去看。如果你已经知道了第四节所涵盖的内容，从github上拉取代码后，我们立刻开始。</p>
+
+<p>Within our ApplySurface function from Lesson 4 you&#8217;ll notice that there&#8217;s one last NULL value being passed to SDL_RenderCopy.</p>
+
+<p>通过上一节提到的ApplySurface函数，你可以发现最后传给SDL_RenderCopy一个NULL。</p>
+
+<div><script src='https://gist.github.com/3185765.js?file=1.cpp'></script>
+<noscript><pre><code>    SDL_RenderCopy(rend, tex, NULL, &amp;pos);</code></pre></noscript></div>
+
+
+<p>This parameter is the source rect, more commonly known as the clip, and specifies a sub-rectangle of the image to draw, ie. the clip&#8217;s position, width and height. In order to pass a clip for the image we&#8217;ll want to add a clip parameter to ApplySurface.</p>
+
+<p>而这个参数就是源矩形（rect），被称为clip（裁剪），它指定了需要绘制的图像中的一个子矩形——或者说，它指定了裁剪的位置，宽度，还有高度。为了给源图像传递一个clip，我们需要给ApplySurface函数增加一个clip参数。</p>
+
+<p>But what if we had an image where we did want to draw the whole thing? Instead of forcing ourselves to pass a clip of the whole image, we can instead specify a default parameter and detect when we get it. We&#8217;ll take the clip parameter as an SDL_Rect pointer with a default value of NULL, that way if no clip is passed we can still pass the parameter to RenderCopy and the call will be the same as it was previously when we passed NULL to draw the whole image.</p>
+
+<p>但如果我们有一幅图像，我们想要把它全部绘制出来呢？用不着强迫我们自己传一个整张图片的clip过去，我们只需要指定一个默认的参数并且检测什么时候获得了这个参数就够了。我们要把clip参数当作SDL_Rect类型的指针，并把它的默认值设为NULL。通过这种方式，如果没有clip传入，我们仍可以把该参数传入RenderCopy。结果会是和当我们直接传NULL时一样，绘制整张图。</p>
+
+<p>We&#8217;ll also want to add one more thing to our function: If we pass a clip parameter we clearly would want to use the clip&#8217;s width and height as our destination values instead of the whole texture&#8217;s width and height. If we used the texture&#8217;s width and height our clip would be stretched to match the size of the original texture.</p>
+
+<p>我们还想给我们的函数添加另外一样东西：</p>
+
+<div><script src='https://gist.github.com/3185765.js?file=2.cpp'></script>
+<noscript><pre><code>void ApplySurface(int x, int y, SDL_Texture *tex, SDL_Renderer *rend, SDL_Rect *clip = NULL){
+    SDL_Rect pos;
+    pos.x = x;
+    pos.y = y;
+    //Detect if we should use clip width settings or texture width
+    if (clip != NULL){
+        pos.w = clip-&gt;w;
+    pos.h = clip-&gt;h;
+    }
+    else {
+        SDL_QueryTexture(tex, NULL, NULL, &amp;pos.w, &amp;pos.h);
+    }
+    SDL_RenderCopy(rend, tex, clip, &amp;pos);
+}</code></pre></noscript></div>
+
+
+<p> We&#8217;ll load our image the same as before with or LoadImage function.</p>
+
+<p> We now need to set up our clip rects, which we&#8217;ll store inside an array. Instead of typing all of our clips out by hand which is very tedious for images with lots of clips, we can take advantage of the pattern in which our image file is constructed to automate the creation of the clip rects with a for loop. If you did the extra challenge from Lesson 2 this method should look quite familiar.</p>
+
+<p> First we specify the width and height each clip should be, in this case 100x100 and we create an array to store four SDL_Rects to hold our clips. Next we use our knowledge of the arrangement of our clips to create a for loop with a column counter to appropriately set the x,y coordinate for each clip.</p>
+
+<div><script src='https://gist.github.com/3185765.js?file=3.cpp'></script>
+<noscript><pre><code>    //iW and iH are the desired clip width and height
+    int iW = 100, iH = 100;
+    SDL_Rect clips[4];
+    //We use a for loop this time to setup our clips
+    int column = 0;
+    for (int i = 0; i &lt; 4; ++i){
+        if (i != 0 &amp;&amp; i % 2 == 0)
+            ++column;
+
+        clips[i].x = column * iW;
+        clips[i].y = i % 2 * iH;
+        clips[i].w = iW;
+        clips[i].h = iH;
+    }
+</code></pre></noscript></div>
+
+
+<p> If you didn&#8217;t do the Lesson 2 challenge or are feeling a bit lost, let me explain how this works. We want to create four clips, so we set our loop to run four times, from zero to three to match the array indices. We also need to track which column we&#8217;re going down so that we can correctly set the x coordinate for our clip, we&#8217;ll begin with column zero and will increment the column value when we move over, which would be at the third clip, ie. i % 2 == 0 since we start counting from zero. We also want to make sure we don&#8217;t increment column when we first start out, because 0 % 2 is also 0, so we put a condition to ignore that case.</p>
+
+<p> Now we&#8217;ll want to calculate the x and y coordinates for our clip in the image. We want to increment the x coordinate by the image width each time we move over a column, and increase the y each time we move down one in the column. The x coordinate setting should be clear, we can just use tile width * column. The y coordinate setting uses our current loop iteration mod the number of clips per column to determine which row we&#8217;re on. We then multiple this row number by the tile height to get the location in pixels. The width and height are uniform for all clips so we can just set them, without any extra calculations.</p>
+
+<p> Thus when we run this loop we will create four clips and each clip will take the appropriate coordinate for the sub-rectangle. Still not sure how it works? Try running the for loop in your head and calculating the column, x and y values for each iteration and see where they line up on the sprite sheet.</p>
+
+<p> The last step is to set a value which can track which clip we want to draw, in this case an integer corresponding to the clip&#8217;s index in the array. Let&#8217;s begin by drawing clip 0.</p>
+
+<div><script src='https://gist.github.com/3185765.js?file=4.cpp'></script>
+<noscript><pre><code>    //Specify a default clip to start with
+    int useClip = 0;</code></pre></noscript></div>
+
+
+<p> Before beginning our main loop we&#8217;ll also need to set an x and y position to draw the image at. I chose to calculate the center position for the image using the same method as in previous lessons. We&#8217;ll also want to create a bool quit variable and an SDL_Event.</p>
+
+<p> In order to make sure our clips were set correctly and display correctly we&#8217;ll want to be able to draw each one individually, to do this we can set up some event polling to change the value of useClip so that we can draw each clip.</p>
+
+<div><script src='https://gist.github.com/3185765.js?file=5.cpp'></script>
+<noscript><pre><code>    //If user presses any key
+    if (e.type == SDL_KEYDOWN){
+        switch (e.key.keysym.sym){
+        case SDLK_1:
+            useClip = 0;
+        break;
+        case SDLK_2:
+            useClip = 1;
+        break;
+        case SDLK_3:
+            useClip = 2;
+        break;
+            case SDLK_4:
+            useClip = 3;
+        break;
+            //For quitting, escape key
+        case SDLK_ESCAPE:
+            quit = true;
+        break;
+            default:
+            break;
+    }
+    }</code></pre></noscript></div>
+
+
+<p> Here we check if the input type is a key down event, and then use a switch statement on the key symbol to pick the appropriate response.</p>
+
+<p> Finally in our render section we clear the screen, pass the clip&#8217;s value to our ApplySurface function in the rendering section of our loop:
+ <div><script src='https://gist.github.com/3185765.js?file=6.cpp'></script>
+<noscript><pre><code>    ApplySurface(x, y, image, renderer, &amp;clips[useClip]);</code></pre></noscript></div></p>
+
+<p>And finally, present the renderer to display the changes.</p>
+
+<p> When you run the program you should be able to push the number keys 1-4 and see the different colored circles appear individually on screen!</p>
+
+<p> End of Lesson 5
+ Thanks for joining me! I&#8217;ll see you again soon in Lesson 6: True Type Fonts with SDL_ttf</p>
 </div>
 
 
