@@ -4,7 +4,7 @@
   <title><![CDATA[SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-02-14T02:41:19+08:00</updated>
+  <updated>2013-02-15T11:34:45+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -49,12 +49,12 @@
 
 <p>It&#8217;s very common in sprite based games to use a large image file containing many smaller images, such as tiles for a tileset, as opposed to having a separate image file for each tile. This type of image is known as a sprite sheet, and is very useful because we don&#8217;t need to have a separate image file for each image in the game but instead can just draw the subset of the sheet that we want.</p>
 
-<p>在基于精灵的游戏中，使用一幅包含了许多小图的大图——比如说使用包含tile的tile集，而不是一个tile就是一张独立的图片——这种方式是非常常见的。这种图像的类型被称作精灵表（sprite sheet，我不能确定我这么翻译是否恰当——译注）。这种方式很有用，因为这样做我们的游戏就用不着每幅图像都用一个独立的文件来存储，而直接绘制表中我们需要的一部分就好了。</p>
+<p>在基于精灵的游戏中，通常会使用一幅包含了许多小图的大图——比如说使用包含tile的tile集，而不是一个tile就是一张独立的图片。这种图像的类型被称作精灵表（sprite sheet，我不能确定我这么翻译是否恰当——译注）。这种方式很有用，因为这样做我们的游戏就用不着每幅图像都用一个独立的文件来存储，而直接绘制表中我们需要的一部分就好了。</p>
 
 <!-- more -->
 
 
-<p><em>译注：我不确定看这篇文章的初学者们——仅针对初学者们——是否理解诸如精灵、tile之类词语的含义。在2D游戏中，精灵大概就是2D游戏中能够移动来移动去的图块；至于tile，它大概算是精灵的子集，它的中文名称本来是瓦片，一般我们可以看到很多2D游戏的场景是由很多相同的图块拼出来的，那一块一块儿的玩意儿就是tile.欲纠结此问题请看维基百科Sprite_(computer_graphics)词条……= =</em></p>
+<p><em>译注：我不确定看这篇文章的初学者们——仅针对初学者们——是否理解诸如精灵(Sprite)、tile之类词语的含义。在2D游戏中，精灵大概就是2D游戏中能够移动来移动去的图块；至于tile，它大概算是精灵的子集，它的中文名称本来是瓦片，一般我们可以看到很多2D游戏的场景是由很多相同的图块拼出来的，那一块一块儿的玩意儿就是tile.欲纠结此问题请看维基百科Sprite_(computer_graphics)词条……= =</em></p>
 
 <p>In this lesson we will learn how to use a simple sprite sheet in our program and how we can specify the desired subset, known as a clip, to draw. The sprite sheet for this lesson is a simple one containing four circles:</p>
 
@@ -109,9 +109,15 @@
 
 <p> We&#8217;ll load our image the same as before with or LoadImage function.</p>
 
-<p> We now need to set up our clip rects, which we&#8217;ll store inside an array. Instead of typing all of our clips out by hand which is very tedious for images with lots of clips, we can take advantage of the pattern in which our image file is constructed to automate the creation of the clip rects with a for loop. If you did the extra challenge from Lesson 2 this method should look quite familiar.</p>
+<p>我们和以前一样使用LoadImage函数来加载图像。</p>
 
-<p> First we specify the width and height each clip should be, in this case 100x100 and we create an array to store four SDL_Rects to hold our clips. Next we use our knowledge of the arrangement of our clips to create a for loop with a column counter to appropriately set the x,y coordinate for each clip.</p>
+<p>We now need to set up our clip rects, which we&#8217;ll store inside an array. Instead of typing all of our clips out by hand which is very tedious for images with lots of clips, we can take advantage of the pattern in which our image file is constructed to automate the creation of the clip rects with a for loop. If you did the extra challenge from Lesson 2 this method should look quite familiar.</p>
+
+<p>我们现在需要准备好我们的裁剪矩形，把它们存储在一个数组里面。</p>
+
+<p>First we specify the width and height each clip should be, in this case 100x100 and we create an array to store four SDL_Rects to hold our clips. Next we use our knowledge of the arrangement of our clips to create a for loop with a column counter to appropriately set the x,y coordinate for each clip.</p>
+
+<p>首先我们指定每一次裁剪的宽和高，在本例中100x100</p>
 
 <div><script src='https://gist.github.com/3185765.js?file=3.cpp'></script>
 <noscript><pre><code>    //iW and iH are the desired clip width and height
@@ -196,16 +202,20 @@
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-4-event-driven-programming</id>
     <content type="html"><![CDATA[<p>原文链接：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html</a></p>
 
-<p>Now that we&#8217;ve learned how to draw images to the screen it&#8217;s time to learn how to read user input. Our game won&#8217;t be very good if there&#8217;s no way to play it! In this lesson we will cover simple event handling using SDL and begin designing a primitive &#8216;main loop&#8217;.
-既然我们已经学习了怎样往屏幕上绘制图像，现在该学习怎样读取用户的输入了。如果都不能玩的话，我们的游戏就不好了！本节我们会学习SDL的简单事件处理并开始设计一个基本的主循环(&#8220;main loop&#8221;).</p>
+<p>Now that we&#8217;ve learned how to draw images to the screen it&#8217;s time to learn how to read user input. Our game won&#8217;t be very good if there&#8217;s no way to play it! In this lesson we will cover simple event handling using SDL and begin designing a primitive &#8216;main loop&#8217;.</p>
+
+<p>既然我们已经学习了怎样往屏幕上绘制图像，现在该学习怎样读取用户的输入了。如果都不能玩的话，我们的游戏就不好了！本节我们会学习SDL的简单事件处理并开始设计一个基本的主循环(&#8220;main loop&#8221;).</p>
 
 <!-- more -->
 
 
-<p> Before we begin it&#8217;s important to mention that the majority of the code being used for this lesson is the code that we&#8217;ve built up from previous lessons, and as such the repeated code will not be shown as it is assumed you have it already and  are using what you&#8217;re learning here to add on to the previous lesson&#8217;s code. If you don&#8217;t have the code, head back to the earlier lessons, or if you already understand the material grab the code from Lesson 3 off Github and let&#8217;s get started modifying it.
-在我们开始之前，要先提到一个重要的问题，本节所使用的大部分代码是上一节中写的。我们假定你已经有了这些代码，所以这些代码这里将不会重复写了，将直接在上一节代码的基础上添加代码。如果你没有这些代码，你可以回头去看前面的几节，又或者如果已经你理解了从github上获取到的第三节的代码，那么就让我们开始改代码吧。
- We&#8217;ll create the renderer and window the same as before, and our LoadImage and ApplySurface functions remain unchanged. The first change to our program is the loading of a different image, note that you will need to change the filepath to match the location of the image relative to the executable on your system, or the program will fail to run.
-像以前一样创建renderer和window，loadImage和ApplySurface函数保持原来的样子不变。第一个更改是把加载的图片改成另一张，注意你需要更改文件路径以便与可执行文件的路径匹配，否则的话程序会运行失败。</p>
+<p> Before we begin it&#8217;s important to mention that the majority of the code being used for this lesson is the code that we&#8217;ve built up from previous lessons, and as such the repeated code will not be shown as it is assumed you have it already and  are using what you&#8217;re learning here to add on to the previous lesson&#8217;s code. If you don&#8217;t have the code, head back to the earlier lessons, or if you already understand the material grab the code from Lesson 3 off Github and let&#8217;s get started modifying it.</p>
+
+<p>在我们开始之前，要先提到一个重要的问题，本节所使用的大部分代码是上一节中写的。我们假定你已经有了这些代码，所以这些代码这里将不会重复写了，将直接在上一节代码的基础上添加代码。如果你没有这些代码，你可以回头去看前面的几节，又或者如果已经你理解了从github上获取到的第三节的代码，那么就让我们开始改代码吧。</p>
+
+<p> We&#8217;ll create the renderer and window the same as before, and our LoadImage and ApplySurface functions remain unchanged. The first change to our program is the loading of a different image, note that you will need to change the filepath to match the location of the image relative to the executable on your system, or the program will fail to run.</p>
+
+<p>像以前一样创建renderer和window，loadImage和ApplySurface函数保持原来的样子不变。第一个更改是把加载的图片改成另一张，注意你需要更改文件路径以便与可执行文件的路径匹配，否则的话程序会运行失败。</p>
 
 <div><script src='https://gist.github.com/3161759.js?file=1.cpp'></script>
 <noscript><pre><code>//In main...
@@ -223,21 +233,33 @@
     int y = SCREEN_HEIGHT / 2 - iH / 2;</code></pre></noscript></div>
 
 
-<p>We also use the same equation as before for centering our image in the window. For this lesson our image will be:
-现在，在我们专注于编写主循环和事件处理代码之前，我们需要弄明白SDL event系统是怎样工作的。
-<img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson4/image.png"></p>
+<p>We also use the same equation as before for centering our image in the window. For this lesson our image will be:</p>
 
-<p> Now before we dive into writing our main loop and event handling code, we&#8217;ll want to get an understanding of how the SDL event system works.
-一个事件就是指用户做出的与程序交互的行为，比如：按下键，移动鼠标，鼠标点击，手柄移动，窗口改变大小、最小化或者关闭，等等。SDL提供了一个叫做SDL_Event的结构体来存储这些事件。现在我们创建一个SDL_Event。无论什么时候发生事件，它都会被按时间顺序被存放在一个栈里。如果我们想要读取一个事件，我们可以使用SDL_PollEvent取出一个最老的事件。这可能让人困惑，但是幸运的是，下面这张示意图会使这个问题清晰一点。
-An event is any interaction with the program done by the user: keypresses, mouse motion, mouse presses, joystick movement, window resizing, minimizing or closing, etc. SDL provides a structure for storing these events called SDL_Event. Let&#8217;s create one now.
-Whenever an event occurs it&#8217;s added to a stack in chronological order. If we want to read an event from this stack we can pull the oldest event using SDL_PollEvent. This may be a bit confusing, hopefully this handy graphic will help make it a bit clearer.
-<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson4/evntstack.png">
-So in this case the user resized the window, then clicked the mouse, then pushed a key. When we call SDL_PollEvent on this queue it will get the event that happened first, or the oldest event, and put it into our SDL_Event structure so that we can look at the event data in our program.
-在此情况下，用户更改了窗口大小，然后点了鼠标，然后按了一个键。 当我们调用SDL_PollEvent，它会获取到第一个发生的事件，或者说是最老的那个时间，然后把它放在我们的SDL_Event结构体中，以便于让我们看到这个事件的数据。</p>
+<p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson4/image.png"></p>
 
-<p>So if each frame of our game we want to process all events in the queue we&#8217;ll want to loop through until there&#8217;s nothing left to read, then continue on and do our other stuff like logic and rendering. This is starting to sound like something we could call our main loop!
-如果我们希望处理队列中每一帧的消息的话，我们需要循环直到队列中没有任何消息剩余，然后继续做其他的诸如逻辑、绘制之类的工作。这听起来像在主循环中调用的东西。
-In each iteration of the loop we&#8217;ll want to process our event queue, do some program logic and draw the frame and then do it all over again until the user quits.
+<p> Now before we dive into writing our main loop and event handling code, we&#8217;ll want to get an understanding of how the SDL event system works.</p>
+
+<p>现在，在我们专注于编写主循环和事件处理代码之前，我们需要弄明白SDL event系统是怎样工作的。</p>
+
+<p>An event is any interaction with the program done by the user: keypresses, mouse motion, mouse presses, joystick movement, window resizing, minimizing or closing, etc. SDL provides a structure for storing these events called SDL_Event. Let&#8217;s create one now.</p>
+
+<p>一个事件就是指用户做出的与程序交互的行为，比如：按下键，移动鼠标，鼠标点击，手柄移动，窗口改变大小、最小化或者关闭，等等。SDL提供了一个叫做SDL_Event的结构体来存储这些事件。现在我们创建一个SDL_Event。</p>
+
+<p>Whenever an event occurs it&#8217;s added to a stack in chronological order. If we want to read an event from this stack we can pull the oldest event using SDL_PollEvent. This may be a bit confusing, hopefully this handy graphic will help make it a bit clearer.</p>
+
+<p>无论什么时候发生事件，它都会被按时间顺序被存放在一个栈里。如果我们想要读取一个事件，我们可以使用SDL_PollEvent取出一个最老的事件。这可能让人困惑，但是幸运的是，下面这张示意图会使这个问题清晰一点。</p>
+
+<p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson4/evntstack.png"></p>
+
+<p>So in this case the user resized the window, then clicked the mouse, then pushed a key. When we call SDL_PollEvent on this queue it will get the event that happened first, or the oldest event, and put it into our SDL_Event structure so that we can look at the event data in our program.</p>
+
+<p>在此情况下，用户更改了窗口大小，然后点了鼠标，然后按了一个键。 当我们调用SDL_PollEvent，它会获取到第一个发生的事件，或者说是最老的那个时间，然后把它放在我们的SDL_Event结构体中，以便于让我们看到这个事件的数据。</p>
+
+<p>So if each frame of our game we want to process all events in the queue we&#8217;ll want to loop through until there&#8217;s nothing left to read, then continue on and do our other stuff like logic and rendering. This is starting to sound like something we could call our main loop!</p>
+
+<p>如果我们希望处理队列中每一帧的消息的话，我们需要循环直到队列中没有任何消息剩余，然后继续做其他的诸如逻辑、绘制之类的工作。这听起来像在主循环中调用的东西。</p>
+
+<p>In each iteration of the loop we&#8217;ll want to process our event queue, do some program logic and draw the frame and then do it all over again until the user quits.
 在循环中的每一次遍历中，我们都希望处理事件队列，处理一些程序逻辑然后将这一帧绘制出来，然后重复这些工作直到用户退出程序。</p>
 
 <div><script src='https://gist.github.com/3161759.js?file=2.cpp'></script>
@@ -245,26 +267,41 @@ In each iteration of the loop we&#8217;ll want to process our event queue, do so
 
 
 <p>Next we&#8217;ll want to do our event polling. Our goal was to run over all the events in the queue each frame, so let&#8217;s use another while loop, as PollEvent will return 1, &#8216;true&#8217;, if there are any pending events, so our loop will run until there are no more events in the queue.
- First we get an event from the queue with SDL_PollEvent, which we pass an address too as its signature is SDL_PollEvent(SDL_Event<em>) and then we do whatever we want to with the input. In this case we&#8217;re just going to quit the program if the user pushes any key, clicks the mouse or closes the window, so if just about anything happens we set quit to true. Note that clicking the X on the window is read as SDL_QUIT.
-下一步，我们需要做的是事件轮询。我们的目标是读取每帧中的所有事件，所以我们使用另一个while循环。因为当没有未处理的消息的时候，PollEvent会返回1，也就是true，所以我们的循环会持续直到队列中再没有任何事件。首先，我们使用SDL_PollEvent得到一个事件，因为函数声明是 SDL_PollEvent(SDL_Event</em>) 所以我们需要传入一个地址，然后我们对获得的输入做所有我们需要的处理。在本例中，我们想要当用户按下任意按键，点击鼠标或者关闭窗口的时候直接退出程序，所以如果发生了什么事件的话，我们就把quit设为true。注意，单击窗口右上的红叉会被识别为SDL_QUIT.
-SDL&#8217;s event structure is able to read many different types of events and provides all the valid information tied to each event that may be needed in deciding what to do with the input. For more information on the various event types and the data that comes with them, check out the SDL_Event documentation.
-SDL的event结构可以获取很多种类型的事件，并且能够提供与每个事件有关的所有有用的信息供你决定怎样处理用户输入。如果你想知道关于多种事件类型和event类型的数据的信息，就去看SDL_Event的相关文档吧。
-The next step in our loop would be to do various calculations that our program needs to do, such as determining movement, collision outcomes and etc. However since our program is very primitive we don&#8217;t need to do any logic at the moment, so we&#8217;ll continue on to rendering.
-主循环的下一步是把我们程序该计算的计算出来，比如判断移动、碰撞输出等等……尽管如此，因为我们的程序非常原始，现在我们不需要做太多的逻辑操作，所以我们继续绘制图像。
- The code is identical to before, but we must be sure each time to clear the screen before drawing our new scene or we could have images left over from previous frames start showing up.
-代码和之前的是相同的，但是我们必须确定我们每次绘制新的场景之前都清空了屏幕。不这么做的话，我们会让上一帧绘制的图像在下一帧里依旧显示着。
- You&#8217;ll want to wrap up the program by destroying the texture, renderer and window and quit SDL.
-最后你需要释放掉texture、renderer还有window所占用的内存，退出SDL。</p>
+ First we get an event from the queue with SDL_PollEvent, which we pass an address too as its signature is SDL_PollEvent(SDL_Event*) and then we do whatever we want to with the input. In this case we&#8217;re just going to quit the program if the user pushes any key, clicks the mouse or closes the window, so if just about anything happens we set quit to true. Note that clicking the X on the window is read as SDL_QUIT.</p>
 
-<p> When you run the program you should be able to quit by clicking the X on the window, clicking in the window or pressing a key while the window is selected. You may also notice something a bit interesting when running the program if you check its CPU usage. If you&#8217;ve seen tutorials where the main loop is discussed or have written SDL1.2 code you&#8217;d expect that our program for this lesson would max out one of your CPU cores because there&#8217;s no framerate limiting being done. This is no longer the case with our program as we have created our renderer with the SDL_PRESENTVSYNC flag which tells the renderer to delay and match the framerate of our monitor, letting SDL take care of the framerate limiting for us, and letting us skip writing a line or two of code.
-当你运行这个程序的时候，你可以通过在窗口激活的状态下点击窗口的红叉、在窗口中点击或者按下任何一个按键来退出程序。如果你查看了CPU占用的话，你也许会注意到一个有趣的东西。如果你看过讨论主循环的教程，或者写过SDL1.2的代码，你会发现我们本节的程序会把你CPU的一个核心占用到最大程度，这是因为这个程序并没有对帧率做任何限制。但这已经不是问题了，因为我们创建的renderer使用了SDL_PRESENTVSYNC这个flag，它会告诉renderer延迟绘制以匹配显示器的刷新率，让SDL自动为我们控制帧率，为我们省下了一到两行的代码。</p>
+<p>下一步，我们需要做的是事件轮询。我们的目标是读取每帧中的所有事件，所以我们使用另一个while循环。因为当没有未处理的消息的时候，PollEvent会返回1，也就是true，所以我们的循环会持续直到队列中再没有任何事件。首先，我们使用SDL_PollEvent得到一个事件，因为函数声明是 SDL_PollEvent(SDL_Event*) 所以我们需要传入一个地址，然后我们对获得的输入做所有我们需要的处理。在本例中，我们想要当用户按下任意按键，点击鼠标或者关闭窗口的时候直接退出程序，所以如果发生了什么事件的话，我们就把quit设为true。注意，单击窗口右上的红叉会被识别为SDL_QUIT.</p>
 
-<p> Lesson 4 Extra Challenge!
- Try getting the image to move on the screen.
- Hint
-第四节的额外挑战！
-试着让图像移动起来吧~
-提示</p>
+<p>SDL&#8217;s event structure is able to read many different types of events and provides all the valid information tied to each event that may be needed in deciding what to do with the input. For more information on the various event types and the data that comes with them, check out the SDL_Event documentation.</p>
+
+<p>SDL的event结构可以获取很多种类型的事件，并且能够提供与每个事件有关的所有有用的信息供你决定怎样处理用户输入。如果你想知道关于多种事件类型和event类型的数据的信息，就去看SDL_Event的相关文档吧。</p>
+
+<p>The next step in our loop would be to do various calculations that our program needs to do, such as determining movement, collision outcomes and etc. However since our program is very primitive we don&#8217;t need to do any logic at the moment, so we&#8217;ll continue on to rendering.</p>
+
+<p>主循环的下一步是把我们程序该计算的计算出来，比如判断移动、碰撞输出等等……尽管如此，因为我们的程序非常原始，现在我们不需要做太多的逻辑操作，所以我们继续绘制图像。</p>
+
+<p> The code is identical to before, but we must be sure each time to clear the screen before drawing our new scene or we could have images left over from previous frames start showing up.</p>
+
+<p>代码和之前的是相同的，但是我们必须确定我们每次绘制新的场景之前都清空了屏幕。不这么做的话，我们会让上一帧绘制的图像在下一帧里依旧显示着。</p>
+
+<p> You&#8217;ll want to wrap up the program by destroying the texture, renderer and window and quit SDL.</p>
+
+<p>最后你需要释放掉texture、renderer还有window所占用的内存，退出SDL。</p>
+
+<p> When you run the program you should be able to quit by clicking the X on the window, clicking in the window or pressing a key while the window is selected. You may also notice something a bit interesting when running the program if you check its CPU usage. If you&#8217;ve seen tutorials where the main loop is discussed or have written SDL1.2 code you&#8217;d expect that our program for this lesson would max out one of your CPU cores because there&#8217;s no framerate limiting being done. This is no longer the case with our program as we have created our renderer with the SDL_PRESENTVSYNC flag which tells the renderer to delay and match the framerate of our monitor, letting SDL take care of the framerate limiting for us, and letting us skip writing a line or two of code.</p>
+
+<p>当你运行这个程序的时候，你可以通过在窗口激活的状态下点击窗口的红叉、在窗口中点击或者按下任何一个按键来退出程序。如果你查看了CPU占用的话，你也许会注意到一个有趣的东西。如果你看过讨论主循环的教程，或者写过SDL1.2的代码，你会发现我们本节的程序会把你CPU的一个核心占用到最大程度，这是因为这个程序并没有对帧率做任何限制。但这已经不是问题了，因为我们创建的renderer使用了SDL_PRESENTVSYNC这个flag，它会告诉renderer延迟绘制以匹配显示器的刷新率，让SDL自动为我们控制帧率，为我们省下了一到两行的代码。</p>
+
+<p> Lesson 4 Extra Challenge!</p>
+
+<p> Try getting the image to move on the screen.</p>
+
+<p> Hint</p>
+
+<p>第四节的额外挑战！</p>
+
+<p>试着让图像移动起来吧~</p>
+
+<p>提示</p>
 
 <p>第四节的结束
 感谢加入！我们第五节：裁剪精灵表见~
@@ -288,19 +325,31 @@ _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
 
 <p> In Lesson 0, when you cloned from the Mercurial and built the libraries you should have also downloaded and built the source for SDL_image, SDL_ttf and SDL_mixer, although I was unable to get SDL_mixer to compile with Visual Studio at the time of writing. This part of the tutorial will be updated when SDL 2.0 is officially released to simply contain links to download the libraries.</p>
 
+<p>在第0节中，当你从Mercurial中同步下来一份源码，并且生成库文件之后，你还需要下载并编译SDL_image,SDL_ttf还有SDL_mixer的源码，尽管在写这篇教程的时候我没能在Visual Studio里把SDL_mixer编译成功。当SDL2.0正式发布的时候，我会更新这个教程并提供编译好的库以直接下载。</p>
+
 <p> If you have not done this, head over to the SDL Mercurial and clone and build the extension libraries available there.</p>
+
+<p>如果你还没做完这些，回到SDL的mercurial版本库中同步到代码并生成这些扩展库。</p>
 
 <p> To include the headers and library files on Windows simply paste them in the include and lib directories of your SDL 2.0 folder and add SDL_image.lib and etc. to your linker settings. On Linux following the configure, make, make install pattern will spit out a location where the libraries were installed that you can link against.</p>
 
+<p>在windows下，要包含头文件和库文件，只需要把SDL2.0文件夹中对应路径粘贴到include和lib路径设置中，然后把SDL_image.lib还有其他等等的一些lib文件添加到连接器选项中。在linux中，使用configure，make还有make install的模式，它会告诉你在链接时需要的库安装的路径，</p>
+
 <p> In addition to setting up the includes and libraries you will also need to put the dlls that are located in the externals folder along with the dll that was created when building the project. Some dlls are dynamically loaded and as such, only needed if you intend to use their functionality, you may consult the extension library page for the specifics on which dlls behave this way.</p>
+
+<p>除此之外，你还需要把外部文件夹中的dll放到项目生成dll的文件夹内。某些dll是动态加载的，如果你需要它的功能，你才需要添加它。你可以参考扩展库的主页来弄明白哪些dll是这么工作的。</p>
 
 <p> In addition to exploring the SDL_image library in this lesson we will also begin to learn about throwing and catching exceptions by adding some error handling to our LoadImage function from last time, instead of checking if the returned pointer was still null. This will allow us to get more information about the exact error that happened and help us track down the cause of the error faster.</p>
 
+<p>本节除了研究SDL_image库之外，我们还会通过为loadimage函数添加一些错误处理的代码来学习throw与catch异常，以此替代检测返回值是否为NULL的错误处理机制。这允许我们获取实际发生的错误的更多信息，并帮我们更快地追踪到导致错误的原因。</p>
+
 <p> For this lesson we will simply be adding some extra stuff to the code we wrote in Lesson 2, so let&#8217;s get that open. IDE users will want to add SDL_image to their linker settings as described above, and for those of you compiling with g++ add -lSDL_image or -lSDL2_image depending on how your 2.0 libraries are named.</p>
 
-<p> We&#8217;ll need to add the extra includes for the new things we want to use, SDL_image and stdexcept.</p>
+<p>在本节中，我们只会在第二节的代码中添加一些额外的东西，所以让我们打开它。IDE用户需要按前文中所说的，给连接器选项添加SDL_image。对那些使用G++的人来说，取决于你SDL2.0的库名，你可以添加比如-lSDL_image或者-lSDL2_image的链接选项。</p>
 
-<p> <div><script src='https://gist.github.com/3139999.js?file=1.cpp'></script>
+<p> We&#8217;ll need to add the extra includes for the new things we want to use, SDL_image and stdexcept.
+我们还要把新东西，SDL_image和stdexcept,include进去.<br/>
+ <div><script src='https://gist.github.com/3139999.js?file=1.cpp'></script>
 <noscript><pre><code>#include &quot;SDL.h&quot;</p>
 
 <h1>include &quot;SDL_image.h&quot;</h1>
@@ -313,6 +362,8 @@ _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
 
 <p> From here we setup as before our screen parameters and create a global window and renderer. If you&#8217;re feeling ill from the use of global objects you may want to take a moment.</p>
 
+<p>从这里开始我们和以往一样设定好屏幕参数并且创建全局的window和renderer。如果你觉得用全局对象不太好，你也许需要等一会儿。</p>
+
 <div><script src='https://gist.github.com/3139999.js?file=2.cpp'></script>
 <noscript><pre><code>const int SCREEN_WIDTH  = 640;
 const int SCREEN_HEIGHT = 480;
@@ -323,7 +374,11 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
 
 <p> Now let&#8217;s rework our LoadImage function to use SDL_image&#8217;s IMG_LoadTexture to directly load a texture from an image. SDL_image supports many image formats: BMP, GIF, JPEG, LBM, PCX, PNG, PNM, TGA, TIFF, WEBP, XCF, XPM, XV and as such is a very powerful and useful library, as we are no longer limited to the BMP format</p>
 
+<p>现在，我们开始用SDL_image的IMG_LoadTexture函数把之前的LoadImage改成直接从图像文件中读取texture。SDL_image支持许多图像格式：BMP,GIF,JPEG,LBM,PCX,PNG,PNM,TGA,TIFF,WEBP,XCF,XPM,XV.它是个非常给力（~powerful~吾觉得翻译成有力略囧——译注）而又有用的库，因为有了它，我们就不再被BMP格式限制啦~</p>
+
 <p> Reworking our function is surprisingly simple, we just take out the SDL_Surface business and load the texture directly. Note that we now use IMG_GetError() instead of SDL_GetError(), this is because we&#8217;re now using the SDL_image library to load the image, and as such the appropriate error information would be stored there instead of in SDL.</p>
+
+<p>对函数的返工简单得让人惊讶。我们只需要去掉SDL_Surface的工作，直接加载texture。注意我们现在使用IMG_GetError()替代SDL_GetError()，因为我们现在正在使用的是SDL_image库来加载图像，因此，对应的错误信息应该在IMG而不是SDL里。</p>
 
 <div><script src='https://gist.github.com/3139999.js?file=3.cpp'></script>
 <noscript><pre><code>SDL_Texture* LoadImage(std::string file){
@@ -337,11 +392,19 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
 
 <p> But we&#8217;ve got one more new thing here. Since we&#8217;ve decided to be smart and add more informative error checking if our image fails to load we will throw a runtime_error which will tell us what happened and more helpfully, which image caused the error. However if you leave this error uncaught when you call the function later in your program and it occurs, it will crash the program. Depending on the situation this may be desirable, but at the moment we&#8217;ll want it to tell us what happened as opposed to just crashing.</p>
 
+<p>但是我们这里又有另外一个新东西。因为我们决定要让程序变得更智能，并添加能提供更多信息的错误处理，当我们的图片加载失败之后，我们需要抛出（throw）一个runtime_error的异常，它告诉我们发生了什么，并且告诉我们哪一个图片导致了这项错误。虽然这样，如果你没有捕捉（catch）到这项错误，但之后的运行中这项错误发生了，这个程序还是会崩溃。取决于实际的情况，这或许是可以预计的，但是到崩溃的时候，我们还是希望她告诉我们实际发生了什么而不是直接崩溃。</p>
+
 <p> We&#8217;re almost ready to draw our images, for this lesson we&#8217;ll be using this image as our background:</p>
+
+<p>现在我们准备好绘制图像了，本节我们会用这张图做背景：</p>
 
 <p> and our foreground image will be:</p>
 
+<p>前景图是这张：</p>
+
 <p> If you look at our foreground image you&#8217;ll notice that it has a transparent background, I&#8217;ve set it like this to demonstrate that IMG_LoadTexture will respect alpha channels and that when the texture is drawn the transparent properties will be retained.</p>
+
+<p>观察了前景图之后你就会发现它的背景是透明的。我已经把它设置为示范IMG_LoadTexture会接受</p>
 
 <p> Now that we&#8217;ve got our images we can write our loading code, but recall that we&#8217;ll need to add a try/catch structure to handle the error if one is thrown. Also, don&#8217;t forget to set the file paths to match the image locations on your system.</p>
 
@@ -393,14 +456,17 @@ SDL_Window *window = nullptr;
 SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 
 
-<p>We&#8217;ll also declare some constant values for our screen width and height along with global declarations of a window and renderer so that they&#8217;re accessible by our functions. Again we initialize the pointers as nullptr for safety. If you&#8217;re not using C++11 initialize them as NULL.
-我们还声明了一些表示窗口宽度和高度的常量，连同window还有renderer的全局变量，以便于所有的函数都能够访问到它们。这里有一次为了安全我们把指针初始化为nullptr.如果你没有使用C++11，那就把它们初始化为NULL吧。</p>
+<p>We&#8217;ll also declare some constant values for our screen width and height along with global declarations of a window and renderer so that they&#8217;re accessible by our functions. Again we initialize the pointers as nullptr for safety. If you&#8217;re not using C++11 initialize them as NULL.</p>
 
-<p>Note: You should avoid using non-constant global values or global values in general as much as possible, ie. you should never ever declare a global SDL_Window or SDL_Renderer. However, for this simple lesson we&#8217;ll let it slide. But it&#8217;s ok if you feel grossed out. We&#8217;ll cover a solution to global objects in a few lessons.
-注意：你应该尽可能地避免适用非常量的全局数或者全局变量，这即是说，你从来都不应该声明全局的SDL_Window和SDL_Renderer。尽管这样，在这个简单的课程中，我们不要纠结这个。但是如果你觉得这样做恶心的话，这也没关系。在以后几节课程中，我们将提到一个解决方案。</p>
+<p>我们还声明了一些表示窗口宽度和高度的常量，连同window还有renderer的全局变量，以便于所有的函数都能够访问到它们。这里有一次为了安全我们把指针初始化为nullptr.如果你没有使用C++11，那就把它们初始化为NULL吧。</p>
 
-<p> Remember from Lesson 1 where we loaded a texture? It wasn&#8217;t so bad to just have it in main for loading one image, but what if we had lots images to load? We&#8217;d have to type it out every time! We can do much better, instead let&#8217;s define a function for loading textures from a filename:
-还记得在第一节中我们加载了一个texture么。把加载图像的代码放到main里并不是太坏，但是如果我们需要加载很多图像呢？我们不得不每次都要写一遍那些代码！我们可以做得更好——定义一个可以通过文件名来加载texture的函数。</p>
+<p>Note: You should avoid using non-constant global values or global values in general as much as possible, ie. you should never ever declare a global SDL_Window or SDL_Renderer. However, for this simple lesson we&#8217;ll let it slide. But it&#8217;s ok if you feel grossed out. We&#8217;ll cover a solution to global objects in a few lessons.</p>
+
+<p>注意：你应该尽可能地避免适用非常量的全局数或者全局变量，这即是说，你从来都不应该声明全局的SDL_Window和SDL_Renderer。尽管这样，在这个简单的课程中，我们不要纠结这个。但是如果你觉得这样做恶心的话，这也没关系。在以后几节课程中，我们将提到一个解决方案。</p>
+
+<p>Remember from Lesson 1 where we loaded a texture? It wasn&#8217;t so bad to just have it in main for loading one image, but what if we had lots images to load? We&#8217;d have to type it out every time! We can do much better, instead let&#8217;s define a function for loading textures from a filename:</p>
+
+<p>还记得在第一节中我们加载了一个texture么。把加载图像的代码放到main里并不是太坏，但是如果我们需要加载很多图像呢？我们不得不每次都要写一遍那些代码！我们可以做得更好——定义一个可以通过文件名来加载texture的函数。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=2.cpp'></script>
 <noscript><pre><code>SDL_Texture* LoadImage(std::string file){
@@ -418,11 +484,13 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p> The function here should look very familiar as it&#8217;s the exact same code we wrote in Lesson 1, but now we have wrapped it up in a nice function. With this function we can pass a file name as a string and get back a pointer to the loaded SDL_Texture. Note that the pointer will be nullptr if the loading fails because we initialize both pointers as nullptr for error checking.
-这里的这个函数看起来应该非常眼熟才对，因为它就是我们在第一节写的代码。但是这一次，我们把它们用一个美妙的函数包裹了起来。有了这个函数，我们就可以传给它一个文件名的字符串，然后得到一个SDL_Texture的指针。注意，如果图片加载失败了，这个指针会是nullptr，因为我们为了错误检测，把所有的指针都初始化为了nullptr。</p>
+<p>The function here should look very familiar as it&#8217;s the exact same code we wrote in Lesson 1, but now we have wrapped it up in a nice function. With this function we can pass a file name as a string and get back a pointer to the loaded SDL_Texture. Note that the pointer will be nullptr if the loading fails because we initialize both pointers as nullptr for error checking.</p>
 
-<p> Next we&#8217;ll want to write a function to simplify our draw calls and also allow us to specify a position to draw the image too on the screen. We&#8217;ll want it to be able to take an x, y coordinate position along with a texture pointer and a renderer pointer and then draw the texture to that position.
-下一步，我们想要写一个可以简化我们绘制调用，并且允许我们指定图像在屏幕上绘制的位置的函数。我们需要它能够取得x, y坐标位置还有一个texture指针，以及一个renderer指针，然后把那个texture画在那个位置。</p>
+<p>这里的这个函数看起来应该非常眼熟才对，因为它就是我们在第一节写的代码。但是这一次，我们把它们用一个美妙的函数包裹了起来。有了这个函数，我们就可以传给它一个文件名的字符串，然后得到一个SDL_Texture的指针。注意，如果图片加载失败了，这个指针会是nullptr，因为我们为了错误检测，把所有的指针都初始化为了nullptr。</p>
+
+<p> Next we&#8217;ll want to write a function to simplify our draw calls and also allow us to specify a position to draw the image too on the screen. We&#8217;ll want it to be able to take an x, y coordinate position along with a texture pointer and a renderer pointer and then draw the texture to that position.</p>
+
+<p>下一步，我们想要写一个可以简化我们绘制调用，并且允许我们指定图像在屏幕上绘制的位置的函数。我们需要它能够取得x, y坐标位置还有一个texture指针，以及一个renderer指针，然后把那个texture画在那个位置。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=3.cpp'></script>
 <noscript><pre><code>void ApplySurface(int x, int y, SDL_Texture *tex, SDL_Renderer *rend){
@@ -435,15 +503,21 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p> In order to specify a position for the texture to be drawn too we need to create a SDL_Rect that we can pass the address to SDL_RenderCopy&#8217;s destination rect parameter. This is done because the last two parameters of SDL_RenderCopy are SDL_Rect pointers, so it&#8217;s expecting an address.
-为了指定Texture绘制的位置，我们需要创建一个SDL_Rect，这样我们就可以把它的地址传给SDL_RenderCopy的目标rect参数。这样做是因为SDL_RenderCopy的最后两个参数是SDL_Rect类型的指针，所以需要传入一个地址。</p>
+<p> In order to specify a position for the texture to be drawn too we need to create a SDL_Rect that we can pass the address to SDL_RenderCopy&#8217;s destination rect parameter. This is done because the last two parameters of SDL_RenderCopy are SDL_Rect pointers, so it&#8217;s expecting an address.</p>
 
-<p>To create our rectangle we take the x and y values that we passed in and the set rectangle&#8217;s values equal to them. However we must also specify the width and height we want the texture to be drawn with as SDL 2.0 also gives us the ability to scale our textures. Try playing with the width and height values once the tutorial is done and see what happens!
-为了创建这个矩形（rectangle），我们将传入的x与y赋给rectangle的x和y.另外，我们还必须指定需要texture绘制的宽度和高度，因为SDL2.0在这里赋予了我们缩放texture的能力。在本教程结束后，你可以试着更改高度和宽度并看看会发生什么情况。
-For now we just want to pass the texture&#8217;s width and height so that we draw it at a 1:1 scale. We can get these values by using SDL_QueryTexture. This function takes the texture pointer we want to query, the two parameters we pass NULL to are the format and access level parameters respectively, which we can ignore. Finally we must pass the addresses of the variables that we want to fill with the width and height of the texture.
-但是现在我们只想把texture原本的宽度和高度传入，以便于以1：1的比例来绘制它。我们可以通过SDL_QueryTexure来获取这些值。这个函数需要我们传入texture的指针，后面两个参数我们传入NULL，它们分别是texture格式（? 待考证函数说明）和访问级别，现在我们可以无视它们。最后我们将需要填texture宽高的变量的地址传入。
- Now that we&#8217;ve got our SDL_Rect set up we can pass it, along with the renderer and texture as before, to SDL_RenderCopy so that our texture will be drawn at the point specified and with its original width and height. The remaining NULL parameter in this function is for taking a clip of the source texture, which we&#8217;ll cover later.
-现在我们已经有了SDL_Rect，我们可以把它还有renderer，以及之前的texture传给SDL_RenderCopy ，这样texture就会以它原始的尺寸绘制在我们制定的位置。剩下的那个NULL的参数是为了裁剪原来的texture只用的，这点我们会在后面提及。
+<p>为了指定Texture绘制的位置，我们需要创建一个SDL_Rect，这样我们就可以把它的地址传给SDL_RenderCopy的目标rect参数。这样做是因为SDL_RenderCopy的最后两个参数是SDL_Rect类型的指针，所以需要传入一个地址。</p>
+
+<p>To create our rectangle we take the x and y values that we passed in and the set rectangle&#8217;s values equal to them. However we must also specify the width and height we want the texture to be drawn with as SDL 2.0 also gives us the ability to scale our textures. Try playing with the width and height values once the tutorial is done and see what happens!</p>
+
+<p>为了创建这个矩形（rectangle），我们将传入的x与y赋给rectangle的x和y.另外，我们还必须指定需要texture绘制的宽度和高度，因为SDL2.0在这里赋予了我们缩放texture的能力。在本教程结束后，你可以试着更改高度和宽度并看看会发生什么情况。</p>
+
+<p>For now we just want to pass the texture&#8217;s width and height so that we draw it at a 1:1 scale. We can get these values by using SDL_QueryTexture. This function takes the texture pointer we want to query, the two parameters we pass NULL to are the format and access level parameters respectively, which we can ignore. Finally we must pass the addresses of the variables that we want to fill with the width and height of the texture.</p>
+
+<p>但是现在我们只想把texture原本的宽度和高度传入，以便于以1：1的比例来绘制它。我们可以通过SDL_QueryTexure来获取这些值。这个函数需要我们传入texture的指针，后面两个参数我们传入NULL，它们分别是texture格式（? 待考证函数说明）和访问级别，现在我们可以无视它们。最后我们将需要填texture宽高的变量的地址传入。</p>
+
+<p>Now that we&#8217;ve got our SDL_Rect set up we can pass it, along with the renderer and texture as before, to SDL_RenderCopy so that our texture will be drawn at the point specified and with its original width and height. The remaining NULL parameter in this function is for taking a clip of the source texture, which we&#8217;ll cover later.</p>
+
+<p>现在我们已经有了SDL_Rect，我们可以把它还有renderer，以及之前的texture传给SDL_RenderCopy ，这样texture就会以它原始的尺寸绘制在我们制定的位置。剩下的那个NULL的参数是为了裁剪原来的texture只用的，这点我们会在后面提及。
  Let&#8217;s see our functions in action. First we&#8217;ve got to start up SDL and create our window and renderer as before. We&#8217;ve also got something new here, SDL_WINDOWPOS_CENTERED. This is an option we can use when creating our window to tell SDL to center its position on the specified axis, here we do it for x and y.
 现在我们实际看一下我们的函数。首先我们和以前一样开启SDL，创建窗口还有renderer。这里还有个新东西，SDL_WINDOWPOS_CENTERED.这是个可以用来在创建窗口的时候告诉SDL把窗口设到指定坐标轴中央的选项，这里我们指定的是x和y。</p>
 
@@ -572,13 +646,13 @@ With 0, 0 being in the top-left corner of the screen. Y values increase as we mo
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/"/>
     <updated>2013-01-26T20:22:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world</id>
-    <content type="html"><![CDATA[<p>这一节我们将学习将一张图片绘制到屏幕上的简单方法。具体来讲是绘制下面这张图片。</p>
+    <content type="html"><![CDATA[<p>这一节我们将学习简单的将一张图片绘制到屏幕上的方法。具体来讲是绘制下面这张图片。</p>
 
 <!-- more -->
 
 
 <p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/1-26/hello.bmp">
-你可以通过右键另存为下载这张图片。<del>这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 </del>这个版本库同时也是我教程中例子的源代码和其他相关资源（assets）的主页。如果你丢了资源或者想要偷看一下我的代码，就从<a href = "https://github.com/Twinklebear/TwinklebearDev-Lessons">这里</a>抓好了。但是，不要复制粘贴！</p>
+你可以通过右键另存为下载这张图片。<del>这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 </del>这个版本库同时也是我教程中例子的源代码和其他相关资源（assets）的主页。如果你丢了资源或者想要偷看一下我的代码，就从<a href = "https://github.com/Twinklebear/TwinklebearDev-Lessons">这里</a>抓好了。但你可不要只复制粘贴代码！</p>
 
 <p>第一步总是include SDL的头文件</p>
 
@@ -586,7 +660,7 @@ With 0, 0 being in the top-left corner of the screen. Y values increase as we mo
 </pre></td><td class='code'><pre><code class=''><span class='line'>#include "SDL.h"</span></code></pre></td></tr></table></div></figure>
 
 
-<p>注意，这依赖于你的SDL设置。对Linux用户来说，也许需要这样做：</p>
+<p>注意，这依赖于你的SDL设置。对Linux用户来说，也许需要这么写：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -602,7 +676,7 @@ With 0, 0 being in the top-left corner of the screen. Y values increase as we mo
 
 <p>首先我们需要启动SDL以便使用它。注意：如果SDL初始化失败的话，它会返回-1。这样的情况下，我们可以使用SDL_GetError()函数来输出错误消息，然后退出程序。</p>
 
-<p>对Visual Studio用户的特殊说明：如果你在连接器选项中把子系统设置为了windows，你将不会看到输出到控制台的结果。要获得这个结果，你必须把子系统改为“未设置”并且把#undef main放到main函数前面。当改回windows子系统的时候，你要确认一下你把#undef main这行代码去掉了，否则你会得到链接错误。</p>
+<p>针对Visual Studio用户的说明：如果你在连接器选项中把子系统设置为了windows，你将不会看到输出到控制台的结果。要获得这个结果，你必须把子系统改为“未设置”并且把#undef main放到main函数前面。当改回windows子系统的时候，你要确认一下你把#undef main这行代码去掉了，否则你会得到链接错误。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=a.cpp'></script>
 <noscript><pre><code>int main(int argc, char** argv){
@@ -685,7 +759,7 @@ With 0, 0 being in the top-left corner of the screen. Y values increase as we mo
 <noscript><pre><code>    SDL_Delay(2000);</code></pre></noscript></div>
 
 
-<p>在我们退出程序之前，我们有必要释放掉我们这个窗口、renderer还有texture所用的全部内存。这可以通过调用几个SDL_Destroy来完成。</p>
+<p>在退出程序之前，我们有必要释放掉我们这个窗口、renderer还有texture所用的全部内存。这可以通过调用几次SDL_Destroy来完成。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=h.cpp'></script>
 <noscript><pre><code>    SDL_DestroyTexture(tex);
@@ -701,16 +775,21 @@ With 0, 0 being in the top-left corner of the screen. Y values increase as we mo
 }</code></pre></noscript></div>
 
 
-<p>编译并检查这个程序吧！不要忘了把SDL.dll放到你的可执行文件的文件夹里，否则你会得到一个弹出的错误提示。如果你用的是linux系统，你应该已经安装了SDL的共享库了，所以你应该不会遇到什么问题。</p>
+<p>然后编译并检查这个程序吧！不要忘了把SDL.dll放到你的可执行文件的文件夹里，否则你会看到它弹出错误提示。如果你用的是linux系统，你应该已经安装了SDL的共享库了，所以你应该不会遇到什么问题。</p>
 
 <p>现在，恭喜你写出第一个SDL2.0程序！</p>
 
-<p> Troubleshooting
- If your program fails to compile make sure you&#8217;ve properly configured your libraries and linked to the correct path in your include statement.</p>
+<p>Troubleshooting</p>
 
-<p> If your program complains about SDL.dll missing, make sure it is located in the same folder as the executable.</p>
+<p>If your program fails to compile make sure you&#8217;ve properly configured your libraries and linked to the correct path in your include statement.</p>
 
-<p> If your program runs but exits with out displaying anything make sure your image path is set correctly. If that doesn&#8217;t help try writing some cout or file output into the program, although depending on your platform and configuration settings cout may not appear.</p>
+<p>If your program complains about SDL.dll missing, make sure it is located in the same folder as the executable.</p>
+
+<p>如果你的程序报错说SDL.dll丢失，确认你是不是已经把它放在了可执行文件所在的文件夹里。</p>
+
+<p>If your program runs but exits with out displaying anything make sure your image path is set correctly. If that doesn&#8217;t help try writing some cout or file output into the program, although depending on your platform and configuration settings cout may not appear.</p>
+
+<p>如果你的程序运行之后却什么都没显示，很快退出了，那么确认一下你的图片路径写对了。如果这还不行，你可以试着写一些cout或者输出到文件来看错误提示。不过取决于你的平台还有配置选项，cout的结果可能不会显示。</p>
 
 <p>第一节结束。</p>
 

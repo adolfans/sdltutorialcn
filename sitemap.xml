@@ -6,19 +6,15 @@
     </url>
     <url>
         <loc>
-            http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/
-        </loc>
-        <lastmod>2013-02-14T02:18:00+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/
         </loc>
         <lastmod>2013-01-28T00:59:48+08:00</lastmod>
     </url>
     <url>
-        <loc>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/</loc>
-        <lastmod>2013-01-28T01:07:15+08:00</lastmod>
+        <loc>
+            http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/
+        </loc>
+        <lastmod>2013-02-14T02:18:00+08:00</lastmod>
     </url>
     <url>
         <loc>
@@ -27,16 +23,20 @@
         <lastmod>2013-01-26T16:50:21+08:00</lastmod>
     </url>
     <url>
+        <loc>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/</loc>
+        <lastmod>2013-02-14T23:49:02+08:00</lastmod>
+    </url>
+    <url>
         <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/
         </loc>
-        <lastmod>2013-02-13T00:25:52+08:00</lastmod>
+        <lastmod>2013-02-15T00:04:05+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/
         </loc>
-        <lastmod>2013-01-28T13:41:18+08:00</lastmod>
+        <lastmod>2013-02-15T11:34:19+08:00</lastmod>
     </url>
     <url>
         <loc>
@@ -48,7 +48,7 @@
         <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-5-clipping-sprite-sheets/
         </loc>
-        <lastmod>2013-02-14T11:23:16+08:00</lastmod>
+        <lastmod>2013-02-15T00:42:35+08:00</lastmod>
     </url>
     <url>
         <loc>
@@ -72,11 +72,11 @@
     </url>
     <url>
         <loc>http://adolfans.github.com/sdltutorialcn/blog/archives/</loc>
-        <lastmod>2013-02-14T11:26:48+08:00</lastmod>
+        <lastmod>2013-02-15T11:34:19+08:00</lastmod>
     </url>
     <url>
         <loc>http://adolfans.github.com/sdltutorialcn/</loc>
-        <lastmod>2013-02-14T11:26:48+08:00</lastmod>
+        <lastmod>2013-02-15T11:34:19+08:00</lastmod>
     </url>
     <url>
         <loc>http://adolfans.github.com/sdltutorialcn/robots.txt</loc>

@@ -95,12 +95,12 @@
 
 <p>It&#8217;s very common in sprite based games to use a large image file containing many smaller images, such as tiles for a tileset, as opposed to having a separate image file for each tile. This type of image is known as a sprite sheet, and is very useful because we don&#8217;t need to have a separate image file for each image in the game but instead can just draw the subset of the sheet that we want.</p>
 
-<p>在基于精灵的游戏中，使用一幅包含了许多小图的大图——比如说使用包含tile的tile集，而不是一个tile就是一张独立的图片——这种方式是非常常见的。这种图像的类型被称作精灵表（sprite sheet，我不能确定我这么翻译是否恰当——译注）。这种方式很有用，因为这样做我们的游戏就用不着每幅图像都用一个独立的文件来存储，而直接绘制表中我们需要的一部分就好了。</p>
+<p>在基于精灵的游戏中，通常会使用一幅包含了许多小图的大图——比如说使用包含tile的tile集，而不是一个tile就是一张独立的图片。这种图像的类型被称作精灵表（sprite sheet，我不能确定我这么翻译是否恰当——译注）。这种方式很有用，因为这样做我们的游戏就用不着每幅图像都用一个独立的文件来存储，而直接绘制表中我们需要的一部分就好了。</p>
 
 <!-- more -->
 
 
-<p><em>译注：我不确定看这篇文章的初学者们——仅针对初学者们——是否理解诸如精灵、tile之类词语的含义。在2D游戏中，精灵大概就是2D游戏中能够移动来移动去的图块；至于tile，它大概算是精灵的子集，它的中文名称本来是瓦片，一般我们可以看到很多2D游戏的场景是由很多相同的图块拼出来的，那一块一块儿的玩意儿就是tile.欲纠结此问题请看维基百科Sprite_(computer_graphics)词条……= =</em></p>
+<p><em>译注：我不确定看这篇文章的初学者们——仅针对初学者们——是否理解诸如精灵(Sprite)、tile之类词语的含义。在2D游戏中，精灵大概就是2D游戏中能够移动来移动去的图块；至于tile，它大概算是精灵的子集，它的中文名称本来是瓦片，一般我们可以看到很多2D游戏的场景是由很多相同的图块拼出来的，那一块一块儿的玩意儿就是tile.欲纠结此问题请看维基百科Sprite_(computer_graphics)词条……= =</em></p>
 
 <p>In this lesson we will learn how to use a simple sprite sheet in our program and how we can specify the desired subset, known as a clip, to draw. The sprite sheet for this lesson is a simple one containing four circles:</p>
 
@@ -155,9 +155,15 @@
 
 <p> We&#8217;ll load our image the same as before with or LoadImage function.</p>
 
-<p> We now need to set up our clip rects, which we&#8217;ll store inside an array. Instead of typing all of our clips out by hand which is very tedious for images with lots of clips, we can take advantage of the pattern in which our image file is constructed to automate the creation of the clip rects with a for loop. If you did the extra challenge from Lesson 2 this method should look quite familiar.</p>
+<p>我们和以前一样使用LoadImage函数来加载图像。</p>
 
-<p> First we specify the width and height each clip should be, in this case 100x100 and we create an array to store four SDL_Rects to hold our clips. Next we use our knowledge of the arrangement of our clips to create a for loop with a column counter to appropriately set the x,y coordinate for each clip.</p>
+<p>We now need to set up our clip rects, which we&#8217;ll store inside an array. Instead of typing all of our clips out by hand which is very tedious for images with lots of clips, we can take advantage of the pattern in which our image file is constructed to automate the creation of the clip rects with a for loop. If you did the extra challenge from Lesson 2 this method should look quite familiar.</p>
+
+<p>我们现在需要准备好我们的裁剪矩形，把它们存储在一个数组里面。</p>
+
+<p>First we specify the width and height each clip should be, in this case 100x100 and we create an array to store four SDL_Rects to hold our clips. Next we use our knowledge of the arrangement of our clips to create a for loop with a column counter to appropriately set the x,y coordinate for each clip.</p>
+
+<p>首先我们指定每一次裁剪的宽和高，在本例中100x100</p>
 
 <div><script src='https://gist.github.com/3185765.js?file=3.cpp'></script>
 <noscript><pre><code>    //iW and iH are the desired clip width and height

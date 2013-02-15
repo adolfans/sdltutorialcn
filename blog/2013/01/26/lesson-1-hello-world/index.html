@@ -9,7 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="这一节我们将学习将一张图片绘制到屏幕上的简单方法。具体来讲是绘制下面这张图片。 你可以通过右键另存为下载这张图片。这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 这个版本库同时也是我教程中例子的源代码和其他相关资源（assets） &hellip;">
+  <meta name="description" content="这一节我们将学习简单的将一张图片绘制到屏幕上的方法。具体来讲是绘制下面这张图片。 你可以通过右键另存为下载这张图片。这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 这个版本库同时也是我教程中例子的源代码和其他相关资源（assets） &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,13 +91,13 @@
   </header>
 
 
-<div class="entry-content"><p>这一节我们将学习将一张图片绘制到屏幕上的简单方法。具体来讲是绘制下面这张图片。</p>
+<div class="entry-content"><p>这一节我们将学习简单的将一张图片绘制到屏幕上的方法。具体来讲是绘制下面这张图片。</p>
 
 <!-- more -->
 
 
 <p><img src="/sdltutorialcn/images/blogimages/1-26/hello.bmp">
-你可以通过右键另存为下载这张图片。<del>这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 </del>这个版本库同时也是我教程中例子的源代码和其他相关资源（assets）的主页。如果你丢了资源或者想要偷看一下我的代码，就从<a href = "https://github.com/Twinklebear/TwinklebearDev-Lessons">这里</a>抓好了。但是，不要复制粘贴！</p>
+你可以通过右键另存为下载这张图片。<del>这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 </del>这个版本库同时也是我教程中例子的源代码和其他相关资源（assets）的主页。如果你丢了资源或者想要偷看一下我的代码，就从<a href = "https://github.com/Twinklebear/TwinklebearDev-Lessons">这里</a>抓好了。但你可不要只复制粘贴代码！</p>
 
 <p>第一步总是include SDL的头文件</p>
 
@@ -105,7 +105,7 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>#include "SDL.h"</span></code></pre></td></tr></table></div></figure>
 
 
-<p>注意，这依赖于你的SDL设置。对Linux用户来说，也许需要这样做：</p>
+<p>注意，这依赖于你的SDL设置。对Linux用户来说，也许需要这么写：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -121,7 +121,7 @@
 
 <p>首先我们需要启动SDL以便使用它。注意：如果SDL初始化失败的话，它会返回-1。这样的情况下，我们可以使用SDL_GetError()函数来输出错误消息，然后退出程序。</p>
 
-<p>对Visual Studio用户的特殊说明：如果你在连接器选项中把子系统设置为了windows，你将不会看到输出到控制台的结果。要获得这个结果，你必须把子系统改为“未设置”并且把#undef main放到main函数前面。当改回windows子系统的时候，你要确认一下你把#undef main这行代码去掉了，否则你会得到链接错误。</p>
+<p>针对Visual Studio用户的说明：如果你在连接器选项中把子系统设置为了windows，你将不会看到输出到控制台的结果。要获得这个结果，你必须把子系统改为“未设置”并且把#undef main放到main函数前面。当改回windows子系统的时候，你要确认一下你把#undef main这行代码去掉了，否则你会得到链接错误。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=a.cpp'></script>
 <noscript><pre><code>int main(int argc, char** argv){
@@ -204,7 +204,7 @@
 <noscript><pre><code>    SDL_Delay(2000);</code></pre></noscript></div>
 
 
-<p>在我们退出程序之前，我们有必要释放掉我们这个窗口、renderer还有texture所用的全部内存。这可以通过调用几个SDL_Destroy来完成。</p>
+<p>在退出程序之前，我们有必要释放掉我们这个窗口、renderer还有texture所用的全部内存。这可以通过调用几次SDL_Destroy来完成。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=h.cpp'></script>
 <noscript><pre><code>    SDL_DestroyTexture(tex);
@@ -220,16 +220,21 @@
 }</code></pre></noscript></div>
 
 
-<p>编译并检查这个程序吧！不要忘了把SDL.dll放到你的可执行文件的文件夹里，否则你会得到一个弹出的错误提示。如果你用的是linux系统，你应该已经安装了SDL的共享库了，所以你应该不会遇到什么问题。</p>
+<p>然后编译并检查这个程序吧！不要忘了把SDL.dll放到你的可执行文件的文件夹里，否则你会看到它弹出错误提示。如果你用的是linux系统，你应该已经安装了SDL的共享库了，所以你应该不会遇到什么问题。</p>
 
 <p>现在，恭喜你写出第一个SDL2.0程序！</p>
 
-<p> Troubleshooting
- If your program fails to compile make sure you&#8217;ve properly configured your libraries and linked to the correct path in your include statement.</p>
+<p>Troubleshooting</p>
 
-<p> If your program complains about SDL.dll missing, make sure it is located in the same folder as the executable.</p>
+<p>If your program fails to compile make sure you&#8217;ve properly configured your libraries and linked to the correct path in your include statement.</p>
 
-<p> If your program runs but exits with out displaying anything make sure your image path is set correctly. If that doesn&#8217;t help try writing some cout or file output into the program, although depending on your platform and configuration settings cout may not appear.</p>
+<p>If your program complains about SDL.dll missing, make sure it is located in the same folder as the executable.</p>
+
+<p>如果你的程序报错说SDL.dll丢失，确认你是不是已经把它放在了可执行文件所在的文件夹里。</p>
+
+<p>If your program runs but exits with out displaying anything make sure your image path is set correctly. If that doesn&#8217;t help try writing some cout or file output into the program, although depending on your platform and configuration settings cout may not appear.</p>
+
+<p>如果你的程序运行之后却什么都没显示，很快退出了，那么确认一下你的图片路径写对了。如果这还不行，你可以试着写一些cout或者输出到文件来看错误提示。不过取决于你的平台还有配置选项，cout的结果可能不会显示。</p>
 
 <p>第一节结束。</p>
 
