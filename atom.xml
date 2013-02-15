@@ -4,7 +4,7 @@
   <title><![CDATA[SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-02-15T22:25:17+08:00</updated>
+  <updated>2013-02-16T00:03:56+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -931,8 +931,13 @@ C++11说明</h3>
   <br>
   <b>SDL_mixer的说明：</b>
 很不幸我没能在Visual Studio中生成SDL_mixer，尽管它能在Linux里正常使用。所以我觉得Visual Studio的工程文件有点问题。
-  <br>
-  <br>
+  <br></p>
+
+<p><em>译注:谢谢Shuenhoy同学的提示，SDL_mixer已经可以在VC中编译成功，情况是这样的：</em></p>
+
+<p><em>SDL_mixer只包含了一个VS2008对应的sln文件，而想要在VS更高版本里用的话就必须转换，但如果你用的是vs的express版，它并不包含x64的工具集，这就导致解决方案转换失败。分别用文本编辑器打开这四个项目的.vcproj文件，将VisualStudioProject-Configurations节点下与x64相关的Configuration节点及其子节点全部删除，注意需要删除的有Release和Debug两块。除此之外，还有一个邪恶又简便的解决方案,在%ProgramFiles%\MSBuild\Microsoft.Cpp\v4.0\Platforms下，复制Win32文件夹并粘贴后重命名为x64，也可以通过“欺骗”VS来解决这个问题。</em></p>
+
+<p>  <br>
 当你全部生成完所有的库之后，你要把头文件，lib库文件还有dll放到你不会忘得地方，因为我们会在我们的项目中使用到这些文件。我的路径是C:\
   <br>
   <br>
@@ -968,7 +973,7 @@ Linux用户只需要使用标准的configure,make,make install.注意要记下�
 <h3>Welcome!</h3>
 
 
-<p>下面的教程目的是为你提供一个关于SDL2.0以及c++中游戏设计主题和概念的介绍。在本教程中，我们假定你对C++有一定程度上的知识，至少了解数组，vector，控制结构，函数还有指针。<br /><br />
+<p>下面的教程旨在为你提供一个SDL2.0以及c++中游戏设计和相关概念的介绍。在本教程中，我们假定你对C++有一定程度上的知识，至少了解数组，vector，控制结构，函数还有指针。<br /><br />
 如果你觉得理解教程中的代码有困难，你可以在教程后面随意留言，或者在<a href="http://stackoverflow.com/questions/388242/the-definitive-c-book-guide-and-list">StackOverflow</a>上的这个列表里抓一本书来读。<br /><br />
 如果你想要查看或者下载全部的程序代码，你可以在<a href="https://github.com/Twinklebear/TwinklebearDev-Lessons">Github</a>上下载到。但是不要复制！<br /><br />
 SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage">online wiki</a>上查看到。<br /><br /></p>
