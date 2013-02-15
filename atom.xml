@@ -4,7 +4,7 @@
   <title><![CDATA[SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-02-16T00:03:56+08:00</updated>
+  <updated>2013-02-16T00:25:43+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[第八节：定时器]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·第八节：定时器]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-8-timers/"/>
     <updated>2013-01-28T12:17:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-8-timers</id>
@@ -23,7 +23,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[第七节：充分利用类]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·第七节：充分利用类]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-7-taking-advantage-of-classes/"/>
     <updated>2013-01-28T12:17:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-7-taking-advantage-of-classes</id>
@@ -32,7 +32,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[第六节: 使用SDL_ttf绘制True Type字体]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·<br>第六节: 使用SDL_ttf绘制True Type字体]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-6-true-type-fonts-with-sdl-ttf/"/>
     <updated>2013-01-28T12:16:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-6-true-type-fonts-with-sdl-ttf</id>
@@ -41,7 +41,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[第五节：裁剪精灵表]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·<br>第五节：裁剪精灵表]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-5-clipping-sprite-sheets/"/>
     <updated>2013-01-28T12:16:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-5-clipping-sprite-sheets</id>
@@ -196,7 +196,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[第四节：事件驱动的编程]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·<br>第四节：事件驱动的编程]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-4-event-driven-programming/"/>
     <updated>2013-01-28T12:15:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-4-event-driven-programming</id>
@@ -311,7 +311,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[第三节：SDL扩展库]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·第三节：SDL扩展库]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/"/>
     <updated>2013-01-28T11:49:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries</id>
@@ -434,7 +434,7 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[第二节：别什么都塞进main里]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·<br>第二节：别什么都塞进main里]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/"/>
     <updated>2013-01-28T00:46:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main</id>
@@ -662,7 +662,7 @@ If you have trouble compiling or running the program make sure you&#8217;ve set 
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[第一节: Hello World!]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·第一节: Hello World!]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/"/>
     <updated>2013-01-26T20:22:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world</id>
@@ -818,7 +818,7 @@ If you have trouble compiling or running the program make sure you&#8217;ve set 
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[【翻译SDL2.0教程】在Visual Studio中配置SDL]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·<br>在Visual Studio中配置SDL]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/"/>
     <updated>2013-01-26T13:34:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio</id>
@@ -883,7 +883,7 @@ If you have trouble compiling or running the program make sure you&#8217;ve set 
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[【翻译SDL2.0教程】第0节：配置SDL]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·第0节：配置SDL]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/"/>
     <updated>2013-01-25T23:28:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl</id>
@@ -941,7 +941,7 @@ C++11说明</h3>
 当你全部生成完所有的库之后，你要把头文件，lib库文件还有dll放到你不会忘得地方，因为我们会在我们的项目中使用到这些文件。我的路径是C:\
   <br>
   <br>
-  <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/">这里</a>有如何创建你第一个SDL项目的教程。
+  <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/">这里</a>有如何在VS里创建你第一个SDL项目的教程。
   <br>
   <br>
   <h3>
@@ -964,7 +964,7 @@ Linux用户只需要使用标准的configure,make,make install.注意要记下�
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[【翻译SDL2.0教程】目录]]></title>
+    <title type="html"><![CDATA[SDL2.0教程翻译·目录]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/"/>
     <updated>2013-01-25T23:12:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index</id>
