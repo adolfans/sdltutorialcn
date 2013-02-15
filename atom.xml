@@ -4,7 +4,7 @@
   <title><![CDATA[SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-02-16T00:54:37+08:00</updated>
+  <updated>2013-02-16T01:23:31+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -14,37 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·第八节：定时器]]></title>
-    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-8-timers/"/>
-    <updated>2013-01-28T12:17:00+08:00</updated>
-    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-8-timers</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·第七节：充分利用类]]></title>
-    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-7-taking-advantage-of-classes/"/>
-    <updated>2013-01-28T12:17:00+08:00</updated>
-    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-7-taking-advantage-of-classes</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·<br>第六节: 使用SDL_ttf绘制True Type字体]]></title>
-    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-6-true-type-fonts-with-sdl-ttf/"/>
-    <updated>2013-01-28T12:16:00+08:00</updated>
-    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-6-true-type-fonts-with-sdl-ttf</id>
-    <content type="html"><![CDATA[
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[SDL2.0教程翻译·<br>第五节：裁剪精灵表]]></title>
-    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-5-clipping-sprite-sheets/"/>
-    <updated>2013-01-28T12:16:00+08:00</updated>
-    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-5-clipping-sprite-sheets</id>
+    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/"/>
+    <updated>2013-02-14T16:16:00+08:00</updated>
+    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets</id>
     <content type="html"><![CDATA[<p>原文链接: <a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html</a></p>
 
 <p>It&#8217;s very common in sprite based games to use a large image file containing many smaller images, such as tiles for a tileset, as opposed to having a separate image file for each tile. This type of image is known as a sprite sheet, and is very useful because we don&#8217;t need to have a separate image file for each image in the game but instead can just draw the subset of the sheet that we want.</p>
@@ -197,9 +170,9 @@
   
   <entry>
     <title type="html"><![CDATA[SDL2.0教程翻译·<br>第四节：事件驱动的编程]]></title>
-    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-4-event-driven-programming/"/>
-    <updated>2013-01-28T12:15:00+08:00</updated>
-    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-4-event-driven-programming</id>
+    <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/"/>
+    <updated>2013-02-12T12:15:00+08:00</updated>
+    <id>http://adolfans.github.com/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming</id>
     <content type="html"><![CDATA[<p>原文链接：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html</a></p>
 
 <p>Now that we&#8217;ve learned how to draw images to the screen it&#8217;s time to learn how to read user input. Our game won&#8217;t be very good if there&#8217;s no way to play it! In this lesson we will cover simple event handling using SDL and begin designing a primitive &#8216;main loop&#8217;.</p>
@@ -315,7 +288,9 @@
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/"/>
     <updated>2013-01-28T11:49:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries</id>
-    <content type="html"><![CDATA[<p>通过上一节的学习，你也许会怀疑SDL是否能读取BMP以外的图片格式。尽管SDL本身并不提供读取非BMP图片的功能，但包括读取多种图片格式的SDL_image，渲染true-type字体的SDL_ttf，支持更多音乐格式的SDL_mixer，支持网络的SDL
+    <content type="html"><![CDATA[<p>原文链接：</p>
+
+<p>通过上一节的学习，你也许会怀疑SDL是否能读取BMP以外的图片格式。尽管SDL本身并不提供读取非BMP图片的功能，但包括读取多种图片格式的SDL_image，渲染true-type字体的SDL_ttf，支持更多音乐格式的SDL_mixer，支持网络的SDL
 _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
 
 <!-- more -->
@@ -989,9 +964,9 @@ SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage
 
 <p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-3-sdl-extension-libraries.html">Lesson 3: SDL Extension Libraries</a>       <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/">第三节：SDL扩展库</a></p>
 
-<p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">Lesson 4: Event Driven Programming</a>         <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-4-event-driven-programming/">第四节：事件驱动的编程</a></p>
+<p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">Lesson 4: Event Driven Programming</a>         <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/">第四节：事件驱动的编程</a></p>
 
-<p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">Lesson 5: Clipping Sprite Sheets</a>     <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-5-clipping-sprite-sheets/">第五节：裁剪精灵表</a></p>
+<p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">Lesson 5: Clipping Sprite Sheets</a>     <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">第五节：裁剪精灵表</a></p>
 
 <p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">Lesson 6: True Type Fonts with SDL_ttf</a>  <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-6-true-type-fonts-with-sdl-ttf/">第六节: 使用SDL_ttf绘制True Type字体</a></p>
 
