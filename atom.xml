@@ -4,7 +4,7 @@
   <title><![CDATA[SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-02-15T11:34:45+08:00</updated>
+  <updated>2013-02-15T22:25:17+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -517,9 +517,11 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 
 <p>Now that we&#8217;ve got our SDL_Rect set up we can pass it, along with the renderer and texture as before, to SDL_RenderCopy so that our texture will be drawn at the point specified and with its original width and height. The remaining NULL parameter in this function is for taking a clip of the source texture, which we&#8217;ll cover later.</p>
 
-<p>现在我们已经有了SDL_Rect，我们可以把它还有renderer，以及之前的texture传给SDL_RenderCopy ，这样texture就会以它原始的尺寸绘制在我们制定的位置。剩下的那个NULL的参数是为了裁剪原来的texture只用的，这点我们会在后面提及。
- Let&#8217;s see our functions in action. First we&#8217;ve got to start up SDL and create our window and renderer as before. We&#8217;ve also got something new here, SDL_WINDOWPOS_CENTERED. This is an option we can use when creating our window to tell SDL to center its position on the specified axis, here we do it for x and y.
-现在我们实际看一下我们的函数。首先我们和以前一样开启SDL，创建窗口还有renderer。这里还有个新东西，SDL_WINDOWPOS_CENTERED.这是个可以用来在创建窗口的时候告诉SDL把窗口设到指定坐标轴中央的选项，这里我们指定的是x和y。</p>
+<p>现在我们已经有了SDL_Rect，我们可以把它还有renderer，以及之前的texture传给SDL_RenderCopy ，这样texture就会以它原始的尺寸绘制在我们制定的位置。剩下的那个NULL的参数是为了裁剪原来的texture之用的，这点我们会在后面提及。</p>
+
+<p>Let&#8217;s see our functions in action. First we&#8217;ve got to start up SDL and create our window and renderer as before. We&#8217;ve also got something new here, SDL_WINDOWPOS_CENTERED. This is an option we can use when creating our window to tell SDL to center its position on the specified axis, here we do it for x and y.</p>
+
+<p>现在我们实际看一下我们的函数。首先我们和以前一样开启SDL，创建窗口还有renderer。这里还有个新东西，SDL_WINDOWPOS_CENTERED.这是个可以用来在创建窗口的时候告诉SDL把窗口设到指定坐标轴中央的选项，这里我们指定的是x和y。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=4.cpp'></script>
 <noscript><pre><code>int main(int argc, char** argv){
@@ -542,8 +544,9 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
     }</code></pre></noscript></div>
 
 
-<p> Now let&#8217;s load up our images. For this lesson we&#8217;ll be drawing a tiled background image and drawing a centered image on top of it. Here&#8217;s our background:
-现在我们加载图片。本节我们将绘制一个平铺的背景图还有位于它上面的一张居中的图。张是我们的背景图：</p>
+<p>Now let&#8217;s load up our images. For this lesson we&#8217;ll be drawing a tiled background image and drawing a centered image on top of it. Here&#8217;s our background:</p>
+
+<p>现在我们加载图片。本节我们将绘制一个平铺的背景图还有位于它上面的一张居中的图。张是我们的背景图：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson2/background.bmp"></p>
 
@@ -563,22 +566,30 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
         return 4;</code></pre></noscript></div>
 
 
-<p> Note that you will have to change the file paths to match the relative location of the image to the executable on your system.
-注意你也许需要更改文件路径以便与文件实际运行的路径匹配。
- Before we draw the images we&#8217;ll need to know where we want to position them, specifically how we&#8217;ll tile our background and also how we can draw the foreground image centered on the screen. First we&#8217;ll have to understand how SDL&#8217;s coordinate system works, as it is a bit different than the standard 2D Cartesian coordinate system. SDL&#8217;s coordinate system looks like this:
-在绘制图片之前，我们需要知道我们要把它们放在那里，特别是我们应该如何平铺背图，还有如何把前景图绘制在屏幕中央。首先，我们必须弄明白SDL的坐标系统是怎样工作的。SDL的坐标系统看起来是这样的：
-<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson2/sdlcoord.png">
-With 0, 0 being in the top-left corner of the screen. Y values increase as we move down the screen and X values increase as we move to the right on the screen. Another thing to note about SDL&#8217;s coordinate system is that the x, y point specified to draw an image at is used as the location to draw the top-left corner of the image, as opposed to the center of the image like some other libraries.
-坐标0,0处从屏幕左上角开始。Y坐标从上到下增加，X坐标从左到右增加。另外还有一个需要注意的问题，SDL的坐标系统是，指定的图片绘制的x,y坐标，将以这个坐标为图片左上角的坐标来绘制——而不是像其他一些库一样把这个坐标当作图片的中心。</p>
+<p>Note that you will have to change the file paths to match the relative location of the image to the executable on your system.
+注意你也许需要更改文件路径以便与文件实际运行的路径匹配。</p>
+
+<p>Before we draw the images we&#8217;ll need to know where we want to position them, specifically how we&#8217;ll tile our background and also how we can draw the foreground image centered on the screen. First we&#8217;ll have to understand how SDL&#8217;s coordinate system works, as it is a bit different than the standard 2D Cartesian coordinate system. SDL&#8217;s coordinate system looks like this:</p>
+
+<p>在绘制图片之前，我们需要知道我们要把它们放在那里，特别是我们应该如何平铺背图，还有如何把前景图绘制在屏幕中央。首先，我们必须弄明白SDL的坐标系统是怎样工作的。SDL的坐标系统看起来是这样的：</p>
+
+<p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson2/sdlcoord.png"></p>
+
+<p>With 0, 0 being in the top-left corner of the screen. Y values increase as we move down the screen and X values increase as we move to the right on the screen. Another thing to note about SDL&#8217;s coordinate system is that the x, y point specified to draw an image at is used as the location to draw the top-left corner of the image, as opposed to the center of the image like some other libraries.</p>
+
+<p>坐标0,0处从屏幕左上角开始。Y坐标从上到下增加，X坐标从左到右增加。另外还有一个需要注意的问题，SDL的坐标系统是，指定的图片绘制的x,y坐标，将以这个坐标为图片左上角的坐标来绘制——而不是像其他一些库一样把这个坐标当作图片的中心。</p>
 
 <p>Before we draw: A note about SDL&#8217;s drawing order: The order in which things are drawn will be the order in which they sit on top of each other, so the first thing drawn is the bottom-most image, and the last image drawn will sit on top of everything.</p>
 
 <p>在绘制之前，还有一个需要注意的问题：SDL的绘制顺序。我们绘制时的顺序就是图像叠加的顺序，所以我们首先绘制的东西将位于最底层，最后绘制的将位于所有图像的最上层。</p>
 
-<p> If you&#8217;ve taken a peek at the background image yet you&#8217;ll have noticed that it has a width of 320 and a height of 240, with a screen that is 640x280 we&#8217;ll need to draw the background image four times to tile it over the window scooting it over by its width or height each time.
-如果你看了那张背景图，你会发现这张图长320宽240，如果是640x480的屏幕的话，我们需要把它画四次以覆盖整个窗口，每次都要依据图片长宽来移动图片。
- Before drawing anything, we&#8217;ll want to clear the screen, next we&#8217;ll want to setup the positioning of elements on the window. We can get the width and height of the image again by using the QueryTexture function on the background, this gives us a more versatile method in which we could instead create a for loop to iterate over the positions based on the image width and height, perhaps if we were placing many small tiles. For this case we&#8217;re only drawing it four times, so we can take the &#8216;dumb&#8217; route and just type it out.
-在绘制之前，我们需要清屏，然后创建好需要画到窗口中的元素。我们可以通过QueryTexture函数来获取背景图的长和宽，它为我们提供了相较之用一个for循环来迭代图像的长宽的一个更便捷的方法，如果我们需要绘制很多小的tile（方块？就是2D游戏中常见的一张图储存了很多种方块，方块的不同排列组成场景的不同部分。。。的那种方块。= =||）因此，我们只需要画四次，因此，我们可以采取&#8217;哑巴&#8217;的路线，只需键入它。(我承认后半句是google翻译姬= =)</p>
+<p>If you&#8217;ve taken a peek at the background image yet you&#8217;ll have noticed that it has a width of 320 and a height of 240, with a screen that is 640x280 we&#8217;ll need to draw the background image four times to tile it over the window scooting it over by its width or height each time.</p>
+
+<p>如果你看了那张背景图，你会发现这张图长320宽240，如果是640x480的屏幕的话，我们需要把它画四次以覆盖整个窗口，每次都要依据图片长宽来移动图片。</p>
+
+<p>Before drawing anything, we&#8217;ll want to clear the screen, next we&#8217;ll want to setup the positioning of elements on the window. We can get the width and height of the image again by using the QueryTexture function on the background, this gives us a more versatile method in which we could instead create a for loop to iterate over the positions based on the image width and height, perhaps if we were placing many small tiles. For this case we&#8217;re only drawing it four times, so we can take the &#8216;dumb&#8217; route and just type it out.</p>
+
+<p>在绘制之前，我们需要清屏，然后创建好需要画到窗口中的元素。我们可以通过QueryTexture函数来获取背景图的长和宽，它为我们提供了相较之用一个for循环来迭代图像的长宽的一个更便捷的方法，如果我们需要绘制很多小的tile（方块？就是2D游戏中常见的一张图储存了很多种方块，方块的不同排列组成场景的不同部分。。。的那种方块。= =||）在本例中我们一共只需要画四次，所以我们用笨方法直接敲四次代码好了。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=6.cpp'></script>
 <noscript><pre><code>    SDL_RenderClear(renderer);
@@ -591,8 +602,9 @@ With 0, 0 being in the top-left corner of the screen. Y values increase as we mo
     ApplySurface(bW, bH, background, renderer);</code></pre></noscript></div>
 
 
-<p> Now we want to draw our foreground image on top of the background, and centered in the window. We can calculate the center point quite easily but because the point we pass to ApplySurface is the location of the top-left corner of the image we must also apply an offset to the point relative to the image&#8217;s width for x and height for y to put the real center of the image at the center point of the screen.
-现在，我们想要把前景图画在背景图上方并在窗口中居中显示。我们可以很容易地计算出中间点的坐标，但是因为传入ApplySurface函数的图片坐标应该在图片左上角，我们必须给这个点应用一个基于原图像宽度和高度的偏移，以把图片正确地放到屏幕中央。</p>
+<p>Now we want to draw our foreground image on top of the background, and centered in the window. We can calculate the center point quite easily but because the point we pass to ApplySurface is the location of the top-left corner of the image we must also apply an offset to the point relative to the image&#8217;s width for x and height for y to put the real center of the image at the center point of the screen.</p>
+
+<p>现在，我们想要把前景图画在背景图上方并在窗口中居中显示。我们可以很容易地计算出中间点的坐标，但是因为传入ApplySurface函数的图片坐标应该在图片左上角，我们必须给这个点应用一个基于原图像宽度和高度的偏移，以把图片正确地放到屏幕中央。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=7.cpp'></script>
 <noscript><pre><code>    int iW, iH;
@@ -602,16 +614,18 @@ With 0, 0 being in the top-left corner of the screen. Y values increase as we mo
     ApplySurface(x, y, image, renderer);</code></pre></noscript></div>
 
 
-<p> In order to see our drawing we&#8217;ll have to present the renderer and then have SDL wait for a second or two so we have a chance to see the image.
-为了看到我们绘制的结果，我们需要把renderer呈现（present）出来，并且让SDL等待一两秒钟以便于我们能看到显示的图像。</p>
+<p>In order to see our drawing we&#8217;ll have to present the renderer and then have SDL wait for a second or two so we have a chance to see the image.</p>
+
+<p>为了看到我们绘制的结果，我们需要把renderer呈现（present）出来，并且让SDL等待一两秒钟以便于我们能看到显示的图像。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=8.cpp'></script>
 <noscript><pre><code>    SDL_RenderPresent(renderer);
     SDL_Delay(2000);</code></pre></noscript></div>
 
 
-<p> Finally, we wrap up the program by freeing the memory being used by the textures, renderer and window, quit SDL and return.
-最后，我们为了圆满地结束这个程序，需要释放掉texture、renderer还有window所占用的内存，退出SDL并返回。</p>
+<p>Finally, we wrap up the program by freeing the memory being used by the textures, renderer and window, quit SDL and return.</p>
+
+<p>最后，我们为了圆满地结束这个程序，需要释放掉texture、renderer还有window所占用的内存，退出SDL并返回。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=9.cpp'></script>
 <noscript><pre><code>    SDL_DestroyTexture(background);
@@ -625,19 +639,25 @@ With 0, 0 being in the top-left corner of the screen. Y values increase as we mo
 }</code></pre></noscript></div>
 
 
-<p> When you compile and run the program your window should look like this:
-当你编译并运行了这个程序，你的窗口看起来应该这样的：
-<img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson2/Lesson2_Result.png"></p>
+<p>When you compile and run the program your window should look like this:</p>
 
-<p> Lesson 2 Extra Challenge!
- Find a way to convert our dumb method of tiling the background into a lean mean for loop! While it may not be so effecient for four background tiles, using a for loop for tiling is a very nice method for placing a large amount of tiles.
- Hint
-第二节的额外挑战！</p>
+<p>当你编译并运行了这个程序，你的窗口看起来应该这样的：</p>
 
-<p> End of Lesson 2: Don&#8217;t Put Everything in Main
- If you have trouble compiling or running the program make sure you&#8217;ve set up the includes, include directories, linker settings and linker directories correctly, along with setting the correct path to the images and placing the SDL.dll in your executable folder. For Linux users there is no SDL.dll but instead make sure you have the runtime libraries in the correct place in your system.</p>
+<p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson2/Lesson2_Result.png"></p>
 
-<p> I&#8217;ll see you again soon in Lesson 3: SDL Extension Libraries!</p>
+<p>Lesson 2 Extra Challenge!
+Find a way to convert our dumb method of tiling the background into a lean mean for loop! While it may not be so effecient for four background tiles, using a for loop for tiling is a very nice method for placing a large amount of tiles.</p>
+
+<p>Hint</p>
+
+<p>第二节的额外挑战！</p>
+
+<p>找到把我们之前平铺背景的本方法变成</p>
+
+<p>End of Lesson 2: Don&#8217;t Put Everything in Main
+If you have trouble compiling or running the program make sure you&#8217;ve set up the includes, include directories, linker settings and linker directories correctly, along with setting the correct path to the images and placing the SDL.dll in your executable folder. For Linux users there is no SDL.dll but instead make sure you have the runtime libraries in the correct place in your system.</p>
+
+<p>I&#8217;ll see you again soon in Lesson 3: SDL Extension Libraries!</p>
 ]]></content>
   </entry>
   
@@ -956,15 +976,23 @@ SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage
 <h3>教程目录：</h3>
 
 
-<p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-0-setting-up-sdl.html"><b>Lesson 0: Setting up SDL</b></a>&nbsp;<a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/">第0节：配置SDL</a> <br />
-<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-1-hello-world.html"><b>Lesson 1: Hello World!</b></a>&nbsp;<a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/">第一节: Hello World!</a> <br />
-<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-2-dont-put-everything-in-main.html"><b>Lesson 2: Don&#8217;t Put Everything in Main</b></a>&nbsp;<a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/">第二节：别什么都塞进main里</a> <br />
-<b><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-3-sdl-extension-libraries.html">Lesson 3: SDL Extension Libraries&nbsp;</a></b><br />
-<b><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">Lesson 4: Event Driven Programming</a></b><br />
-<a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html"><b>Lesson 5: Clipping Sprite Sheets&nbsp;&nbsp;</b></a><br />
-<a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html"><b>Lesson 6: True Type Fonts with SDL_ttf</b></a><br />
-<b><a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">Lesson 7: Taking Advantage of Classes</a></b><br />
-<a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html"><b>Lesson 8: Timers </b></a></p>
+<p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-0-setting-up-sdl.html">Lesson 0: Setting up SDL</a>                 <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/">第0节：配置SDL</a></p>
+
+<p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-1-hello-world.html">Lesson 1: Hello World!</a>                  <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/">第一节: Hello World!</a></p>
+
+<p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-2-dont-put-everything-in-main.html">Lesson 2: Don&#8217;t Put Everything in Main</a>  <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/">第二节：别什么都塞进main里</a></p>
+
+<p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-3-sdl-extension-libraries.html">Lesson 3: SDL Extension Libraries</a>       <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/">第三节：SDL扩展库</a></p>
+
+<p><a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">Lesson 4: Event Driven Programming</a>         <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-4-event-driven-programming/">第四节：事件驱动的编程</a></p>
+
+<p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">Lesson 5: Clipping Sprite Sheets</a>     <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-5-clipping-sprite-sheets/">第五节：裁剪精灵表</a></p>
+
+<p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">Lesson 6: True Type Fonts with SDL_ttf</a>  <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-6-true-type-fonts-with-sdl-ttf/">第六节: 使用SDL_ttf绘制True Type字体</a></p>
+
+<p><a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">Lesson 7: Taking Advantage of Classes</a>   <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a></p>
+
+<p><a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">Lesson 8: Timers</a>                         <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-8-timers/">第八节：定时器</a></p>
 ]]></content>
   </entry>
   
