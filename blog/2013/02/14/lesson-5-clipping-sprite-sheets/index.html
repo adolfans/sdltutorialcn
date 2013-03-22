@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>SDL2.0教程翻译·<br>第五节：裁剪精灵表 - SDL中文教程</title>
+  <title>SDL2.0教程翻译·第五节：裁剪精灵表 - SDL中文教程</title>
   <meta name="author" content="Adolfans">
 
   
@@ -37,7 +37,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/sdltutorialcn/">SDL中文教程</a></h1>
   
-    <h2>_(:3」∠)_目前一团乱还请各位见谅<br>邮箱:adolfans@gmail.com，Google+:+Snafloda Christin。总之各位随意~</h2>
+    <h2>_(:3」∠)_目前一团乱还请各位见谅<br>总之各位随意~</h2>
   
 </hgroup>
 
@@ -69,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">SDL2.0教程翻译·<br>第五节：裁剪精灵表</h1>
+      <h1 class="entry-title">SDL2.0教程翻译·第五节：裁剪精灵表</h1>
     
     
       <p class="meta">
@@ -162,11 +162,11 @@
 
 <p>We now need to set up our clip rects, which we&#8217;ll store inside an array. Instead of typing all of our clips out by hand which is very tedious for images with lots of clips, we can take advantage of the pattern in which our image file is constructed to automate the creation of the clip rects with a for loop. If you did the extra challenge from Lesson 2 this method should look quite familiar.</p>
 
-<p>我们现在需要准备好我们的裁剪矩形，把它们存储在一个数组里面。</p>
+<p>我们现在需要准备好我们的裁剪矩形，把它们存储在一个数组里面。为了避免手动输入所有的裁剪数据的繁琐，我们可以充分使用在生成图像的时候自动循环生成裁剪矩形的方法。如果你完成了第二节中的extra challenge，这个方法对你来说会更容易上手一点。</p>
 
 <p>First we specify the width and height each clip should be, in this case 100x100 and we create an array to store four SDL_Rects to hold our clips. Next we use our knowledge of the arrangement of our clips to create a for loop with a column counter to appropriately set the x,y coordinate for each clip.</p>
 
-<p>首先我们指定每一次裁剪的宽和高，在本例中100x100</p>
+<p>首先我们指定每一次裁剪的宽和高，在本例中我们制定为100x100，并且定义一个存储四个SDL_Rect的数组。然后我们创建一个for循环还有一个计数器来适当地设置每次裁剪的坐标。</p>
 
 <div><script src='https://gist.github.com/3185765.js?file=3.cpp'></script>
 <noscript><pre><code>    //iW and iH are the desired clip width and height
@@ -186,22 +186,34 @@
 </code></pre></noscript></div>
 
 
-<p> If you didn&#8217;t do the Lesson 2 challenge or are feeling a bit lost, let me explain how this works. We want to create four clips, so we set our loop to run four times, from zero to three to match the array indices. We also need to track which column we&#8217;re going down so that we can correctly set the x coordinate for our clip, we&#8217;ll begin with column zero and will increment the column value when we move over, which would be at the third clip, ie. i % 2 == 0 since we start counting from zero. We also want to make sure we don&#8217;t increment column when we first start out, because 0 % 2 is also 0, so we put a condition to ignore that case.</p>
+<p>If you didn&#8217;t do the Lesson  2 challenge or are feeling a bit lost, let me explain how this works. We want to create four clips, so we set our loop to run four times, from zero to three to match the array indices. We also need to track which column we&#8217;re going down so that we can correctly set the x coordinate for our clip, we&#8217;ll begin with column zero and will increment the column value when we move over, which would be at the third clip, ie. i % 2 == 0 since we start counting from zero. We also want to make sure we don&#8217;t increment column when we first start out, because 0 % 2 is also 0, so we put a condition to ignore that case.</p>
 
-<p> Now we&#8217;ll want to calculate the x and y coordinates for our clip in the image. We want to increment the x coordinate by the image width each time we move over a column, and increase the y each time we move down one in the column. The x coordinate setting should be clear, we can just use tile width * column. The y coordinate setting uses our current loop iteration mod the number of clips per column to determine which row we&#8217;re on. We then multiple this row number by the tile height to get the location in pixels. The width and height are uniform for all clips so we can just set them, without any extra calculations.</p>
+<p>如果你没有完成第二节的extra challenge或者你觉得这有点困难，我来解释一下这是怎样运作的。我们想要创建四次裁剪，所以我们for循环了四次，从0到3以匹配数组的下标。我们还需要把当前正在使用的列数保存下来，以便于正确地设置裁剪时的x坐标。从第0列开始向右移动，经过第三次裁剪，也就是从0开始遇到的i%2 == 0的时候列数增加.我们还需要确认当开始第一次裁剪的时候我们是位于第0列的，由于0%2结果也是0，所以我们设置了一个条件判断来忽略这种情况。</p>
+
+<p>Now we&#8217;ll want to calculate the x and y coordinates for our clip in the image. We want to increment the x coordinate by the image width each time we move over a column, and increase the y each time we move down one in the column. The x coordinate setting should be clear, we can just use tile width * column. The y coordinate setting uses our current loop iteration mod the number of clips per column to determine which row we&#8217;re on. We then multiple this row number by the tile height to get the location in pixels. The width and height are uniform for all clips so we can just set them, without any extra calculations.</p>
+
+<p>现在我们想要计算裁剪时的x和y坐标。我们需要在每次经过一列的时候给x坐标增加一个图片宽度的距离，每次经过一行的时候给y坐标增加一个图片高度的距离。x坐标的设置应该很清楚，我们可以直接设为tile的宽度*列数。y坐标的设置需要使用我们使用当前的循环迭代数与每列裁剪的个数来确认它的像素位置。宽度和高度对于所有的裁剪来说都是均匀的，所以我们可以直接设好它们而不需要多余的计算。</p>
 
 <p> Thus when we run this loop we will create four clips and each clip will take the appropriate coordinate for the sub-rectangle. Still not sure how it works? Try running the for loop in your head and calculating the column, x and y values for each iteration and see where they line up on the sprite sheet.</p>
 
-<p> The last step is to set a value which can track which clip we want to draw, in this case an integer corresponding to the clip&#8217;s index in the array. Let&#8217;s begin by drawing clip 0.</p>
+<p>于是，当我们运行这个循环的时候，我们会创建四个裁剪，每个裁剪会获取其对应的子矩形的坐标。你还不明白它是怎么回事吗？试着在你脑中运行这个循环，并计算列数以及每次迭代的x与y坐标，然后看看它们在精灵表中是怎样排列的吧。</p>
+
+<p>The last step is to set a value which can track which clip we want to draw, in this case an integer corresponding to the clip&#8217;s index in the array. Let&#8217;s begin by drawing clip 0.</p>
+
+<p>最后一步是设置一个让我们知道我们想要绘制的究竟是哪一个裁剪的值，在这里，它就是一个对应于裁剪数组下标的值。我们先把它设为第0个裁剪。</p>
 
 <div><script src='https://gist.github.com/3185765.js?file=4.cpp'></script>
 <noscript><pre><code>    //Specify a default clip to start with
     int useClip = 0;</code></pre></noscript></div>
 
 
-<p> Before beginning our main loop we&#8217;ll also need to set an x and y position to draw the image at. I chose to calculate the center position for the image using the same method as in previous lessons. We&#8217;ll also want to create a bool quit variable and an SDL_Event.</p>
+<p>Before beginning our main loop we&#8217;ll also need to set an x and y position to draw the image at. I chose to calculate the center position for the image using the same method as in previous lessons. We&#8217;ll also want to create a bool quit variable and an SDL_Event.</p>
 
-<p> In order to make sure our clips were set correctly and display correctly we&#8217;ll want to be able to draw each one individually, to do this we can set up some event polling to change the value of useClip so that we can draw each clip.</p>
+<p>在开始主循环之前，我们还需要设置图像的绘制坐标。我选择使用和上一节同样的方法计算出图像的中间坐标。我们还想创建一个bool类型的退出变量以及一个SDL_Event.</p>
+
+<p>In order to make sure our clips were set correctly and display correctly we&#8217;ll want to be able to draw each one individually, to do this we can set up some event polling to change the value of useClip so that we can draw each clip.</p>
+
+<p>为了确认我们的裁剪正确设置并且正确显示了，我们想要单独绘制每一个裁剪。为了做到这一点，我们可以设置一些时间轮训，以此来改变useClip的值，以便于我们可以绘制每一个clip。</p>
 
 <div><script src='https://gist.github.com/3185765.js?file=5.cpp'></script>
 <noscript><pre><code>    //If user presses any key
@@ -231,16 +243,27 @@
 
 <p> Here we check if the input type is a key down event, and then use a switch statement on the key symbol to pick the appropriate response.</p>
 
-<p> Finally in our render section we clear the screen, pass the clip&#8217;s value to our ApplySurface function in the rendering section of our loop:
- <div><script src='https://gist.github.com/3185765.js?file=6.cpp'></script>
+<p>这里我们检查了输入类型是否是一个按键消息，然后在key上使用了switch语句，来选择适当的响应。</p>
+
+<p> Finally in our render section we clear the screen, pass the clip&#8217;s value to our ApplySurface function in the rendering section of our loop:</p>
+
+<p>绘制部分的最后，我们清屏，将裁剪的值传入ApplySurface函数。</p>
+
+<p> <div><script src='https://gist.github.com/3185765.js?file=6.cpp'></script>
 <noscript><pre><code>    ApplySurface(x, y, image, renderer, &amp;clips[useClip]);</code></pre></noscript></div></p>
 
 <p>And finally, present the renderer to display the changes.</p>
 
+<p>最后将renderer呈现出来，让它显示出结果。</p>
+
 <p> When you run the program you should be able to push the number keys 1-4 and see the different colored circles appear individually on screen!</p>
+
+<p>当你运行这个程序的时候，你可以按键盘上的1-4键，然后可以看到不同颜色的圆被单独地绘制到了屏幕上！</p>
 
 <p> End of Lesson 5
  Thanks for joining me! I&#8217;ll see you again soon in Lesson 6: True Type Fonts with SDL_ttf</p>
+
+<p> 感谢加入！我们第六节：使用SDL_ttf绘制True type字体见！</p>
 </div>
 
 
@@ -271,8 +294,6 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/" data-via="" data-counturl="http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/" >Tweet</a>
-  
   
   
 </div>
@@ -282,6 +303,8 @@
       
         <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/" title="Previous Post: SDL2.0教程翻译·<br>第四节：事件驱动的编程">&laquo; SDL2.0教程翻译·<br>第四节：事件驱动的编程</a>
       
+      
+        <a class="basic-alignment right" href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/" title="Next Post: lesson-6-true-type-fonts-with-sdl-ttf">lesson-6-true-type-fonts-with-sdl-ttf &raquo;</a>
       
     </p>
   </footer>
@@ -302,7 +325,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">SDL2.0教程翻译·<br>第五节：裁剪精灵表</a>
+        <a href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/">lesson-6-true-type-fonts-with-sdl-ttf</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">SDL2.0教程翻译·第五节：裁剪精灵表</a>
       </li>
     
       <li class="post">
@@ -317,15 +344,20 @@
         <a href="/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/">SDL2.0教程翻译·<br>第二节：别什么都塞进main里</a>
       </li>
     
-      <li class="post">
-        <a href="/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/">SDL2.0教程翻译·第一节: Hello World!</a>
-      </li>
-    
   </ul>
 </section>
 
 
 
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/117151825287907703585?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
 
 
 
@@ -364,16 +396,6 @@
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 
