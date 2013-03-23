@@ -9,7 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="In this lesson we will start learning how to use the SDL_ttf library to render text using True Type fonts. For this lesson you&#8217;ll need the &hellip;">
+  <meta name="description" content="原文链接：http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html If you recall from the previous lessons we&#8217;ve used a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,7 +72,52 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/">Lesson-6-true-type-fonts-with-sdl-ttf</a></h1>
+      <h1 class="entry-title"><a href="/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-03-24T00:55:00+08:00" pubdate data-updated="true">Mar 24<span>th</span>, 2013</time>
+        
+         | <a href="/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>原文链接：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
+
+<p>If you recall from the previous lessons we&#8217;ve used a global SDL_Window and SDL_Renderer so that we could access them from within our various functions throughout main.cpp, however using non-constant globals is a very bad idea, and when we start wanting to write more complicated programs this method will become unusable.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/">第六节: 使用SDL_ttf绘制True Type字体</a></h1>
     
     
       <p class="meta">
@@ -101,135 +146,12 @@
 
 <p>本节我们将开始学习怎样使用SDL_ttf库来用True type字体绘制文本。本节需要你从Mercurial里预先下载并编译好SDL_ttf库。如果你还没有SDL_ttf的SDL2.0版本，你应该现在下载编译它。这个库和第三节提到的SDL_image的链接方法很相似。</p>
 
-<!-- more --!>
-
-In addition to the library we&#8217;ll need a true type font to use to draw our text. It&#8217;s important that you&#8217;re careful when choosing a font as many fonts are proprietary or have rules about using them in software, and if used without the proper licensing can result in a nasty legal mess. Fortunately for us there are many excellent open fonts available online. For this lesson we&#8217;ll be using a set of open source fonts recently released by Adobe which you can download directly from sourceforge, the specific font I chose for this lesson is SourceSansPro-Regular, but you can use any font you like.
-
-除了这个库之外，我们还需要一个true type字体来绘制文本。需要强调的是你在选择字体的时候要小心，因为很多字体是专有的或者是需要你在使用过程中遵循一定规范。如果未经许可使用，可能会导致一些令人讨厌的法律问题。不过幸运的是，网上仍然有很多优秀又开放的字体。本节我们使用一套最近由Adobe发布的开源字体，你可以从sourceforge上下载到。本节我选用的字体是SourceSansPro-Regular，你可以选任意你喜欢的字体。
-
-Now that we&#8217;ve got our font downloaded and libraries linked up lets take a look at how we can work with fonts via SDL_ttf. The library provides functionality for opening and closing TTF fonts and rendering text to SDL_Surface pointers. The library also lets us specify the color and font size we&#8217;d like to use when rendering the text. You can find the full library documentation here.
-
-既然我们已经下载了字体并链接好了库文件，我们看一下怎样通过SDL_ttf来使用字体。这个库提供了打开和关闭TTF字体与把文本会知道SDL_Surface指针上的功能。这个库还让我们指定绘制文本时的字体和颜色。你可以从这里找到库的文档全文。
-
-首先，我们需要包含SDL_ttf.h头文件。
- First we&#8217;ll need to add SDL_ttf.h to our includes:1
-2
-3
-4
-5
-6   #include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <stdexcept>
-#include <string>
-#include <iostream>
-
-view raw
-1.cpp
-This Gist brought to you by GitHub. 
- In order to use the library we need to initialize it in our main function after initializing SDL. Note that we check for errors similar to how we check for issues when starting SDL, except that now to get the appropriate error information we use TTF_GetError, similar to what we did in Lesson 3 to get SDL_image error information.
-
-为了使用这个库，我们需要在main函数中，初始化SDL完毕后，初始化SDL_ttf库。注意我们在检查错误的时候，使用的方法和检查初始化SDL时问题的方法一样，除了用的是TTF_GetError来获取适当的错误信息之外，和第三节中获取SDL_image的错误信息的方法类似。
-1
-2
-3
-4   if (TTF_Init() == -1){
-    std::cout << TTF_GetError() << std::endl;
-    return 2;
-}
-
-view raw
-2.cpp
-This Gist brought to you by GitHub. 
- Next we&#8217;ll want to make a function to render a message and abstract away the work that goes into it, and simply return an SDL_Texture that we can draw to the screen. In addition to rendering the message the function will also need to convert the SDL_Surface pointer returned from TTF_RenderText_X to a SDL_Texture pointer and return that.
-
-下一步我们要编写一个绘制一行消息的函数并把它所做的工作抽象出来，然后单纯地返回一个我们可以直接绘制到屏幕上的SDL_Texture。除了把消息的文字绘制出来之外，这个函数还需要把TTF_RenderText_X返回的SDL_Surface指针转化为SDL_Texture指针，并将之返回。
-
- The information needed to render the message is the message itself, a font file name, a font size and a font color. We can now add a nice function to render our desired message to our code:
-需要的信息包括需要绘制的消息，一个字体文件名，字体大小以及字体颜色。我们现在可以给我们的代码中添加一个可以绘制我们想要消息的美好的函数了：
- 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18  SDL_Texture* RenderText(std::string message, std::string fontFile, 
-                        SDL_Color color, int fontSize)
-{
-    //Open the font
-    TTF_Font *font = nullptr;
-    font = TTF_OpenFont(fontFile.c_str(), fontSize);
-    if (font == nullptr)
-        throw std::runtime_error(&#8220;Failed to load font: &#8221; + fontFile + TTF_GetError());
-    
-    //Render the message to an SDL_Surface, as that&#8217;s what TTF_RenderText_X returns
-    SDL_Surface *surf = TTF_RenderText_Blended(font, message.c_str(), color);
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surf);
-    //Clean up unneeded stuff
-    SDL_FreeSurface(surf);
-    TTF_CloseFont(font);
- 
-    return texture;
-}
-
-view raw
-3.cpp
-This Gist brought to you by GitHub. 
- That&#8217;s quite a bit of code! Lets step through it and figure out exactly what&#8217;s going on. First, we know that we need a message, font file, font color and font size so that we can properly draw our message. SDL provides the SDL_Color structure that is used for specifying what color we want and takes three values for RGB which can each range from 0-255.
-
- The first step in drawing the text is to open our font, which we do on line 4 using TTF_OpenFont, which takes the font file and the font size to open the font as. Note that the same nullptr error checking that we&#8217;ve used before in LoadImage is used to make sure the font opened ok. If it fails we throw an error and include the font file name that caused the error along with TTF_GetError so that we can have enough information to diagnose the issue.
-
- If the font loaded ok we use TTF_RenderText_Blended to write the message to an SDL_Surface and get the pointer back. There are a few methods provided by SDL_ttf for rendering text, blended is the slowest but provides a nice smooth look. The other methods can be found in the documentation linked above.
-
- However because we use SDL_Textures in our rendering we need to convert the surface over. This isn&#8217;t too difficult because we&#8217;ve made our SDL_Renderer a global and so it&#8217;s easy to pass it into the function SDL_CreateTextureFromSurface. After creating the SDL_Texture we need to clean up things we no longer need to keep in memory, the SDL_Surface and the TTF_Font. We free the surface the same as before and can use TTF_CloseFont to close the font we opened.
-
- Once everything is cleaned up we return the SDL_Texture pointer for usage in the program.
-
- When we want to render some text in our program we can now perform a call like so:1
-2
-3
-4
-5
-6
-7
-8
-9
-10  SDL_Texture *image = nullptr;
-try {
-    SDL_Color color = { 255, 255, 255 };
-    image = RenderText(&#8220;TTF fonts are cool!&#8221;, &#8220;../res/Lesson6/SourceSansPro-Regular.ttf&#8221;, 
-        color, 64);
-}
-catch (const std::runtime_error &e){
-    std::cout << e.what() << std::endl;
-    return 4;
-}
-
-view raw
-4.cpp
-This Gist brought to you by GitHub. 
- Here we render the message &#8220;TTF fonts are cool!&#8221; using the font we downloaded above in white with a font size of 64.
-
- You can then treat the texture as any other texture and draw it the same as we&#8217;ve done previously with our ApplySurface function. If you draw the message centered, you should see something like this when you run the program:
-
- Try playing around with the other TTF_RenderText_X functions and see how they look!
-
- End of Lesson 6
- Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advantage of Classes.
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -287,7 +209,7 @@ This Gist brought to you by GitHub.
       
   <header>
     
-      <h1 class="entry-title"><a href="/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/">SDL2.0教程翻译·<br>第四节：事件驱动的编程</a></h1>
+      <h1 class="entry-title"><a href="/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/">第四节：事件驱动的编程</a></h1>
     
     
       <p class="meta">
@@ -604,9 +526,9 @@ SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage
 
 <p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">Lesson 5: Clipping Sprite Sheets</a>     <a href="/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">第五节：裁剪精灵表</a></p>
 
-<p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">Lesson 6: True Type Fonts with SDL_ttf</a>  <a href="/sdltutorialcn/blog/2013/01/28/lesson-6-true-type-fonts-with-sdl-ttf/">第六节: 使用SDL_ttf绘制True Type字体</a></p>
+<p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">Lesson 6: True Type Fonts with SDL_ttf</a>  <a href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/">第六节: 使用SDL_ttf绘制True Type字体</a></p>
 
-<p><a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">Lesson 7: Taking Advantage of Classes</a>   <a href="/sdltutorialcn/blog/2013/01/28/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a></p>
+<p><a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">Lesson 7: Taking Advantage of Classes</a>   <a href="/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a></p>
 
 <p><a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">Lesson 8: Timers</a>                         <a href="/sdltutorialcn/blog/2013/01/28/lesson-8-timers/">第八节：定时器</a></p>
 </div>
@@ -616,49 +538,9 @@ SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/sdltutorialcn/blog/2013/01/25/hello-world/">Hello World</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-25T21:16:00+08:00" pubdate data-updated="true">Jan 25<span>th</span>, 2013</time>
-        
-         | <a href="/sdltutorialcn/blog/2013/01/25/hello-world/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这是一个测试。</p>
-
-<pre><code>这是一个代码区块。
-</code></pre>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/sdltutorialcn/blog/page/2/">&larr; Older</a>
     
     <a href="/sdltutorialcn/blog/archives">Blog Archives</a>
     
@@ -671,7 +553,11 @@ SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/">lesson-6-true-type-fonts-with-sdl-ttf</a>
+        <a href="/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/">第六节: 使用SDL_ttf绘制True Type字体</a>
       </li>
     
       <li class="post">
@@ -679,15 +565,11 @@ SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage
       </li>
     
       <li class="post">
-        <a href="/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/">SDL2.0教程翻译·<br>第四节：事件驱动的编程</a>
+        <a href="/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/">第四节：事件驱动的编程</a>
       </li>
     
       <li class="post">
         <a href="/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/">SDL2.0教程翻译·第三节：SDL扩展库</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/">SDL2.0教程翻译·<br>第二节：别什么都塞进main里</a>
       </li>
     
   </ul>

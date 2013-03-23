@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SDL2.0 | SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/blog/categories/sdl2-0/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-03-23T01:19:27+08:00</updated>
+  <updated>2013-03-24T01:57:21+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -108,9 +108,9 @@ SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage
 
 <p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">Lesson 5: Clipping Sprite Sheets</a>     <a href="/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">第五节：裁剪精灵表</a></p>
 
-<p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">Lesson 6: True Type Fonts with SDL_ttf</a>  <a href="/blog/2013/01/28/lesson-6-true-type-fonts-with-sdl-ttf/">第六节: 使用SDL_ttf绘制True Type字体</a></p>
+<p><a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">Lesson 6: True Type Fonts with SDL_ttf</a>  <a href="/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/">第六节: 使用SDL_ttf绘制True Type字体</a></p>
 
-<p><a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">Lesson 7: Taking Advantage of Classes</a>   <a href="/blog/2013/01/28/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a></p>
+<p><a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">Lesson 7: Taking Advantage of Classes</a>   <a href="/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a></p>
 
 <p><a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">Lesson 8: Timers</a>                         <a href="/blog/2013/01/28/lesson-8-timers/">第八节：定时器</a></p>
 ]]></content>
