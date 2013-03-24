@@ -5,7 +5,7 @@ width: 100%;
 }
 
 html {
-background: url("http://localhost:4000/sdltutorialcn/images/linux-mint-green-roots.png") fixed transparent !important;
+background: url("/sdltutorialcn/images/linux-mint-green-roots.png") fixed transparent !important;
 background-size:100% 100% !important;
 -moz-background-size:100% 100%; /* Old Firefox */
 background-repeat:no-repeat;
