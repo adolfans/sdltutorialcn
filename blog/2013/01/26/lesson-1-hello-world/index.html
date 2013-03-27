@@ -57,7 +57,7 @@
 <ul class="main-navigation">
   <li><a href="/sdltutorialcn/">Blog</a></li>
   <li><a href="/sdltutorialcn/blog/archives">Archives</a></li>
-  <li><a href="/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/">SDL2.0教程目录</a></li>
+  <li><a href="/sdltutorialcn/sdl-2-dot-0-tutorial-index/">SDL2.0教程目录</a></li>
   <li><a href="/sdltutorialcn/about">关于</a></li>
 </ul>
 
@@ -100,7 +100,7 @@
 
 
 <p><img src="/sdltutorialcn/images/blogimages/1-26/hello.bmp">
-你可以通过右键另存为下载这张图片。<del>这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 </del>这个版本库同时也是我教程中例子的源代码和其他相关资源（assets）的主页。如果你丢了资源或者想要偷看一下我的代码，就从<a href = "https://github.com/Twinklebear/TwinklebearDev-Lessons">这里</a>抓好了。但你可不要只复制粘贴代码！</p>
+你可以通过右键另存为下载这张图片。<del>这是一个指向一个我建立的Github版本库里的图片的链接，因为这样做会保存一个SDL能够加载的真正的BMP图片。 </del>这个版本库同时也是我教程中例子的源代码和其他相关资源（assets）的主页。如果你丢了资源或者想要偷看一下我的代码，就从<a href = "https://github.com/Twinklebear/TwinklebearDev-Lessons">这里</a>抓好了。但切忌复制粘贴！</p>
 
 <p>第一步总是include SDL的头文件</p>
 
@@ -147,7 +147,7 @@
 
 <p>SDL_CreateWindow这个函数的作用是为我们创建一个窗口，并且返回一个SDL_Window指针。这个函数的第一个参数是窗口的标题，之后是窗口所打开的位置的x,y坐标，之后的参数是窗口的长度和宽度。最后一个参数是窗口的各种flag，因为我们想要窗口在创建之后马上弹出，所以这里我们填SDL_WINDOW_SHOWN。</p>
 
-<p>我们也提供了一些错误安全保障，把指针初始化为了nullptr，并在创建了窗口之后，检查了这个指针是否仍为空。如果创建窗口失败了，这个指针将仍然是空的，这样我们就需要中止这个程序。把指针初始化为空NULL总是很重要的，或者也可以利用C++ 11新标准把它初始化为nullptr。</p>
+<p>我还加了一些保证安全的措施。把指针初始化为了nullptr，并在创建了窗口之后，检查了这个指针是否仍为空。如果创建窗口失败了，这个指针将仍然是空的，这样我们就需要中止这个程序。把指针初始化为空NULL总是很重要的，或者也可以利用C++ 11新标准把它初始化为nullptr。</p>
 
 <p>现在，仅仅只是打开一个窗口对我们来说意义不大，我们需要把东西画到窗口上。所以现在让我们获取一个SDL_Renderer并且运行吧。</p>
 
@@ -160,13 +160,13 @@
     }</code></pre></noscript></div>
 
 
-<p>我们的renderer（渲染器）是用SDL_CreateRenderer这个函数创建的，这个函数还需要我们指定用来绘制的窗口。我们也可以指定一个可选的显卡驱动，或者直接把参数设为-1，好让SDL自动选择适合我们指定的选项的驱动。这样做可能是最好的选择，因为这会让SDL为你选择你所需要的——也就是你在最后一个参数中用那些标志指定的——合适的驱动。</p>
+<p>我们的renderer（渲染器）是用SDL_CreateRenderer这个函数创建的，这个函数还需要我们指定用来绘制的窗口。我们也可以指定一个可选的显卡驱动，或者直接把参数设为-1，好让SDL自动选择适合我们指定的选项的驱动。这样做也许是最好的选择，因为这样SDL会自动帮你选择你所需要的（也就是你在最后一个参数中用那些标志指定的）最合适的驱动。</p>
 
 <p>在这里我们指定了SDL_RENDERER_ACCELERATED，因为我们想使用硬件加速的renderer，换句话说就是想利用显卡的力量。我们还指定了 SDL_RENDERER_PRESENTVSYNC标志，因为我们想要使用SDL_RendererPresent这个函数，这个函数将会以显示器的刷新率来更新画面。</p>
 
 <p>注意，在这里我们使用了和之前创建窗口时一样的错误处理方式。</p>
 
-<p>现在是时候加载一张图片并把它画到屏幕上啦！你应该已经把这张图片下载到同一个文件夹下了，或者把这张图放在你生成的可执行文件附近也是可以的。</p>
+<p>现在是时候加载一张图片并把它画到屏幕上啦！你应该已经把这张图片下载到当前文件夹下了，或者把这张图放在你生成的可执行文件附近也是可以的。</p>
 
 <p>尽管SDL2.0使用SDL_Texture来用硬件加速绘制图像，我们还是需要使用SDL_LoadBMP函数将图片加载到SDL_Surface中，因为本节我们没有使用SDL_image这个神奇的扩展库（我们以后会用到的）。</p>
 
@@ -201,7 +201,7 @@
 
 <p>这里我们给SDL_RenderCopy传了两个NULL值。第一个NULL是一个指向源矩形的指针，也就是说，从图像上裁剪下的一块矩形；而另一个是指向目标矩形的指针。我们将NULL传入这两个参数，是告诉SDL绘制整个源图像（第一个NULL），并把它画在屏幕上（0，0 ）的位置，并拉伸这个图像让它填满整个窗口（第二个NULL）。这一点以后还会详细说明。</p>
 
-<p>我们还用SDL_Delay告诉程序让它等2000毫秒，以便于我们可以看到这个窗口。不让它等待的话，这个窗口就会在弹出之后立刻退出程序。</p>
+<p>我们还用SDL_Delay告诉程序让它等2000毫秒，以便于我们可以看到这个窗口。不让它等待的话，这个程序就会在窗口弹出之后立刻退出的。</p>
 
 <div><script src='https://gist.github.com/3139888.js?file=g.cpp'></script>
 <noscript><pre><code>    SDL_Delay(2000);</code></pre></noscript></div>
@@ -223,7 +223,7 @@
 }</code></pre></noscript></div>
 
 
-<p>然后编译并检查这个程序吧！不要忘了把SDL.dll放到你的可执行文件的文件夹里，否则你会看到它弹出错误提示。如果你用的是linux系统，你应该已经安装了SDL的共享库了，所以你应该不会遇到什么问题。</p>
+<p>然后编译并检查这个程序吧！不要忘了把SDL.dll放到你的可执行文件的文件夹里，否则它会给你弹出错误提示。如果你用的是linux系统，你应该已经安装了SDL的共享库了，所以你应该不会遇到什么问题。</p>
 
 <p>现在，恭喜你写出第一个SDL2.0程序！</p>
 
@@ -303,6 +303,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sdltutorialcn/blog/2013/03/24/lesson-8-timers/">第八节：计时器</a>
+      </li>
+    
+      <li class="post">
         <a href="/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a>
       </li>
     
@@ -316,10 +320,6 @@
     
       <li class="post">
         <a href="/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/">第四节：事件驱动的编程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/">SDL2.0教程翻译·第三节：SDL扩展库</a>
       </li>
     
   </ul>

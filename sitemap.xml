@@ -8,35 +8,35 @@
         <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/
         </loc>
-        <lastmod>2013-03-24T01:03:00+08:00</lastmod>
+        <lastmod>2013-03-25T12:32:02+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/
         </loc>
-        <lastmod>2013-02-16T00:20:43+08:00</lastmod>
+        <lastmod>2013-03-28T01:08:19+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/
         </loc>
-        <lastmod>2013-02-16T00:24:44+08:00</lastmod>
+        <lastmod>2013-03-28T01:16:09+08:00</lastmod>
     </url>
     <url>
         <loc>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/</loc>
-        <lastmod>2013-02-16T00:22:03+08:00</lastmod>
+        <lastmod>2013-03-28T01:14:31+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/
         </loc>
-        <lastmod>2013-02-16T00:25:10+08:00</lastmod>
+        <lastmod>2013-03-28T01:16:59+08:00</lastmod>
     </url>
     <url>
         <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/
         </loc>
-        <lastmod>2013-02-16T01:23:31+08:00</lastmod>
+        <lastmod>2013-03-28T01:35:37+08:00</lastmod>
     </url>
     <url>
         <loc>
@@ -60,22 +60,30 @@
         <loc>
             http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/
         </loc>
-        <lastmod>2013-03-24T17:52:10+08:00</lastmod>
+        <lastmod>2013-03-25T12:28:03+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-8-timers/</loc>
+        <lastmod>2013-03-25T17:34:02+08:00</lastmod>
     </url>
     <url>
         <loc>http://adolfans.github.com/sdltutorialcn/about/</loc>
-        <lastmod>2013-01-28T01:32:27+08:00</lastmod>
+        <lastmod>2013-03-25T15:26:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://adolfans.github.com/sdltutorialcn/blog/archives/</loc>
-        <lastmod>2013-03-24T17:52:10+08:00</lastmod>
+        <lastmod>2013-03-28T01:35:37+08:00</lastmod>
     </url>
     <url>
         <loc>http://adolfans.github.com/sdltutorialcn/</loc>
-        <lastmod>2013-03-24T17:52:10+08:00</lastmod>
+        <lastmod>2013-03-28T01:35:37+08:00</lastmod>
     </url>
     <url>
         <loc>http://adolfans.github.com/sdltutorialcn/robots.txt</loc>
         <lastmod>2013-01-25T19:42:46+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://adolfans.github.com/sdltutorialcn/sdl-2-dot-0-tutorial-index/</loc>
+        <lastmod>2013-03-25T15:23:13+08:00</lastmod>
     </url>
 </urlset>

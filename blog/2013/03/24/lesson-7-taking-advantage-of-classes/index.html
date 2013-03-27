@@ -57,7 +57,7 @@
 <ul class="main-navigation">
   <li><a href="/sdltutorialcn/">Blog</a></li>
   <li><a href="/sdltutorialcn/blog/archives">Archives</a></li>
-  <li><a href="/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/">SDL2.0教程目录</a></li>
+  <li><a href="/sdltutorialcn/sdl-2-dot-0-tutorial-index/">SDL2.0教程目录</a></li>
   <li><a href="/sdltutorialcn/about">关于</a></li>
 </ul>
 
@@ -174,7 +174,7 @@ private:
 
 <p> This is not to say that the new unique_ptr, shared_ptr and weak_ptr are a magical band-aid to resolve any memory issues in C++11 as they most certainly are not. Raw pointers still have their place and misuse of the new types will still result in memory issues. It&#8217;s important to use the appropriate type for the application. In this case the unique_ptr is an excellent choice for our use.</p>
 
-<p>这也并不是说unique_ptr, shared_ptr以及weak_ptr就是能够治疗C++11中所有的内存问题的万用药，因为其实它们大部分时候都不能。原始的指针仍然有着它们的用武之地，滥用这些新的指针也会导致内存问题。对应用程序来说，选择合适的类型很重要。在这里, unique_ptr对我们来说就是一个完美的选择。</p>
+<p>这也并不是说unique_ptr, shared_ptr以及weak_ptr就是能够治疗C++11中所有的内存问题的万用药，因为其实它们大部分时候都不能。原始的指针仍然有着它们的用武之地，滥用这些新的指针也会导致内存问题。对应用程序来说，选择合适的类型很重要。而在这里, unique_ptr对我们来说就是一个不错的选择。</p>
 
 <p> Since we want to use the SDL_DestroyX function instead of the object&#8217;s destructor to free the managed object, we need to specify the function signature of  the desired destruction function to our unique_ptr, which in this case is the signature for SDL_DestroyX, which is void(<em>)(SDL_X</em>). So mWindow and mRenderer will end up being:</p>
 
@@ -518,6 +518,8 @@ Window::Present();</code></pre></noscript></div>
         <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/" title="Previous Post: 第六节: 使用SDL_ttf绘制True Type字体">&laquo; 第六节: 使用SDL_ttf绘制True Type字体</a>
       
       
+        <a class="basic-alignment right" href="/sdltutorialcn/blog/2013/03/24/lesson-8-timers/" title="Next Post: 第八节：计时器">第八节：计时器 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -537,6 +539,10 @@ Window::Present();</code></pre></noscript></div>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sdltutorialcn/blog/2013/03/24/lesson-8-timers/">第八节：计时器</a>
+      </li>
+    
+      <li class="post">
         <a href="/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a>
       </li>
     
@@ -550,10 +556,6 @@ Window::Present();</code></pre></noscript></div>
     
       <li class="post">
         <a href="/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/">第四节：事件驱动的编程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/">SDL2.0教程翻译·第三节：SDL扩展库</a>
       </li>
     
   </ul>

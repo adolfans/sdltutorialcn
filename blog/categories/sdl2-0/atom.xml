@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SDL2.0 | SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/blog/categories/sdl2-0/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-03-24T17:52:11+08:00</updated>
+  <updated>2013-03-28T01:38:25+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -69,6 +69,7 @@
 
 <p>这段简单的代码将初始化SDL，然后退出。你不会看到任何事发生。尝试编译这个项目，如果有错误提示的话，确认你没有跳过之前任何一步，并确认你是否选择了正确的文件夹。在运行这段代码之前，你应该把SDL路径下，bin文件夹内的动态链接库SDL.dll放到项目可执行文件的文件夹里。否则的话，程序将会运行失败并弹出找不到SDL的错误。<br>
 作为最后一件为以后每次创建SDL项目省下麻烦的额外工作，你可以把这个项目导出为一个模板。选择文件菜单然后点击导出模板，然后把它导出为项目模板。你可以给它取个名字也可以为它增加任意你喜欢的描述。现在当我们创建一个新的SDL项目的时候，你只需要选择这个模板，只要你的SDL文件夹没有移动，那么所有的东西都被设置好了。
+*译注：Visual C++ Express版本没有创建模板的功能，但你可以通过使用属性表来代替以上繁琐的步骤。
 <img src="/images/blogimages/1-26/exporttemplate.png" title="exporttemplate" alt="exporttemplate" /><br></p>
 
 <br>
@@ -90,7 +91,7 @@
 
 <p>下面的教程旨在为你提供一个SDL2.0以及c++中游戏设计和相关概念的介绍。在本教程中，我们假定你对C++有一定程度上的知识，至少了解数组，vector，控制结构，函数还有指针。<br /><br />
 如果你觉得理解教程中的代码有困难，你可以在教程后面随意留言，或者在<a href="http://stackoverflow.com/questions/388242/the-definitive-c-book-guide-and-list">StackOverflow</a>上的这个列表里抓一本书来读。<br /><br />
-如果你想要查看或者下载全部的程序代码，你可以在<a href="https://github.com/Twinklebear/TwinklebearDev-Lessons">Github</a>上下载到。但是不要复制！<br /><br />
+如果你想要查看或者下载全部的程序代码，你可以在<a href="https://github.com/Twinklebear/TwinklebearDev-Lessons">Github</a>上找到。但是切忌复制粘贴！<br /><br />
 SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage">online wiki</a>上查看到。<br /><br /></p>
 
 <h3>教程目录：</h3>

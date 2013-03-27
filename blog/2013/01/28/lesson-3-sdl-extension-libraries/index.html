@@ -58,7 +58,7 @@ _net， &hellip;">
 <ul class="main-navigation">
   <li><a href="/sdltutorialcn/">Blog</a></li>
   <li><a href="/sdltutorialcn/blog/archives">Archives</a></li>
-  <li><a href="/sdltutorialcn/blog/2013/01/25/sdl-2-dot-0-tutorial-index/">SDL2.0教程目录</a></li>
+  <li><a href="/sdltutorialcn/sdl-2-dot-0-tutorial-index/">SDL2.0教程目录</a></li>
   <li><a href="/sdltutorialcn/about">关于</a></li>
 </ul>
 
@@ -156,11 +156,11 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
 
 <p> Now let&#8217;s rework our LoadImage function to use SDL_image&#8217;s IMG_LoadTexture to directly load a texture from an image. SDL_image supports many image formats: BMP, GIF, JPEG, LBM, PCX, PNG, PNM, TGA, TIFF, WEBP, XCF, XPM, XV and as such is a very powerful and useful library, as we are no longer limited to the BMP format</p>
 
-<p>现在，我们开始用SDL_image的IMG_LoadTexture函数把之前的LoadImage改成直接从图像文件中读取texture。SDL_image支持许多图像格式：BMP,GIF,JPEG,LBM,PCX,PNG,PNM,TGA,TIFF,WEBP,XCF,XPM,XV.它是个非常给力（~powerful~吾觉得翻译成有力略囧——译注）而又有用的库，因为有了它，我们就不再被BMP格式限制啦~</p>
+<p>现在，我们开始用SDL_image的IMG_LoadTexture函数把之前的LoadImage改成直接从图像文件中读取texture。SDL_image支持许多图像格式：BMP,GIF,JPEG,LBM,PCX,PNG,PNM,TGA,TIFF,WEBP,XCF,XPM,XV.它是个非常强大的库。有了它，我们就不再被BMP格式限制啦~</p>
 
 <p> Reworking our function is surprisingly simple, we just take out the SDL_Surface business and load the texture directly. Note that we now use IMG_GetError() instead of SDL_GetError(), this is because we&#8217;re now using the SDL_image library to load the image, and as such the appropriate error information would be stored there instead of in SDL.</p>
 
-<p>对函数的返工简单得让人惊讶。我们只需要去掉SDL_Surface的工作，直接加载texture。注意我们现在使用IMG_GetError()替代SDL_GetError()，因为我们现在正在使用的是SDL_image库来加载图像，因此，对应的错误信息应该在IMG而不是SDL里。</p>
+<p>这回对这个函数的返工简单得让人惊讶。我们只需要去掉SDL_Surface的工作，直接加载texture。注意我们现在使用IMG_GetError()替代SDL_GetError()，因为我们现在正在使用的是SDL_image库来加载图像，因此，对应的错误信息应该在IMG而不是SDL里。</p>
 
 <div><script src='https://gist.github.com/3139999.js?file=3.cpp'></script>
 <noscript><pre><code>SDL_Texture* LoadImage(std::string file){
@@ -174,21 +174,23 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
 
 <p> But we&#8217;ve got one more new thing here. Since we&#8217;ve decided to be smart and add more informative error checking if our image fails to load we will throw a runtime_error which will tell us what happened and more helpfully, which image caused the error. However if you leave this error uncaught when you call the function later in your program and it occurs, it will crash the program. Depending on the situation this may be desirable, but at the moment we&#8217;ll want it to tell us what happened as opposed to just crashing.</p>
 
-<p>但是我们这里又有另外一个新东西。因为我们决定要让程序变得更智能，并添加能提供更多信息的错误处理，当我们的图片加载失败之后，我们需要抛出（throw）一个runtime_error的异常，它告诉我们发生了什么，并且告诉我们哪一个图片导致了这项错误。虽然这样，如果你没有捕捉（catch）到这项错误，但之后的运行中这项错误发生了，这个程序还是会崩溃。取决于实际的情况，这或许是可以预计的，但是到崩溃的时候，我们还是希望她告诉我们实际发生了什么而不是直接崩溃。</p>
+<p>但是我们这里又有另外一个新东西。因为我们决定要让程序变得更智能，并让它的错误处理方式能提供更多错误信息。当我们的图片加载失败之后，我们需要抛出（throw）一个runtime_error的异常，它告诉我们发生了什么，并且告诉我们哪一个图片导致了这项错误。虽然这样，如果你没有捕捉（catch）到这项错误，但之后的运行中这项错误发生了，这个程序还是会崩溃。取决于实际的情况，这或许是可以预计的，但是到崩溃的时候，我们还是希望它告诉我们实际发生了什么而不是直接崩溃。</p>
 
 <p> We&#8217;re almost ready to draw our images, for this lesson we&#8217;ll be using this image as our background:</p>
 
 <p>现在我们准备好绘制图像了，本节我们会用这张图做背景：</p>
 
-<p> and our foreground image will be:</p>
+<p>and our foreground image will be:</p>
 
 <p>前景图是这张：</p>
 
-<p> If you look at our foreground image you&#8217;ll notice that it has a transparent background, I&#8217;ve set it like this to demonstrate that IMG_LoadTexture will respect alpha channels and that when the texture is drawn the transparent properties will be retained.</p>
+<p>If you look at our foreground image you&#8217;ll notice that it has a transparent background, I&#8217;ve set it like this to demonstrate that IMG_LoadTexture will respect alpha channels and that when the texture is drawn the transparent properties will be retained.</p>
 
-<p>观察了前景图之后你就会发现它的背景是透明的。我已经把它设置为示范IMG_LoadTexture会接受</p>
+<p>观察了前景图之后你就会发现它的背景是透明的。我这样做是为了示范IMG_LoadTexture函数可以接受Alpha通道，而当texture绘制出来的时候，会显示出透明的效果。</p>
 
 <p> Now that we&#8217;ve got our images we can write our loading code, but recall that we&#8217;ll need to add a try/catch structure to handle the error if one is thrown. Also, don&#8217;t forget to set the file paths to match the image locations on your system.</p>
+
+<p>现在我们有图了，开始编写加载代码。但是先回想一下为了进行错误处理，我们需要添加try/catch结构。还有，别忘了正确地设置图片的文件路径。</p>
 
 <div><script src='https://gist.github.com/3139999.js?file=4.cpp'></script>
 <noscript><pre><code>    SDL_Texture *background = nullptr, *image = nullptr;
@@ -203,6 +205,8 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
 
 
 <p> In our catch statement we tell the program to print out e.what(), which will display the string that we put into the runtime_error&#8217;s parentheses. Note that depending on how you&#8217;ve configured your project to build you may not get stdout displayed, if that is the case you can simply write the information to a file instead.</p>
+
+<p>在catch语句中我们让程序打印出了e.what(),它会显示出我们之前放在runtime_error里的信息。注意，取决于你怎样配置的你的项目，你很可能看不到标准输出的结果（译注：比如VS中的某些编译选项会导致目标程序没有控制台窗口），如果遇到这种情况，你可以把错误信息输出到一个文件里。</p>
 
 <p> The rest of the code is not shown as it is identical to what was written for Lesson 2, so you can just drop in this new functionality into the old program. If you want to mess with the image positions, feel free to play around. When running the program with the same position settings as Lesson 2 you should see this:</p>
 
@@ -273,6 +277,10 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/sdltutorialcn/blog/2013/03/24/lesson-8-timers/">第八节：计时器</a>
+      </li>
+    
+      <li class="post">
         <a href="/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a>
       </li>
     
@@ -286,10 +294,6 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
     
       <li class="post">
         <a href="/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/">第四节：事件驱动的编程</a>
-      </li>
-    
-      <li class="post">
-        <a href="/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/">SDL2.0教程翻译·第三节：SDL扩展库</a>
       </li>
     
   </ul>
