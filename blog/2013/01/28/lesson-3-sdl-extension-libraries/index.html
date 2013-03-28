@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>SDL2.0教程翻译·第三节：SDL扩展库 - SDL中文教程</title>
+  <title>第三节：SDL扩展库 - SDL中文教程</title>
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="原文链接： 通过上一节的学习，你也许会怀疑SDL是否能读取BMP以外的图片格式。尽管SDL本身并不提供读取非BMP图片的功能，但包括读取多种图片格式的SDL_image，渲染true-type字体的SDL_ttf，支持更多音乐格式的SDL_mixer，支持网络的SDL
-_net， &hellip;">
+  <meta name="description" content="原文链接：http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html 通过上一节的学习，你也许会怀疑SDL是否能读取BMP以外的图片格式。尽管SDL本身并不提供读取非BMP图片的功能， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,7 +69,7 @@ _net， &hellip;">
   
   <header>
     
-      <h1 class="entry-title">SDL2.0教程翻译·第三节：SDL扩展库</h1>
+      <h1 class="entry-title">第三节：SDL扩展库</h1>
     
     
       <p class="meta">
@@ -95,7 +94,7 @@ _net， &hellip;">
   </header>
 
 
-<div class="entry-content"><p>原文链接：</p>
+<div class="entry-content"><p>原文链接：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
 
 <p>通过上一节的学习，你也许会怀疑SDL是否能读取BMP以外的图片格式。尽管SDL本身并不提供读取非BMP图片的功能，但包括读取多种图片格式的SDL_image，渲染true-type字体的SDL_ttf，支持更多音乐格式的SDL_mixer，支持网络的SDL
 _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
@@ -105,11 +104,11 @@ _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
 
 <p>通过使用这些库，我们可以给我们的程序增加更多功能并使很多事情变得容易许多。在此我们只使用SDL_image，以后的课程中我们会讲到其他的扩展库。</p>
 
-<p> In Lesson 0, when you cloned from the Mercurial and built the libraries you should have also downloaded and built the source for SDL_image, SDL_ttf and SDL_mixer, although I was unable to get SDL_mixer to compile with Visual Studio at the time of writing. This part of the tutorial will be updated when SDL 2.0 is officially released to simply contain links to download the libraries.</p>
+<p>In Lesson 0, when you cloned from the Mercurial and built the libraries you should have also downloaded and built the source for SDL_image, SDL_ttf and SDL_mixer, although I was unable to get SDL_mixer to compile with Visual Studio at the time of writing. This part of the tutorial will be updated when SDL 2.0 is officially released to simply contain links to download the libraries.</p>
 
 <p>在第0节中，当你从Mercurial中同步下来一份源码，并且生成库文件之后，你还需要下载并编译SDL_image,SDL_ttf还有SDL_mixer的源码，尽管在写这篇教程的时候我没能在Visual Studio里把SDL_mixer编译成功。当SDL2.0正式发布的时候，我会更新这个教程并提供编译好的库以直接下载。</p>
 
-<p> If you have not done this, head over to the SDL Mercurial and clone and build the extension libraries available there.</p>
+<p>If you have not done this, head over to the SDL Mercurial and clone and build the extension libraries available there.</p>
 
 <p>如果你还没做完这些，回到SDL的mercurial版本库中同步到代码并生成这些扩展库。</p>
 
@@ -180,15 +179,19 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
 
 <p>现在我们准备好绘制图像了，本节我们会用这张图做背景：</p>
 
+<p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson3/background.png"></p>
+
 <p>and our foreground image will be:</p>
 
 <p>前景图是这张：</p>
+
+<p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson3/image.png"></p>
 
 <p>If you look at our foreground image you&#8217;ll notice that it has a transparent background, I&#8217;ve set it like this to demonstrate that IMG_LoadTexture will respect alpha channels and that when the texture is drawn the transparent properties will be retained.</p>
 
 <p>观察了前景图之后你就会发现它的背景是透明的。我这样做是为了示范IMG_LoadTexture函数可以接受Alpha通道，而当texture绘制出来的时候，会显示出透明的效果。</p>
 
-<p> Now that we&#8217;ve got our images we can write our loading code, but recall that we&#8217;ll need to add a try/catch structure to handle the error if one is thrown. Also, don&#8217;t forget to set the file paths to match the image locations on your system.</p>
+<p>Now that we&#8217;ve got our images we can write our loading code, but recall that we&#8217;ll need to add a try/catch structure to handle the error if one is thrown. Also, don&#8217;t forget to set the file paths to match the image locations on your system.</p>
 
 <p>现在我们有图了，开始编写加载代码。但是先回想一下为了进行错误处理，我们需要添加try/catch结构。还有，别忘了正确地设置图片的文件路径。</p>
 
@@ -204,18 +207,30 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
     }</code></pre></noscript></div>
 
 
-<p> In our catch statement we tell the program to print out e.what(), which will display the string that we put into the runtime_error&#8217;s parentheses. Note that depending on how you&#8217;ve configured your project to build you may not get stdout displayed, if that is the case you can simply write the information to a file instead.</p>
+<p>In our catch statement we tell the program to print out e.what(), which will display the string that we put into the runtime_error&#8217;s parentheses. Note that depending on how you&#8217;ve configured your project to build you may not get stdout displayed, if that is the case you can simply write the information to a file instead.</p>
 
 <p>在catch语句中我们让程序打印出了e.what(),它会显示出我们之前放在runtime_error里的信息。注意，取决于你怎样配置的你的项目，你很可能看不到标准输出的结果（译注：比如VS中的某些编译选项会导致目标程序没有控制台窗口），如果遇到这种情况，你可以把错误信息输出到一个文件里。</p>
 
-<p> The rest of the code is not shown as it is identical to what was written for Lesson 2, so you can just drop in this new functionality into the old program. If you want to mess with the image positions, feel free to play around. When running the program with the same position settings as Lesson 2 you should see this:</p>
+<p>The rest of the code is not shown as it is identical to what was written for Lesson 2, so you can just drop in this new functionality into the old program. If you want to mess with the image positions, feel free to play around. When running the program with the same position settings as Lesson 2 you should see this:</p>
 
-<p> Note that the transparency of the foreground image was preserved. This is a very useful effect as it means we won&#8217;t have to use color keying to cut out the background of our images but instead can use simple transparency. However if you do wish to use color keying, it will be covered in later lessons.</p>
+<p>剩下的代码我没有放在这里，因为它和第二节中的一样。如果你想改图像的位置，那就改吧。当运行和第二节中图片位置相同的程序的时候，你应该可以看到这个：</p>
 
-<p> End of Lesson 3: SDL Extension Libraries
- If you have issues compiling or running the code make sure that you&#8217;ve added the include paths and linker settings correctly, along with putting the dlls from SDL_image and its dependencies, located in the externals folder of the source code, into the same folder as your executable.</p>
+<p><img src="/sdltutorialcn/images/blogimages/lesson3/lesson3result.png"></p>
 
-<p> I&#8217;ll see you again soon in Lesson 4: Event Driven Programming!</p>
+<p>Note that the transparency of the foreground image was preserved. This is a very useful effect as it means we won&#8217;t have to use color keying to cut out the background of our images but instead can use simple transparency. However if you do wish to use color keying, it will be covered in later lessons.</p>
+
+<p>注意前景图的透明度被保留了。这个效果很有用，因为有了它我们就不必使用color key(色彩键？透明色？）来把图片的背景色抠出来，直接使用透明度就可以了。但如果你想使用color key，后面的教程中会讲到。</p>
+
+<p>End of Lesson 3: SDL Extension Libraries
+If you have issues compiling or running the code make sure that you&#8217;ve added the include paths and linker settings correctly, along with putting the dlls from SDL_image and its dependencies, located in the externals folder of the source code, into the same folder as your executable.</p>
+
+<p>第三节的结束。</p>
+
+<p>如果你编译或者运行的时候出现了问题，确认你正确地添加了include路径和链接设置，并且把SDL_image还有它的依赖库放在你的可执行文件的文件夹里了。</p>
+
+<p>I&#8217;ll see you again soon in Lesson 4: Event Driven Programming!</p>
+
+<p>我们第四节：事件驱动的编程见！</p>
 </div>
 
 
@@ -253,7 +268,7 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/" title="Previous Post: SDL2.0教程翻译·<br>第二节：别什么都塞进main里">&laquo; SDL2.0教程翻译·<br>第二节：别什么都塞进main里</a>
+        <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/" title="Previous Post: 第二节：别什么都塞进main里">&laquo; 第二节：别什么都塞进main里</a>
       
       
         <a class="basic-alignment right" href="/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/" title="Next Post: 第四节：事件驱动的编程">第四节：事件驱动的编程 &raquo;</a>
@@ -289,7 +304,7 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
       </li>
     
       <li class="post">
-        <a href="/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">SDL2.0教程翻译·第五节：裁剪精灵表</a>
+        <a href="/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">第五节：裁剪精灵表</a>
       </li>
     
       <li class="post">

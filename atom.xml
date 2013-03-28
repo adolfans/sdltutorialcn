@@ -4,7 +4,7 @@
   <title><![CDATA[SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-03-28T01:38:25+08:00</updated>
+  <updated>2013-03-28T14:22:49+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -1247,6 +1247,9 @@ Window::Present();</code></pre></noscript></div>
 <p>第七节的Extrra Challenge</p>
 
 <p>实现在调用Init函数的时候设置窗口的大小。</p>
+
+<p>Hint
+ Super simple! Just pass a width and height to Init.</p>
 ]]></content>
   </entry>
   
@@ -1382,7 +1385,7 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·第五节：裁剪精灵表]]></title>
+    <title type="html"><![CDATA[第五节：裁剪精灵表]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/"/>
     <updated>2013-02-14T16:16:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets</id>
@@ -1675,11 +1678,11 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·第三节：SDL扩展库]]></title>
+    <title type="html"><![CDATA[第三节：SDL扩展库]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/"/>
     <updated>2013-01-28T11:49:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries</id>
-    <content type="html"><![CDATA[<p>原文链接：</p>
+    <content type="html"><![CDATA[<p>原文链接：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
 
 <p>通过上一节的学习，你也许会怀疑SDL是否能读取BMP以外的图片格式。尽管SDL本身并不提供读取非BMP图片的功能，但包括读取多种图片格式的SDL_image，渲染true-type字体的SDL_ttf，支持更多音乐格式的SDL_mixer，支持网络的SDL
 _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
@@ -1689,11 +1692,11 @@ _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
 
 <p>通过使用这些库，我们可以给我们的程序增加更多功能并使很多事情变得容易许多。在此我们只使用SDL_image，以后的课程中我们会讲到其他的扩展库。</p>
 
-<p> In Lesson 0, when you cloned from the Mercurial and built the libraries you should have also downloaded and built the source for SDL_image, SDL_ttf and SDL_mixer, although I was unable to get SDL_mixer to compile with Visual Studio at the time of writing. This part of the tutorial will be updated when SDL 2.0 is officially released to simply contain links to download the libraries.</p>
+<p>In Lesson 0, when you cloned from the Mercurial and built the libraries you should have also downloaded and built the source for SDL_image, SDL_ttf and SDL_mixer, although I was unable to get SDL_mixer to compile with Visual Studio at the time of writing. This part of the tutorial will be updated when SDL 2.0 is officially released to simply contain links to download the libraries.</p>
 
 <p>在第0节中，当你从Mercurial中同步下来一份源码，并且生成库文件之后，你还需要下载并编译SDL_image,SDL_ttf还有SDL_mixer的源码，尽管在写这篇教程的时候我没能在Visual Studio里把SDL_mixer编译成功。当SDL2.0正式发布的时候，我会更新这个教程并提供编译好的库以直接下载。</p>
 
-<p> If you have not done this, head over to the SDL Mercurial and clone and build the extension libraries available there.</p>
+<p>If you have not done this, head over to the SDL Mercurial and clone and build the extension libraries available there.</p>
 
 <p>如果你还没做完这些，回到SDL的mercurial版本库中同步到代码并生成这些扩展库。</p>
 
@@ -1764,15 +1767,19 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
 
 <p>现在我们准备好绘制图像了，本节我们会用这张图做背景：</p>
 
+<p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson3/background.png"></p>
+
 <p>and our foreground image will be:</p>
 
 <p>前景图是这张：</p>
+
+<p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson3/image.png"></p>
 
 <p>If you look at our foreground image you&#8217;ll notice that it has a transparent background, I&#8217;ve set it like this to demonstrate that IMG_LoadTexture will respect alpha channels and that when the texture is drawn the transparent properties will be retained.</p>
 
 <p>观察了前景图之后你就会发现它的背景是透明的。我这样做是为了示范IMG_LoadTexture函数可以接受Alpha通道，而当texture绘制出来的时候，会显示出透明的效果。</p>
 
-<p> Now that we&#8217;ve got our images we can write our loading code, but recall that we&#8217;ll need to add a try/catch structure to handle the error if one is thrown. Also, don&#8217;t forget to set the file paths to match the image locations on your system.</p>
+<p>Now that we&#8217;ve got our images we can write our loading code, but recall that we&#8217;ll need to add a try/catch structure to handle the error if one is thrown. Also, don&#8217;t forget to set the file paths to match the image locations on your system.</p>
 
 <p>现在我们有图了，开始编写加载代码。但是先回想一下为了进行错误处理，我们需要添加try/catch结构。还有，别忘了正确地设置图片的文件路径。</p>
 
@@ -1788,27 +1795,41 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
     }</code></pre></noscript></div>
 
 
-<p> In our catch statement we tell the program to print out e.what(), which will display the string that we put into the runtime_error&#8217;s parentheses. Note that depending on how you&#8217;ve configured your project to build you may not get stdout displayed, if that is the case you can simply write the information to a file instead.</p>
+<p>In our catch statement we tell the program to print out e.what(), which will display the string that we put into the runtime_error&#8217;s parentheses. Note that depending on how you&#8217;ve configured your project to build you may not get stdout displayed, if that is the case you can simply write the information to a file instead.</p>
 
 <p>在catch语句中我们让程序打印出了e.what(),它会显示出我们之前放在runtime_error里的信息。注意，取决于你怎样配置的你的项目，你很可能看不到标准输出的结果（译注：比如VS中的某些编译选项会导致目标程序没有控制台窗口），如果遇到这种情况，你可以把错误信息输出到一个文件里。</p>
 
-<p> The rest of the code is not shown as it is identical to what was written for Lesson 2, so you can just drop in this new functionality into the old program. If you want to mess with the image positions, feel free to play around. When running the program with the same position settings as Lesson 2 you should see this:</p>
+<p>The rest of the code is not shown as it is identical to what was written for Lesson 2, so you can just drop in this new functionality into the old program. If you want to mess with the image positions, feel free to play around. When running the program with the same position settings as Lesson 2 you should see this:</p>
 
-<p> Note that the transparency of the foreground image was preserved. This is a very useful effect as it means we won&#8217;t have to use color keying to cut out the background of our images but instead can use simple transparency. However if you do wish to use color keying, it will be covered in later lessons.</p>
+<p>剩下的代码我没有放在这里，因为它和第二节中的一样。如果你想改图像的位置，那就改吧。当运行和第二节中图片位置相同的程序的时候，你应该可以看到这个：</p>
 
-<p> End of Lesson 3: SDL Extension Libraries
- If you have issues compiling or running the code make sure that you&#8217;ve added the include paths and linker settings correctly, along with putting the dlls from SDL_image and its dependencies, located in the externals folder of the source code, into the same folder as your executable.</p>
+<p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson3/lesson3result.png"></p>
 
-<p> I&#8217;ll see you again soon in Lesson 4: Event Driven Programming!</p>
+<p>Note that the transparency of the foreground image was preserved. This is a very useful effect as it means we won&#8217;t have to use color keying to cut out the background of our images but instead can use simple transparency. However if you do wish to use color keying, it will be covered in later lessons.</p>
+
+<p>注意前景图的透明度被保留了。这个效果很有用，因为有了它我们就不必使用color key(色彩键？透明色？）来把图片的背景色抠出来，直接使用透明度就可以了。但如果你想使用color key，后面的教程中会讲到。</p>
+
+<p>End of Lesson 3: SDL Extension Libraries
+If you have issues compiling or running the code make sure that you&#8217;ve added the include paths and linker settings correctly, along with putting the dlls from SDL_image and its dependencies, located in the externals folder of the source code, into the same folder as your executable.</p>
+
+<p>第三节的结束。</p>
+
+<p>如果你编译或者运行的时候出现了问题，确认你正确地添加了include路径和链接设置，并且把SDL_image还有它的依赖库放在你的可执行文件的文件夹里了。</p>
+
+<p>I&#8217;ll see you again soon in Lesson 4: Event Driven Programming!</p>
+
+<p>我们第四节：事件驱动的编程见！</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·<br>第二节：别什么都塞进main里]]></title>
+    <title type="html"><![CDATA[第二节：别什么都塞进main里]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main/"/>
     <updated>2013-01-28T00:46:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-2-dont-put-everything-in-main</id>
-    <content type="html"><![CDATA[<p>这一节中，我们将通过编写一些非常有用的函数来将上一节我们所写的代码组织起来，在这之中呢，我们会讨论一下图片是怎样在SDL window中确定位置和缩放的。</p>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-2-dont-put-everything-in-main.html">http://twinklebeardev.blogspot.com/2012/07/lesson-2-dont-put-everything-in-main.html</a></p>
+
+<p>这一节中，我们将通过编写一些非常有用的函数来将上一节我们所写的代码组织起来，在这之中呢，我们会讨论一下图片是怎样在SDL window中确定位置和缩放的。</p>
 
 <!-- more -->
 
@@ -2020,11 +2041,15 @@ Find a way to convert our dumb method of tiling the background into a lean mean 
 
 <p>Hint</p>
 
-<p>第二节的额外挑战！</p>
+<p>Think about happens when we want to increment the y value if tiling row by row, or when we want to increment x when tiling column by column.</p>
+
+<p>第二节的Extra Challenge！</p>
 
 <p>找到一个把我们之前平铺背景的笨方法改成一个聪明一点的for循环的方法吧！也许对四个背景图块来说，这样做并不是特别有效率，但是如果图块数量很多的话，使用for循环就很有必要了。</p>
 
 <p>提示：</p>
+
+<p>试想一下，当我们一行一行平铺的时候，y坐标是怎样增加的，当一列一列平铺的时候，x坐标是怎样增加的。</p>
 
 <p>End of Lesson 2: Don&#8217;t Put Everything in Main
 If you have trouble compiling or running the program make sure you&#8217;ve set up the includes, include directories, linker settings and linker directories correctly, along with setting the correct path to the images and placing the SDL.dll in your executable folder. For Linux users there is no SDL.dll but instead make sure you have the runtime libraries in the correct place in your system.</p>
@@ -2256,13 +2281,13 @@ If you have trouble compiling or running the program make sure you&#8217;ve set 
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·第0节：配置SDL]]></title>
+    <title type="html"><![CDATA[第0节：配置SDL]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl/"/>
     <updated>2013-01-25T23:28:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/25/lesson-0-setting-up-sdl</id>
     <content type="html"><![CDATA[<p>  <h3>
 SDL2.0说明</h3>
-截至到2012年6月17日我写这篇帖子为止，SDL2.0还没有发布官方正式版本，因此你需要用你所用的编辑器自行编译。</p>
+截至到2012年6月17日我写这篇帖子为止，SDL2.0还没有发布官方正式版本，因此你需要用你手头上编辑器自行编译。</p>
 
 <!-- more -->
 
@@ -2272,7 +2297,7 @@ SDL2.0说明</h3>
   你可以在<a href="http://www.libsdl.org/hg.php">这里</a>下载它。
   <br>
   <br>
-你可以从Mecurial版本库里clone一份最新的源码，但下载一份快照也是个不错的选择。在实际写代码的时候，需要clone他们的Mercurial版本库来下载我们要用到的扩展库。
+你可以从Mecurial版本库里clone一份最新的源码，但下载一份快照也是个不错的选择。在实际写代码的时候，需要从他们的Mercurial版本库里clone我们要用的扩展库。
   <br>
   <br>
 在下载完之后，就很容易设置了。注意扩展库SDL_image, SDL_ttf还有SDL_mixer是依赖于SDL的，你需要指定包含路径和链接设置来编译，其中SDL要先编译。</p>
@@ -2292,7 +2317,7 @@ C++11说明</h3>
 <p>  <h3></p>
 
 <p>Visual Studio</h3>
-源码文件夹里应该包含了一个叫VisualC的文件夹，如果你打开项目解决方案时被提示更新项目，照做就是。在构建之前，确定你选择生成的是Release版本。这样解决方案应该会顺利生成。主目录里有一个VisualC.html文件，里面包含的信息如果你在编译出问题的时候应该很有用。
+源码文件夹里应该包含了一个叫VisualC的文件夹，如果你打开里面的项目解决方案时被提示更新项目，照做就是。在构建之前，确定你选择生成的是Release版本。这样解决方案应该会顺利生成。主目录里有一个VisualC.html文件，里面包含的信息如果你在编译出问题的时候应该很有用。
   <br>
 <em>译注：在windows下编译需要安装DirectX SDK</em>
   <br></p>
@@ -2370,7 +2395,7 @@ SDL2.0的文档现在可以在<a href="http://wiki.libsdl.org/moin.cgi/FrontPage
 
 <p><a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">Lesson 7: Taking Advantage of Classes</a>   <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a></p>
 
-<p><a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">Lesson 8: Timers</a>                         <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-8-timers/">第八节：定时器</a></p>
+<p><a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">Lesson 8: Timers</a>                         <a href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-8-timers/">第八节：计时器</a></p>
 ]]></content>
   </entry>
   

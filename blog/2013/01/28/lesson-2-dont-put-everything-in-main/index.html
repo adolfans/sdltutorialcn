@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>SDL2.0教程翻译·<br>第二节：别什么都塞进main里 - SDL中文教程</title>
+  <title>第二节：别什么都塞进main里 - SDL中文教程</title>
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="这一节中，我们将通过编写一些非常有用的函数来将上一节我们所写的代码组织起来，在这之中呢，我们会讨论一下图片是怎样在SDL window中确定位置和缩放的。 惯例，我们需要在程序开头包含SDL。这一节我们还需要string类，所以我们在开头也包含它。 #include &quot;SDL.h& &hellip;">
+  <meta name="description" content="原文地址：http://twinklebeardev.blogspot.com/2012/07/lesson-2-dont-put-everything-in-main.html 这一节中，我们将通过编写一些非常有用的函数来将上一节我们所写的代码组织起来，在这之中呢， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">SDL2.0教程翻译·<br>第二节：别什么都塞进main里</h1>
+      <h1 class="entry-title">第二节：别什么都塞进main里</h1>
     
     
       <p class="meta">
@@ -94,7 +94,9 @@
   </header>
 
 
-<div class="entry-content"><p>这一节中，我们将通过编写一些非常有用的函数来将上一节我们所写的代码组织起来，在这之中呢，我们会讨论一下图片是怎样在SDL window中确定位置和缩放的。</p>
+<div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-2-dont-put-everything-in-main.html">http://twinklebeardev.blogspot.com/2012/07/lesson-2-dont-put-everything-in-main.html</a></p>
+
+<p>这一节中，我们将通过编写一些非常有用的函数来将上一节我们所写的代码组织起来，在这之中呢，我们会讨论一下图片是怎样在SDL window中确定位置和缩放的。</p>
 
 <!-- more -->
 
@@ -306,11 +308,15 @@ Find a way to convert our dumb method of tiling the background into a lean mean 
 
 <p>Hint</p>
 
-<p>第二节的额外挑战！</p>
+<p>Think about happens when we want to increment the y value if tiling row by row, or when we want to increment x when tiling column by column.</p>
+
+<p>第二节的Extra Challenge！</p>
 
 <p>找到一个把我们之前平铺背景的笨方法改成一个聪明一点的for循环的方法吧！也许对四个背景图块来说，这样做并不是特别有效率，但是如果图块数量很多的话，使用for循环就很有必要了。</p>
 
 <p>提示：</p>
+
+<p>试想一下，当我们一行一行平铺的时候，y坐标是怎样增加的，当一列一列平铺的时候，x坐标是怎样增加的。</p>
 
 <p>End of Lesson 2: Don&#8217;t Put Everything in Main
 If you have trouble compiling or running the program make sure you&#8217;ve set up the includes, include directories, linker settings and linker directories correctly, along with setting the correct path to the images and placing the SDL.dll in your executable folder. For Linux users there is no SDL.dll but instead make sure you have the runtime libraries in the correct place in your system.</p>
@@ -356,7 +362,7 @@ If you have trouble compiling or running the program make sure you&#8217;ve set 
         <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/" title="Previous Post: SDL2.0教程翻译·第一节: Hello World!">&laquo; SDL2.0教程翻译·第一节: Hello World!</a>
       
       
-        <a class="basic-alignment right" href="/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/" title="Next Post: SDL2.0教程翻译·第三节：SDL扩展库">SDL2.0教程翻译·第三节：SDL扩展库 &raquo;</a>
+        <a class="basic-alignment right" href="/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/" title="Next Post: 第三节：SDL扩展库">第三节：SDL扩展库 &raquo;</a>
       
     </p>
   </footer>
@@ -389,7 +395,7 @@ If you have trouble compiling or running the program make sure you&#8217;ve set 
       </li>
     
       <li class="post">
-        <a href="/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">SDL2.0教程翻译·第五节：裁剪精灵表</a>
+        <a href="/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">第五节：裁剪精灵表</a>
       </li>
     
       <li class="post">
