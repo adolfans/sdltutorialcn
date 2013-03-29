@@ -9,7 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="原文链接：http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html If you recall from the previous lessons we&#8217;ve used a &hellip;">
+  <meta name="description" content="原文地址：http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html If you recall from the previous lessons we&#8217;ve used a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,7 +94,7 @@
   </header>
 
 
-<div class="entry-content"><p>原文链接：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
+<div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
 
 <p>If you recall from the previous lessons we&#8217;ve used a global SDL_Window and SDL_Renderer so that we could access them from within our various functions throughout main.cpp, however using non-constant globals is a very bad idea, and when we start wanting to write more complicated programs this method will become unusable.</p>
 
@@ -117,7 +117,7 @@
 
 <p>Now we can move on to planning out individual functions for our class. Obviously we&#8217;ll want to bring in our ApplySurface, LoadImage and RenderText functions from the previous lessons. In addition to this we will need some sort of initialization and quitting functions to create and close the window and start/exit SDL and SDL_ttf. We&#8217;ll also need to be able to tell the window when to clear and present, and it would be useful to get the window&#8217;s width and height, so we&#8217;ll make a function for that as well.</p>
 
-<p>现在我们可以继续计划我们的类中的函数了。很显然我们应该把我们之前写的的ApplySurface, LoadImage以及RenderText放进去。此外，我们还需要一些初始化和退出的函数，以创建/关闭窗口，开始/退出SDL和SDL_ttf.我们还需要告诉窗口什么时候清屏什么时候呈现，而且还想要获得窗口的宽度和高度。所以我们为它们也分别写一个函数。</p>
+<p>现在我们可以继续计划我们的类中的函数了。很显然我们应该把我们之前写的的ApplySurface, LoadImage以及RenderText放进去。此外，我们还需要一些初始化和退出的函数，以创建/关闭窗口，开启/退出SDL和SDL_ttf.我们还需要告诉窗口什么时候清屏什么时候呈现，而且还想要获得窗口的宽度和高度。所以我们为它们也分别写一个函数。</p>
 
 <p>So here&#8217;s what we&#8217;ve got planned out for the Window class:</p>
 
@@ -158,11 +158,11 @@ private:
 
 <p>Where I&#8217;ve included the appropriate header guards and renamed ApplySurface to Draw and omitted most of its parameters as they&#8217;ll be a good bit longer now that we also need to pass a rotation angle, point of rotation and flip to SDL_RenderCopyEx.</p>
 
-<p>这里我还写了适当的header guard，把ApplySurface改名为Draw并省略了它的大部分参数——因为这里我们还需要传入旋转角度，旋转的点以及翻转的参数给SDL_RenderCopyEx，所以它的参数列表可能会有点长。</p>
+<p>这里我还写了header guard，把ApplySurface改名为Draw并省略了它的大部分参数——因为这里我们还需要传入旋转角度，旋转的点以及翻转的参数给SDL_RenderCopyEx，所以它的参数列表可能会有点长。</p>
 
 <p>This looks pretty good for a simple Window class, so lets start turning it into real code.</p>
 
-<p>这看起来对一个简单的window类来说已经挺好的了，于是现在我们来实现它吧。</p>
+<p>看起来这对一个简单的window类来说已经挺好的了，于是现在我们来实现它吧。</p>
 
 <p>The first thing I want to cover is how we&#8217;ll be handling our SDL_Window and SDL_Renderer. Instead of using a raw pointer and calling SDL_DestroyX in the Quit function, we&#8217;ll be using a new C++11 feature known as the std::unique_ptr. This pointer is included in the <memory> header and allows for use of lifetime managed objects. In the case of the unique_ptr it allows for only one pointer to use the object at a time and once that pointer goes out of scope it will call the destructor function chosen for the pointer, freeing the memory automatically.</p>
 

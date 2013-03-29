@@ -4,7 +4,7 @@
   <title><![CDATA[SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-03-28T14:22:49+08:00</updated>
+  <updated>2013-03-29T12:15:47+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -18,7 +18,9 @@
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-8-timers/"/>
     <updated>2013-03-24T23:29:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-8-timers</id>
-    <content type="html"><![CDATA[<p>In this lesson we&#8217;ll add onto our small class library of one (the Window class) by creating a simple timer and then use it in a simple program. To do this we&#8217;ll be making use of the SDL_Timer functions, specifically SDL_GetTicks which returns the milliseconds elapsed since SDL was initialized.</p>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html</a></p>
+
+<p>In this lesson we&#8217;ll add onto our small class library of one (the Window class) by creating a simple timer and then use it in a simple program. To do this we&#8217;ll be making use of the SDL_Timer functions, specifically SDL_GetTicks which returns the milliseconds elapsed since SDL was initialized.</p>
 
 <p>本节我们将通过创建一个简单的计时器来添加一个类到我们的小类库中，然后在一个简单的程序中使用它。为了做到这些，我们将充分使用SDL_Timer里的函数，尤其是SDL_GetTicks，它会返回以毫秒为单位的自从SDL初始化之后，经过的时间。</p>
 
@@ -27,7 +29,7 @@
 
 <p>So how would we be able to measure a time if we can only tell how long it&#8217;s been since SDL was initialized? Well we could mark down the value of SDL_GetTicks when we start the timer as startTicks and then again when we stop it as endTicks. We can then subtract endTicks - startTicks to get the milliseconds elapsed during the measurement. Seems easy enough right?</p>
 
-<p>所以，如果我们只知道自从SDL初始化到现在经过了多久，我们应该怎样计量时间？我们可以使用stratTicks在开始计时的时候记下时间，然后用endTicks结束。然后我们可以用endTicks减去startTicks来获得其中间隔了多久。这看起来很容易不是么？</p>
+<p>所以，如果我们只知道自从SDL初始化到现在经过了多久，我们应该怎样计量时间？我们可以使用stratTicks在开始计时的时候记下时间，然后用endTicks结束。然后我们可以用endTicks减去startTicks来获得其中间隔了多久。简单吧？</p>
 
 <p>Let&#8217;s begin planning out how we&#8217;d like our Timer to function before we start putting it together. We&#8217;ll definitely need functions for starting, stopping and getting the elapsed ticks (measured in milliseconds), and we&#8217;ll also want to be able to check if the timer has been started. In addition I think it&#8217;d be nice if we could pause and unpause the timer, and maybe a function to restart it that would return the elapsed ticks and start the timer over again all in one go. We&#8217;ll also need variables to track the start and pause points as mentioned above in how to use SDL_GetTicks to determine the elapsed time, along with some values to track the state of the timer.</p>
 
@@ -35,7 +37,7 @@
 
 <p>So let&#8217;s try something like this:</p>
 
-<p>所以我们开始试试这个：</p>
+<p>于是，我们试着写下这些代码：</p>
 
 <div><script src='https://gist.github.com/3846458.js?file=timer.h'></script>
 <noscript><pre><code>#ifndef TIMER_H
@@ -863,7 +865,7 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 9: Playing sounds
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/"/>
     <updated>2013-03-24T00:55:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes</id>
-    <content type="html"><![CDATA[<p>原文链接：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
 
 <p>If you recall from the previous lessons we&#8217;ve used a global SDL_Window and SDL_Renderer so that we could access them from within our various functions throughout main.cpp, however using non-constant globals is a very bad idea, and when we start wanting to write more complicated programs this method will become unusable.</p>
 
@@ -886,7 +888,7 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 9: Playing sounds
 
 <p>Now we can move on to planning out individual functions for our class. Obviously we&#8217;ll want to bring in our ApplySurface, LoadImage and RenderText functions from the previous lessons. In addition to this we will need some sort of initialization and quitting functions to create and close the window and start/exit SDL and SDL_ttf. We&#8217;ll also need to be able to tell the window when to clear and present, and it would be useful to get the window&#8217;s width and height, so we&#8217;ll make a function for that as well.</p>
 
-<p>现在我们可以继续计划我们的类中的函数了。很显然我们应该把我们之前写的的ApplySurface, LoadImage以及RenderText放进去。此外，我们还需要一些初始化和退出的函数，以创建/关闭窗口，开始/退出SDL和SDL_ttf.我们还需要告诉窗口什么时候清屏什么时候呈现，而且还想要获得窗口的宽度和高度。所以我们为它们也分别写一个函数。</p>
+<p>现在我们可以继续计划我们的类中的函数了。很显然我们应该把我们之前写的的ApplySurface, LoadImage以及RenderText放进去。此外，我们还需要一些初始化和退出的函数，以创建/关闭窗口，开启/退出SDL和SDL_ttf.我们还需要告诉窗口什么时候清屏什么时候呈现，而且还想要获得窗口的宽度和高度。所以我们为它们也分别写一个函数。</p>
 
 <p>So here&#8217;s what we&#8217;ve got planned out for the Window class:</p>
 
@@ -927,11 +929,11 @@ private:
 
 <p>Where I&#8217;ve included the appropriate header guards and renamed ApplySurface to Draw and omitted most of its parameters as they&#8217;ll be a good bit longer now that we also need to pass a rotation angle, point of rotation and flip to SDL_RenderCopyEx.</p>
 
-<p>这里我还写了适当的header guard，把ApplySurface改名为Draw并省略了它的大部分参数——因为这里我们还需要传入旋转角度，旋转的点以及翻转的参数给SDL_RenderCopyEx，所以它的参数列表可能会有点长。</p>
+<p>这里我还写了header guard，把ApplySurface改名为Draw并省略了它的大部分参数——因为这里我们还需要传入旋转角度，旋转的点以及翻转的参数给SDL_RenderCopyEx，所以它的参数列表可能会有点长。</p>
 
 <p>This looks pretty good for a simple Window class, so lets start turning it into real code.</p>
 
-<p>这看起来对一个简单的window类来说已经挺好的了，于是现在我们来实现它吧。</p>
+<p>看起来这对一个简单的window类来说已经挺好的了，于是现在我们来实现它吧。</p>
 
 <p>The first thing I want to cover is how we&#8217;ll be handling our SDL_Window and SDL_Renderer. Instead of using a raw pointer and calling SDL_DestroyX in the Quit function, we&#8217;ll be using a new C++11 feature known as the std::unique_ptr. This pointer is included in the <memory> header and allows for use of lifetime managed objects. In the case of the unique_ptr it allows for only one pointer to use the object at a time and once that pointer goes out of scope it will call the destructor function chosen for the pointer, freeing the memory automatically.</p>
 
@@ -1258,16 +1260,18 @@ Window::Present();</code></pre></noscript></div>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/"/>
     <updated>2013-03-23T00:54:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf</id>
-    <content type="html"><![CDATA[<p>In this lesson we will start learning how to use the SDL_ttf library to render text using True Type fonts. For this lesson you&#8217;ll need the SDL_ttf library which you should have from when you downloaded and compiled all the libraries on SDL2.0 Mercurial. If you don&#8217;t have the SDL2.0 version of SDL_ttf, you should download and compile it now. The library is linked up the same as SDL_image was in Lesson 3.</p>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html</a></p>
 
-<p>本节我们将开始学习怎样使用SDL_ttf库来用True type字体绘制文本。本节需要你从Mercurial里预先下载并编译好SDL_ttf库。如果你还没有SDL_ttf的SDL2.0版本，你应该现在下载编译它。这个库和第三节提到的SDL_image的链接方法很相似。</p>
+<p>In this lesson we will start learning how to use the SDL_ttf library to render text using True Type fonts. For this lesson you&#8217;ll need the SDL_ttf library which you should have from when you downloaded and compiled all the libraries on SDL2.0 Mercurial. If you don&#8217;t have the SDL2.0 version of SDL_ttf, you should download and compile it now. The library is linked up the same as SDL_image was in Lesson 3.</p>
+
+<p>本节我们将学习怎样使用SDL_ttf库来用True type字体绘制文本。在这之前，你需要从Mercurial里预先下载并编译好SDL_ttf库。如果你还没有SDL_ttf的SDL2.0版本，你应该现在赶紧下载编译。这个库和第三节提到的SDL_image的链接方法很相似。</p>
 
 <!-- more -->
 
 
 <p>In addition to the library we&#8217;ll need a true type font to use to draw our text. It&#8217;s important that you&#8217;re careful when choosing a font as many fonts are proprietary or have rules about using them in software, and if used without the proper licensing can result in a nasty legal mess. Fortunately for us there are many excellent open fonts available online. For this lesson we&#8217;ll be using a set of open source fonts recently released by Adobe which you can download directly from sourceforge, the specific font I chose for this lesson is SourceSansPro-Regular, but you can use any font you like.</p>
 
-<p>除了这个库之外，我们还需要一个true type字体来绘制文本。需要强调的是你在选择字体的时候要小心，因为很多字体是专有的或者是需要你在使用过程中遵循一定规范。如果未经许可使用，可能会导致一些令人讨厌的法律问题。不过幸运的是，网上仍然有很多优秀又开放的字体。本节我们使用一套最近由Adobe发布的开源字体，你可以从sourceforge上下载到。本节我选用的字体是SourceSansPro-Regular，你可以选任意你喜欢的字体。</p>
+<p>除了这个库之外，我们还需要一个true type字体文件来绘制文本。需要强调的是你在选择字体的时候要小心，因为很多字体是专有的或者是需要你在使用过程中遵循一定规范。如果未经许可使用，可能会导致一些讨人厌的法律问题。不过幸运的是，网上仍然有很多优秀又开放的字体。本节我们使用一套最近由Adobe发布的开源字体，你可以从sourceforge上下载到。本节我选用的字体是SourceSansPro-Regular，你可以选任意你喜欢的字体。</p>
 
 <p>Now that we&#8217;ve got our font downloaded and libraries linked up lets take a look at how we can work with fonts via SDL_ttf. The library provides functionality for opening and closing TTF fonts and rendering text to SDL_Surface pointers. The library also lets us specify the color and font size we&#8217;d like to use when rendering the text. You can find the full library documentation here.</p>
 
@@ -1286,7 +1290,7 @@ Window::Present();</code></pre></noscript></div>
 
 <p>In order to use the library we need to initialize it in our main function after initializing SDL. Note that we check for errors similar to how we check for issues when starting SDL, except that now to get the appropriate error information we use TTF_GetError, similar to what we did in Lesson 3 to get SDL_image error information.</p>
 
-<p>为了使用这个库，我们需要在main函数中，初始化SDL完毕后，初始化SDL_ttf库。注意我们在检查错误的时候，使用的方法和检查初始化SDL时问题的方法一样，除了用的是TTF_GetError来获取适当的错误信息之外，和第三节中获取SDL_image的错误信息的方法类似。</p>
+<p>为了使用这个库，我们需要在main函数中，初始化SDL完毕后，初始化SDL_ttf库。注意我们在检查错误的时候，使用的方法和检查初始化SDL时问题的方法类似，除了用的是TTF_GetError来获取适当的错误信息之外，和第三节中获取SDL_image的错误信息的方法类似。</p>
 
 <div><script src='https://gist.github.com/3390025.js?file=2.cpp'></script>
 <noscript><pre><code>if (TTF_Init() == -1){
@@ -1297,7 +1301,7 @@ Window::Present();</code></pre></noscript></div>
 
 <p>Next we&#8217;ll want to make a function to render a message and abstract away the work that goes into it, and simply return an SDL_Texture that we can draw to the screen. In addition to rendering the message the function will also need to convert the SDL_Surface pointer returned from TTF_RenderText_X to a SDL_Texture pointer and return that.</p>
 
-<p>下一步我们要编写一个绘制一行消息的函数并把它所做的工作抽象出来，然后单纯地返回一个我们可以直接绘制到屏幕上的SDL_Texture。除了把消息的文字绘制出来之外，这个函数还需要把TTF_RenderText_X返回的SDL_Surface指针转化为SDL_Texture指针，并将之返回。</p>
+<p>下一步我们要编写一个绘制一行消息文本的函数并把它所做的工作抽象出来，然后简单地返回一个我们可以直接绘制到屏幕上的SDL_Texture。除了把消息的文字绘制出来之外，这个函数还需要把TTF_RenderText_X返回的SDL_Surface指针转化为SDL_Texture指针，并将之返回。</p>
 
 <p>The information needed to render the message is the message itself, a font file name, a font size and a font color. We can now add a nice function to render our desired message to our code:</p>
 
@@ -1326,7 +1330,7 @@ Window::Present();</code></pre></noscript></div>
 
 <p>That&#8217;s quite a bit of code! Lets step through it and figure out exactly what&#8217;s going on. First, we know that we need a message, font file, font color and font size so that we can properly draw our message. SDL provides the SDL_Color structure that is used for specifying what color we want and takes three values for RGB which can each range from 0-255.</p>
 
-<p>这些代码真是相当地不少！让我们把它看一遍，看看它实际上在做什么。首先，我们知道我们需要一条消息，字体文件，字体颜色还有字体大小，以便于正确地绘制消息。SDL提供了SDL_Color结构来指定我们想要的颜色，它包含三个分别对应RGB的值，其中每个的取值范围为0-255.</p>
+<p>这些代码真是相当地不少！让我们把它看一遍，看看它实际上在做什么。首先，我们需要一条消息，字体文件，字体颜色还有字体大小，以便于正确地绘制消息。SDL提供了SDL_Color结构来指定我们想要的颜色，它包含三个分别对应RGB的值，其中每个的取值范围为0-255.</p>
 
 <p>The first step in drawing the text is to open our font, which we do on line 4 using TTF_OpenFont, which takes the font file and the font size to open the font as. Note that the same nullptr error checking that we&#8217;ve used before in LoadImage is used to make sure the font opened ok. If it fails we throw an error and include the font file name that caused the error along with TTF_GetError so that we can have enough information to diagnose the issue.</p>
 
@@ -1389,7 +1393,7 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/"/>
     <updated>2013-02-14T16:16:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets</id>
-    <content type="html"><![CDATA[<p>原文链接: <a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html</a></p>
+    <content type="html"><![CDATA[<p>原文地址: <a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html</a></p>
 
 <p>It&#8217;s very common in sprite based games to use a large image file containing many smaller images, such as tiles for a tileset, as opposed to having a separate image file for each tile. This type of image is known as a sprite sheet, and is very useful because we don&#8217;t need to have a separate image file for each image in the game but instead can just draw the subset of the sheet that we want.</p>
 
@@ -1567,7 +1571,7 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming/"/>
     <updated>2013-02-12T12:15:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming</id>
-    <content type="html"><![CDATA[<p>原文链接：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html</a></p>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html</a></p>
 
 <p>Now that we&#8217;ve learned how to draw images to the screen it&#8217;s time to learn how to read user input. Our game won&#8217;t be very good if there&#8217;s no way to play it! In this lesson we will cover simple event handling using SDL and begin designing a primitive &#8216;main loop&#8217;.</p>
 
@@ -1682,7 +1686,7 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries/"/>
     <updated>2013-01-28T11:49:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/28/lesson-3-sdl-extension-libraries</id>
-    <content type="html"><![CDATA[<p>原文链接：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
 
 <p>通过上一节的学习，你也许会怀疑SDL是否能读取BMP以外的图片格式。尽管SDL本身并不提供读取非BMP图片的功能，但包括读取多种图片格式的SDL_image，渲染true-type字体的SDL_ttf，支持更多音乐格式的SDL_mixer，支持网络的SDL
 _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
@@ -2059,11 +2063,13 @@ If you have trouble compiling or running the program make sure you&#8217;ve set 
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·第一节: Hello World!]]></title>
+    <title type="html"><![CDATA[第一节: Hello World!]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world/"/>
     <updated>2013-01-26T20:22:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/lesson-1-hello-world</id>
-    <content type="html"><![CDATA[<p>这一节我们将学习简单的将一张图片绘制到屏幕上的方法。具体来讲是绘制下面这张图片。</p>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-0-setting-up-sdl.html">http://twinklebeardev.blogspot.com/2012/07/lesson-0-setting-up-sdl.html</a></p>
+
+<p>这一节我们将学习简单的将一张图片绘制到屏幕上的方法。具体来讲是绘制下面这张图片。</p>
 
 <!-- more -->
 
@@ -2215,11 +2221,13 @@ If you have trouble compiling or running the program make sure you&#8217;ve set 
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·<br>在Visual Studio中配置SDL]]></title>
+    <title type="html"><![CDATA[在Visual Studio中配置SDL]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/"/>
     <updated>2013-01-26T13:34:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio</id>
-    <content type="html"><![CDATA[<p>既然我们已经把库配置好了，我们就需要在我们的项目中链接SDL库。打开Visual Studio，创建一个新的空白C++工程。<br></p>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/07/setting-up-sdl-in-visual-studio.html">http://twinklebeardev.blogspot.com/2012/07/setting-up-sdl-in-visual-studio.html</a></p>
+
+<p>既然我们已经把库配置好了，我们就需要在我们的项目中链接SDL库。打开Visual Studio，创建一个新的空白C++工程。<br></p>
 
 <!-- more -->
 
@@ -2319,10 +2327,11 @@ C++11说明</h3>
 <p>Visual Studio</h3>
 源码文件夹里应该包含了一个叫VisualC的文件夹，如果你打开里面的项目解决方案时被提示更新项目，照做就是。在构建之前，确定你选择生成的是Release版本。这样解决方案应该会顺利生成。主目录里有一个VisualC.html文件，里面包含的信息如果你在编译出问题的时候应该很有用。
   <br>
-<em>译注：在windows下编译需要安装DirectX SDK</em>
+<strong>译注：在windows下编译需要安装DirectX SDK</strong>，下载地址在<a href="http://www.microsoft.com/en-us/download/details.aspx?id=6812">此处</a>
+.
   <br></p>
 
-<p>在生成扩展库的时候，确认你生成的是Release版本。注意在你编译之前，你需要指定SDL2.0的包含路径(include directory，头文件路径)和库路径(library directory)。
+<p>在生成扩展库的时候，确认你生成的是Release版本。注意在编译之前，你需要给扩展库指定SDL2.0的包含路径(include directory，头文件路径)和库路径(library directory)。
   <br>
   <br>
   <b>SDL_mixer的说明：</b>

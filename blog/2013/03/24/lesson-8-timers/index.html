@@ -9,7 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="In this lesson we&#8217;ll add onto our small class library of one (the Window class) by creating a simple timer and then use it in a simple program &hellip;">
+  <meta name="description" content="原文地址：http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html In this lesson we&#8217;ll add onto our small class library of one (the Window &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,7 +94,9 @@
   </header>
 
 
-<div class="entry-content"><p>In this lesson we&#8217;ll add onto our small class library of one (the Window class) by creating a simple timer and then use it in a simple program. To do this we&#8217;ll be making use of the SDL_Timer functions, specifically SDL_GetTicks which returns the milliseconds elapsed since SDL was initialized.</p>
+<div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html</a></p>
+
+<p>In this lesson we&#8217;ll add onto our small class library of one (the Window class) by creating a simple timer and then use it in a simple program. To do this we&#8217;ll be making use of the SDL_Timer functions, specifically SDL_GetTicks which returns the milliseconds elapsed since SDL was initialized.</p>
 
 <p>本节我们将通过创建一个简单的计时器来添加一个类到我们的小类库中，然后在一个简单的程序中使用它。为了做到这些，我们将充分使用SDL_Timer里的函数，尤其是SDL_GetTicks，它会返回以毫秒为单位的自从SDL初始化之后，经过的时间。</p>
 
@@ -103,7 +105,7 @@
 
 <p>So how would we be able to measure a time if we can only tell how long it&#8217;s been since SDL was initialized? Well we could mark down the value of SDL_GetTicks when we start the timer as startTicks and then again when we stop it as endTicks. We can then subtract endTicks - startTicks to get the milliseconds elapsed during the measurement. Seems easy enough right?</p>
 
-<p>所以，如果我们只知道自从SDL初始化到现在经过了多久，我们应该怎样计量时间？我们可以使用stratTicks在开始计时的时候记下时间，然后用endTicks结束。然后我们可以用endTicks减去startTicks来获得其中间隔了多久。这看起来很容易不是么？</p>
+<p>所以，如果我们只知道自从SDL初始化到现在经过了多久，我们应该怎样计量时间？我们可以使用stratTicks在开始计时的时候记下时间，然后用endTicks结束。然后我们可以用endTicks减去startTicks来获得其中间隔了多久。简单吧？</p>
 
 <p>Let&#8217;s begin planning out how we&#8217;d like our Timer to function before we start putting it together. We&#8217;ll definitely need functions for starting, stopping and getting the elapsed ticks (measured in milliseconds), and we&#8217;ll also want to be able to check if the timer has been started. In addition I think it&#8217;d be nice if we could pause and unpause the timer, and maybe a function to restart it that would return the elapsed ticks and start the timer over again all in one go. We&#8217;ll also need variables to track the start and pause points as mentioned above in how to use SDL_GetTicks to determine the elapsed time, along with some values to track the state of the timer.</p>
 
@@ -111,7 +113,7 @@
 
 <p>So let&#8217;s try something like this:</p>
 
-<p>所以我们开始试试这个：</p>
+<p>于是，我们试着写下这些代码：</p>
 
 <div><script src='https://gist.github.com/3846458.js?file=timer.h'></script>
 <noscript><pre><code>#ifndef TIMER_H

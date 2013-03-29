@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SDL2.0 | SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/blog/categories/sdl2-0/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-03-28T14:22:49+08:00</updated>
+  <updated>2013-03-29T12:15:47+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -14,11 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[SDL2.0教程翻译·<br>在Visual Studio中配置SDL]]></title>
+    <title type="html"><![CDATA[在Visual Studio中配置SDL]]></title>
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio/"/>
     <updated>2013-01-26T13:34:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/01/26/setting-up-sdl-in-visual-studio</id>
-    <content type="html"><![CDATA[<p>既然我们已经把库配置好了，我们就需要在我们的项目中链接SDL库。打开Visual Studio，创建一个新的空白C++工程。<br></p>
+    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/07/setting-up-sdl-in-visual-studio.html">http://twinklebeardev.blogspot.com/2012/07/setting-up-sdl-in-visual-studio.html</a></p>
+
+<p>既然我们已经把库配置好了，我们就需要在我们的项目中链接SDL库。打开Visual Studio，创建一个新的空白C++工程。<br></p>
 
 <!-- more -->
 

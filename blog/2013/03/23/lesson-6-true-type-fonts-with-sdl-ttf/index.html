@@ -9,7 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="In this lesson we will start learning how to use the SDL_ttf library to render text using True Type fonts. For this lesson you&#8217;ll need the &hellip;">
+  <meta name="description" content="原文地址：http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html In this lesson we will start learning how to use the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -94,16 +94,18 @@
   </header>
 
 
-<div class="entry-content"><p>In this lesson we will start learning how to use the SDL_ttf library to render text using True Type fonts. For this lesson you&#8217;ll need the SDL_ttf library which you should have from when you downloaded and compiled all the libraries on SDL2.0 Mercurial. If you don&#8217;t have the SDL2.0 version of SDL_ttf, you should download and compile it now. The library is linked up the same as SDL_image was in Lesson 3.</p>
+<div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html</a></p>
 
-<p>本节我们将开始学习怎样使用SDL_ttf库来用True type字体绘制文本。本节需要你从Mercurial里预先下载并编译好SDL_ttf库。如果你还没有SDL_ttf的SDL2.0版本，你应该现在下载编译它。这个库和第三节提到的SDL_image的链接方法很相似。</p>
+<p>In this lesson we will start learning how to use the SDL_ttf library to render text using True Type fonts. For this lesson you&#8217;ll need the SDL_ttf library which you should have from when you downloaded and compiled all the libraries on SDL2.0 Mercurial. If you don&#8217;t have the SDL2.0 version of SDL_ttf, you should download and compile it now. The library is linked up the same as SDL_image was in Lesson 3.</p>
+
+<p>本节我们将学习怎样使用SDL_ttf库来用True type字体绘制文本。在这之前，你需要从Mercurial里预先下载并编译好SDL_ttf库。如果你还没有SDL_ttf的SDL2.0版本，你应该现在赶紧下载编译。这个库和第三节提到的SDL_image的链接方法很相似。</p>
 
 <!-- more -->
 
 
 <p>In addition to the library we&#8217;ll need a true type font to use to draw our text. It&#8217;s important that you&#8217;re careful when choosing a font as many fonts are proprietary or have rules about using them in software, and if used without the proper licensing can result in a nasty legal mess. Fortunately for us there are many excellent open fonts available online. For this lesson we&#8217;ll be using a set of open source fonts recently released by Adobe which you can download directly from sourceforge, the specific font I chose for this lesson is SourceSansPro-Regular, but you can use any font you like.</p>
 
-<p>除了这个库之外，我们还需要一个true type字体来绘制文本。需要强调的是你在选择字体的时候要小心，因为很多字体是专有的或者是需要你在使用过程中遵循一定规范。如果未经许可使用，可能会导致一些令人讨厌的法律问题。不过幸运的是，网上仍然有很多优秀又开放的字体。本节我们使用一套最近由Adobe发布的开源字体，你可以从sourceforge上下载到。本节我选用的字体是SourceSansPro-Regular，你可以选任意你喜欢的字体。</p>
+<p>除了这个库之外，我们还需要一个true type字体文件来绘制文本。需要强调的是你在选择字体的时候要小心，因为很多字体是专有的或者是需要你在使用过程中遵循一定规范。如果未经许可使用，可能会导致一些讨人厌的法律问题。不过幸运的是，网上仍然有很多优秀又开放的字体。本节我们使用一套最近由Adobe发布的开源字体，你可以从sourceforge上下载到。本节我选用的字体是SourceSansPro-Regular，你可以选任意你喜欢的字体。</p>
 
 <p>Now that we&#8217;ve got our font downloaded and libraries linked up lets take a look at how we can work with fonts via SDL_ttf. The library provides functionality for opening and closing TTF fonts and rendering text to SDL_Surface pointers. The library also lets us specify the color and font size we&#8217;d like to use when rendering the text. You can find the full library documentation here.</p>
 
@@ -122,7 +124,7 @@
 
 <p>In order to use the library we need to initialize it in our main function after initializing SDL. Note that we check for errors similar to how we check for issues when starting SDL, except that now to get the appropriate error information we use TTF_GetError, similar to what we did in Lesson 3 to get SDL_image error information.</p>
 
-<p>为了使用这个库，我们需要在main函数中，初始化SDL完毕后，初始化SDL_ttf库。注意我们在检查错误的时候，使用的方法和检查初始化SDL时问题的方法一样，除了用的是TTF_GetError来获取适当的错误信息之外，和第三节中获取SDL_image的错误信息的方法类似。</p>
+<p>为了使用这个库，我们需要在main函数中，初始化SDL完毕后，初始化SDL_ttf库。注意我们在检查错误的时候，使用的方法和检查初始化SDL时问题的方法类似，除了用的是TTF_GetError来获取适当的错误信息之外，和第三节中获取SDL_image的错误信息的方法类似。</p>
 
 <div><script src='https://gist.github.com/3390025.js?file=2.cpp'></script>
 <noscript><pre><code>if (TTF_Init() == -1){
@@ -133,7 +135,7 @@
 
 <p>Next we&#8217;ll want to make a function to render a message and abstract away the work that goes into it, and simply return an SDL_Texture that we can draw to the screen. In addition to rendering the message the function will also need to convert the SDL_Surface pointer returned from TTF_RenderText_X to a SDL_Texture pointer and return that.</p>
 
-<p>下一步我们要编写一个绘制一行消息的函数并把它所做的工作抽象出来，然后单纯地返回一个我们可以直接绘制到屏幕上的SDL_Texture。除了把消息的文字绘制出来之外，这个函数还需要把TTF_RenderText_X返回的SDL_Surface指针转化为SDL_Texture指针，并将之返回。</p>
+<p>下一步我们要编写一个绘制一行消息文本的函数并把它所做的工作抽象出来，然后简单地返回一个我们可以直接绘制到屏幕上的SDL_Texture。除了把消息的文字绘制出来之外，这个函数还需要把TTF_RenderText_X返回的SDL_Surface指针转化为SDL_Texture指针，并将之返回。</p>
 
 <p>The information needed to render the message is the message itself, a font file name, a font size and a font color. We can now add a nice function to render our desired message to our code:</p>
 
@@ -162,7 +164,7 @@
 
 <p>That&#8217;s quite a bit of code! Lets step through it and figure out exactly what&#8217;s going on. First, we know that we need a message, font file, font color and font size so that we can properly draw our message. SDL provides the SDL_Color structure that is used for specifying what color we want and takes three values for RGB which can each range from 0-255.</p>
 
-<p>这些代码真是相当地不少！让我们把它看一遍，看看它实际上在做什么。首先，我们知道我们需要一条消息，字体文件，字体颜色还有字体大小，以便于正确地绘制消息。SDL提供了SDL_Color结构来指定我们想要的颜色，它包含三个分别对应RGB的值，其中每个的取值范围为0-255.</p>
+<p>这些代码真是相当地不少！让我们把它看一遍，看看它实际上在做什么。首先，我们需要一条消息，字体文件，字体颜色还有字体大小，以便于正确地绘制消息。SDL提供了SDL_Color结构来指定我们想要的颜色，它包含三个分别对应RGB的值，其中每个的取值范围为0-255.</p>
 
 <p>The first step in drawing the text is to open our font, which we do on line 4 using TTF_OpenFont, which takes the font file and the font size to open the font as. Note that the same nullptr error checking that we&#8217;ve used before in LoadImage is used to make sure the font opened ok. If it fails we throw an error and include the font file name that caused the error along with TTF_GetError so that we can have enough information to diagnose the issue.</p>
 
