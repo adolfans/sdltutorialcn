@@ -114,15 +114,9 @@ SDL_Window *window = nullptr;
 SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 
 
-<p>We&#8217;ll also declare some constant values for our screen width and height along with global declarations of a window and renderer so that they&#8217;re accessible by our functions. Again we initialize the pointers as nullptr for safety. If you&#8217;re not using C++11 initialize them as NULL.</p>
-
 <p>我们还声明了一些表示窗口宽度和高度的常量，连同window还有renderer的全局变量，以便于所有的函数都能够访问到它们。这里有一次为了安全我们把指针初始化为nullptr.如果你没有使用C++11，那就把它们初始化为NULL吧。</p>
 
-<p>Note: You should avoid using non-constant global values or global values in general as much as possible, ie. you should never ever declare a global SDL_Window or SDL_Renderer. However, for this simple lesson we&#8217;ll let it slide. But it&#8217;s ok if you feel grossed out. We&#8217;ll cover a solution to global objects in a few lessons.</p>
-
-<p>注意：你应该尽可能地避免适用非常量的全局数或者全局变量，这即是说，你从来都不应该声明全局的SDL_Window和SDL_Renderer。尽管这样，在这个简单的课程中，我们不要纠结这个。但是如果你觉得这样做恶心的话，这也没关系。在以后几节课程中，我们将提到一个解决方案。</p>
-
-<p>Remember from Lesson 1 where we loaded a texture? It wasn&#8217;t so bad to just have it in main for loading one image, but what if we had lots images to load? We&#8217;d have to type it out every time! We can do much better, instead let&#8217;s define a function for loading textures from a filename:</p>
+<p>注意：你应该尽可能地避免适用非常量的全局数或者全局变量，这即是说，你从来都不应该声明全局的SDL_Window和SDL_Renderer。尽管这样，鉴于这是一套非常简单的教程，我们还是不要纠结这个问题了。但是如果你觉得这样做恶心的话，这也没关系。在以后几节课程中，我们将提到一个解决方案。</p>
 
 <p>还记得在第一节中我们加载了一个texture么。把加载图像的代码放到main里并不是太坏，但是如果我们需要加载很多图像呢？我们不得不每次都要写一遍那些代码！我们可以做得更好——定义一个可以通过文件名来加载texture的函数。</p>
 
@@ -142,11 +136,7 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p>The function here should look very familiar as it&#8217;s the exact same code we wrote in Lesson 1, but now we have wrapped it up in a nice function. With this function we can pass a file name as a string and get back a pointer to the loaded SDL_Texture. Note that the pointer will be nullptr if the loading fails because we initialize both pointers as nullptr for error checking.</p>
-
 <p>这里的这个函数看起来应该非常眼熟才对，因为它就是我们在第一节写的代码。但是这一次，我们把它们用一个美妙的函数包裹了起来。有了这个函数，我们就可以传给它一个文件名的字符串，然后得到一个SDL_Texture的指针。注意，如果图片加载失败了，这个指针会是nullptr，因为我们为了错误检测，把所有的指针都初始化为了nullptr。</p>
-
-<p> Next we&#8217;ll want to write a function to simplify our draw calls and also allow us to specify a position to draw the image too on the screen. We&#8217;ll want it to be able to take an x, y coordinate position along with a texture pointer and a renderer pointer and then draw the texture to that position.</p>
 
 <p>下一步，我们想要写一个可以简化我们绘制调用，并且允许我们指定图像在屏幕上绘制的位置的函数。我们需要它能够取得x, y坐标位置还有一个texture指针，以及一个renderer指针，然后把那个texture画在那个位置。</p>
 
@@ -161,23 +151,13 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p> In order to specify a position for the texture to be drawn too we need to create a SDL_Rect that we can pass the address to SDL_RenderCopy&#8217;s destination rect parameter. This is done because the last two parameters of SDL_RenderCopy are SDL_Rect pointers, so it&#8217;s expecting an address.</p>
-
 <p>为了指定Texture绘制的位置，我们需要创建一个SDL_Rect，这样我们就可以把它的地址传给SDL_RenderCopy的目标rect参数。这样做是因为SDL_RenderCopy的最后两个参数是SDL_Rect类型的指针，所以需要传入一个地址。</p>
-
-<p>To create our rectangle we take the x and y values that we passed in and the set rectangle&#8217;s values equal to them. However we must also specify the width and height we want the texture to be drawn with as SDL 2.0 also gives us the ability to scale our textures. Try playing with the width and height values once the tutorial is done and see what happens!</p>
 
 <p>为了创建这个矩形（rectangle），我们将传入的x与y赋给rectangle的x和y.另外，我们还必须指定需要texture绘制的宽度和高度，因为SDL2.0在这里赋予了我们缩放texture的能力。在本教程结束后，你可以试着更改高度和宽度并看看会发生什么情况。</p>
 
-<p>For now we just want to pass the texture&#8217;s width and height so that we draw it at a 1:1 scale. We can get these values by using SDL_QueryTexture. This function takes the texture pointer we want to query, the two parameters we pass NULL to are the format and access level parameters respectively, which we can ignore. Finally we must pass the addresses of the variables that we want to fill with the width and height of the texture.</p>
-
 <p>但是现在我们只想把texture原本的宽度和高度传入，以便于以1：1的比例来绘制它。我们可以通过SDL_QueryTexure来获取这些值。这个函数需要我们传入texture的指针，后面两个参数我们传入NULL，它们分别是texture格式（? 待考证函数说明）和访问级别，现在我们可以无视它们。最后我们将需要填texture宽高的变量的地址传入。</p>
 
-<p>Now that we&#8217;ve got our SDL_Rect set up we can pass it, along with the renderer and texture as before, to SDL_RenderCopy so that our texture will be drawn at the point specified and with its original width and height. The remaining NULL parameter in this function is for taking a clip of the source texture, which we&#8217;ll cover later.</p>
-
 <p>现在我们已经有了SDL_Rect，我们可以把它还有renderer，以及之前的texture传给SDL_RenderCopy ，这样texture就会以它原始的尺寸绘制在我们制定的位置。剩下的那个NULL的参数是为了裁剪原来的texture之用的，这点我们会在后面提及。</p>
-
-<p>Let&#8217;s see our functions in action. First we&#8217;ve got to start up SDL and create our window and renderer as before. We&#8217;ve also got something new here, SDL_WINDOWPOS_CENTERED. This is an option we can use when creating our window to tell SDL to center its position on the specified axis, here we do it for x and y.</p>
 
 <p>现在我们实际看一下我们的函数。首先我们和以前一样开启SDL，创建窗口还有renderer。这里还有个新东西，SDL_WINDOWPOS_CENTERED.这是个可以用来在创建窗口的时候告诉SDL把窗口设到指定坐标轴中央的选项，这里我们指定的是x和y。</p>
 
@@ -202,19 +182,15 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
     }</code></pre></noscript></div>
 
 
-<p>Now let&#8217;s load up our images. For this lesson we&#8217;ll be drawing a tiled background image and drawing a centered image on top of it. Here&#8217;s our background:</p>
-
 <p>现在我们加载图片。本节我们将绘制一个平铺的背景图还有位于它上面的一张居中的图。张是我们的背景图：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson2/background.bmp"></p>
 
-<p>And this will be our foreground image:
-然后这张是前景图：</p>
+<p>然后这张是前景图：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson2/image.bmp"></p>
 
-<p>Let&#8217;s load them up with the LoadImage function we just wrote.
-我们用刚才写的LoadImage 函数来加载它。</p>
+<p>我们用刚才写的LoadImage 函数来加载它。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=5.cpp'></script>
 <noscript><pre><code>    SDL_Texture *background = nullptr, *image = nullptr;
@@ -224,28 +200,17 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
         return 4;</code></pre></noscript></div>
 
 
-<p>Note that you will have to change the file paths to match the relative location of the image to the executable on your system.
-注意你也许需要更改文件路径以便与文件实际运行的路径匹配。</p>
-
-<p>Before we draw the images we&#8217;ll need to know where we want to position them, specifically how we&#8217;ll tile our background and also how we can draw the foreground image centered on the screen. First we&#8217;ll have to understand how SDL&#8217;s coordinate system works, as it is a bit different than the standard 2D Cartesian coordinate system. SDL&#8217;s coordinate system looks like this:</p>
+<p>注意你也许需要更改文件路径以便与文件实际运行的路径匹配。</p>
 
 <p>在绘制图片之前，我们需要知道我们要把它们放在那里，特别是我们应该如何平铺背图，还有如何把前景图绘制在屏幕中央。首先，我们必须弄明白SDL的坐标系统是怎样工作的。SDL的坐标系统看起来是这样的：</p>
 
 <p><img src="/sdltutorialcn/images/blogimages/lesson2/sdlcoord.png"></p>
 
-<p>With 0, 0 being in the top-left corner of the screen. Y values increase as we move down the screen and X values increase as we move to the right on the screen. Another thing to note about SDL&#8217;s coordinate system is that the x, y point specified to draw an image at is used as the location to draw the top-left corner of the image, as opposed to the center of the image like some other libraries.</p>
-
 <p>坐标0,0处从屏幕左上角开始。Y坐标从上到下增加，X坐标从左到右增加。另外还有一个需要注意的问题，SDL的坐标系统是，指定的图片绘制的x,y坐标，将以这个坐标为图片左上角的坐标来绘制——而不是像其他一些库一样把这个坐标当作图片的中心。</p>
-
-<p>Before we draw: A note about SDL&#8217;s drawing order: The order in which things are drawn will be the order in which they sit on top of each other, so the first thing drawn is the bottom-most image, and the last image drawn will sit on top of everything.</p>
 
 <p>在绘制之前，还有一个需要注意的问题：SDL的绘制顺序。我们绘制时的顺序就是图像叠加的顺序，所以我们首先绘制的东西将位于最底层，最后绘制的将位于所有图像的最上层。</p>
 
-<p>If you&#8217;ve taken a peek at the background image yet you&#8217;ll have noticed that it has a width of 320 and a height of 240, with a screen that is 640x280 we&#8217;ll need to draw the background image four times to tile it over the window scooting it over by its width or height each time.</p>
-
 <p>如果你看了那张背景图，你会发现这张图长320宽240，如果是640x480的屏幕的话，我们需要把它画四次以覆盖整个窗口，每次都要依据图片长宽来移动图片。</p>
-
-<p>Before drawing anything, we&#8217;ll want to clear the screen, next we&#8217;ll want to setup the positioning of elements on the window. We can get the width and height of the image again by using the QueryTexture function on the background, this gives us a more versatile method in which we could instead create a for loop to iterate over the positions based on the image width and height, perhaps if we were placing many small tiles. For this case we&#8217;re only drawing it four times, so we can take the &#8216;dumb&#8217; route and just type it out.</p>
 
 <p>在绘制之前，我们需要清屏，然后创建好需要画到窗口中的元素。我们可以通过QueryTexture函数来获取背景图的长和宽，它为我们提供了相较之用一个for循环来迭代图像的长宽的一个更便捷的方法，如果我们需要绘制很多小的tile（方块？就是2D游戏中常见的一张图储存了很多种方块，方块的不同排列组成场景的不同部分。。。的那种方块。= =||）在本例中我们一共只需要画四次，所以我们用笨方法直接敲四次代码好了。</p>
 
@@ -260,8 +225,6 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
     ApplySurface(bW, bH, background, renderer);</code></pre></noscript></div>
 
 
-<p>Now we want to draw our foreground image on top of the background, and centered in the window. We can calculate the center point quite easily but because the point we pass to ApplySurface is the location of the top-left corner of the image we must also apply an offset to the point relative to the image&#8217;s width for x and height for y to put the real center of the image at the center point of the screen.</p>
-
 <p>现在，我们想要把前景图画在背景图上方并在窗口中居中显示。我们可以很容易地计算出中间点的坐标，但是因为传入ApplySurface函数的图片坐标应该在图片左上角，我们必须给这个点应用一个基于原图像宽度和高度的偏移，以把图片正确地放到屏幕中央。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=7.cpp'></script>
@@ -272,16 +235,12 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
     ApplySurface(x, y, image, renderer);</code></pre></noscript></div>
 
 
-<p>In order to see our drawing we&#8217;ll have to present the renderer and then have SDL wait for a second or two so we have a chance to see the image.</p>
-
 <p>为了看到我们绘制的结果，我们需要把renderer呈现（present）出来，并且让SDL等待一两秒钟以便于我们能看到显示的图像。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=8.cpp'></script>
 <noscript><pre><code>    SDL_RenderPresent(renderer);
     SDL_Delay(2000);</code></pre></noscript></div>
 
-
-<p>Finally, we wrap up the program by freeing the memory being used by the textures, renderer and window, quit SDL and return.</p>
 
 <p>最后，我们为了圆满地结束这个程序，需要释放掉texture、renderer还有window所占用的内存，退出SDL并返回。</p>
 
@@ -297,18 +256,9 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p>When you compile and run the program your window should look like this:</p>
-
 <p>当你编译并运行了这个程序，你的窗口看起来应该这样的：</p>
 
 <p><img src="/sdltutorialcn/images/blogimages/lesson2/Lesson2_Result.png"></p>
-
-<p>Lesson 2 Extra Challenge!
-Find a way to convert our dumb method of tiling the background into a lean mean for loop! While it may not be so effecient for four background tiles, using a for loop for tiling is a very nice method for placing a large amount of tiles.</p>
-
-<p>Hint</p>
-
-<p>Think about happens when we want to increment the y value if tiling row by row, or when we want to increment x when tiling column by column.</p>
 
 <p>第二节的Extra Challenge！</p>
 

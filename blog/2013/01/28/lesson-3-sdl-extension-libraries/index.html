@@ -104,32 +104,19 @@ _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
 
 <p>通过使用这些库，我们可以给我们的程序增加更多功能并使很多事情变得容易许多。在此我们只使用SDL_image，以后的课程中我们会讲到其他的扩展库。</p>
 
-<p>In Lesson 0, when you cloned from the Mercurial and built the libraries you should have also downloaded and built the source for SDL_image, SDL_ttf and SDL_mixer, although I was unable to get SDL_mixer to compile with Visual Studio at the time of writing. This part of the tutorial will be updated when SDL 2.0 is officially released to simply contain links to download the libraries.</p>
-
-<p>在第0节中，当你从Mercurial中同步下来一份源码，并且生成库文件之后，你还需要下载并编译SDL_image,SDL_ttf还有SDL_mixer的源码，尽管在写这篇教程的时候我没能在Visual Studio里把SDL_mixer编译成功。当SDL2.0正式发布的时候，我会更新这个教程并提供编译好的库以直接下载。</p>
-
-<p>If you have not done this, head over to the SDL Mercurial and clone and build the extension libraries available there.</p>
+<p>在第0节中，当你从Mercurial中同步下来一份源码，并且生成库文件之后，你还需要下载并编译SDL_image,SDL_ttf还有SDL_mixer的源码，<del>尽管在写这篇教程的时候我没能在Visual Studio里把SDL_mixer编译成功</del>。(译注:现在去掉MP3格式支持就可以编译成功，详见第〇节译注)当SDL2.0正式发布的时候，我会更新这个教程并提供编译好的库以直接下载。</p>
 
 <p>如果你还没做完这些，回到SDL的mercurial版本库中同步到代码并生成这些扩展库。</p>
 
-<p> To include the headers and library files on Windows simply paste them in the include and lib directories of your SDL 2.0 folder and add SDL_image.lib and etc. to your linker settings. On Linux following the configure, make, make install pattern will spit out a location where the libraries were installed that you can link against.</p>
+<p>在windows下，要包含头文件和库文件，只需要把SDL2.0文件夹中对应路径粘贴到include和lib路径设置中，然后把SDL_image.lib还有其他等等的一些lib文件添加到连接器选项中。在linux中，使用configure，make还有make install的方式，它会告诉你在链接时需要的库安装的路径，</p>
 
-<p>在windows下，要包含头文件和库文件，只需要把SDL2.0文件夹中对应路径粘贴到include和lib路径设置中，然后把SDL_image.lib还有其他等等的一些lib文件添加到连接器选项中。在linux中，使用configure，make还有make install的模式，它会告诉你在链接时需要的库安装的路径，</p>
-
-<p> In addition to setting up the includes and libraries you will also need to put the dlls that are located in the externals folder along with the dll that was created when building the project. Some dlls are dynamically loaded and as such, only needed if you intend to use their functionality, you may consult the extension library page for the specifics on which dlls behave this way.</p>
-
-<p>除此之外，你还需要把外部文件夹中的dll放到项目生成dll的文件夹内。某些dll是动态加载的，如果你需要它的功能，你才需要添加它。你可以参考扩展库的主页来弄明白哪些dll是这么工作的。</p>
-
-<p> In addition to exploring the SDL_image library in this lesson we will also begin to learn about throwing and catching exceptions by adding some error handling to our LoadImage function from last time, instead of checking if the returned pointer was still null. This will allow us to get more information about the exact error that happened and help us track down the cause of the error faster.</p>
+<p>除此之外，你还需要把外部文件夹中的dll放到项目生成dll的文件夹内。某些dll是动态加载的，当你需要它的功能才需要添加。你可以参考扩展库的主页来弄明白哪些dll是这么工作的。</p>
 
 <p>本节除了研究SDL_image库之外，我们还会通过为loadimage函数添加一些错误处理的代码来学习throw与catch异常，以此替代检测返回值是否为NULL的错误处理机制。这允许我们获取实际发生的错误的更多信息，并帮我们更快地追踪到导致错误的原因。</p>
 
-<p> For this lesson we will simply be adding some extra stuff to the code we wrote in Lesson 2, so let&#8217;s get that open. IDE users will want to add SDL_image to their linker settings as described above, and for those of you compiling with g++ add -lSDL_image or -lSDL2_image depending on how your 2.0 libraries are named.</p>
-
 <p>在本节中，我们只会在第二节的代码中添加一些额外的东西，所以让我们打开它。IDE用户需要按前文中所说的，给连接器选项添加SDL_image。对那些使用G++的人来说，取决于你SDL2.0的库名，你可以添加比如-lSDL_image或者-lSDL2_image的链接选项。</p>
 
-<p> We&#8217;ll need to add the extra includes for the new things we want to use, SDL_image and stdexcept.
-我们还要把新东西，SDL_image和stdexcept,include进去.<br/>
+<p>我们还要把新东西，SDL_image和stdexcept,include进去.<br/>
  <div><script src='https://gist.github.com/3139999.js?file=1.cpp'></script>
 <noscript><pre><code>#include &quot;SDL.h&quot;</p>
 
@@ -141,9 +128,7 @@ _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
 
 <h1>include &lt;iostream&gt;</code></pre></noscript></div></h1>
 
-<p> From here we setup as before our screen parameters and create a global window and renderer. If you&#8217;re feeling ill from the use of global objects you may want to take a moment.</p>
-
-<p>从这里开始我们和以往一样设定好屏幕参数并且创建全局的window和renderer。如果你觉得用全局对象不太好，你也许需要等一会儿。</p>
+<p>从这里开始我们和以往一样设定好屏幕参数并且创建全局的window和renderer。如果你觉得用全局对象不太好，你也许需要等一会儿了。</p>
 
 <div><script src='https://gist.github.com/3139999.js?file=2.cpp'></script>
 <noscript><pre><code>const int SCREEN_WIDTH  = 640;
@@ -153,11 +138,7 @@ SDL_Renderer *renderer = nullptr;
 SDL_Window *window = nullptr;</code></pre></noscript></div>
 
 
-<p> Now let&#8217;s rework our LoadImage function to use SDL_image&#8217;s IMG_LoadTexture to directly load a texture from an image. SDL_image supports many image formats: BMP, GIF, JPEG, LBM, PCX, PNG, PNM, TGA, TIFF, WEBP, XCF, XPM, XV and as such is a very powerful and useful library, as we are no longer limited to the BMP format</p>
-
 <p>现在，我们开始用SDL_image的IMG_LoadTexture函数把之前的LoadImage改成直接从图像文件中读取texture。SDL_image支持许多图像格式：BMP,GIF,JPEG,LBM,PCX,PNG,PNM,TGA,TIFF,WEBP,XCF,XPM,XV.它是个非常强大的库。有了它，我们就不再被BMP格式限制啦~</p>
-
-<p> Reworking our function is surprisingly simple, we just take out the SDL_Surface business and load the texture directly. Note that we now use IMG_GetError() instead of SDL_GetError(), this is because we&#8217;re now using the SDL_image library to load the image, and as such the appropriate error information would be stored there instead of in SDL.</p>
 
 <p>这回对这个函数的返工简单得让人惊讶。我们只需要去掉SDL_Surface的工作，直接加载texture。注意我们现在使用IMG_GetError()替代SDL_GetError()，因为我们现在正在使用的是SDL_image库来加载图像，因此，对应的错误信息应该在IMG而不是SDL里。</p>
 
@@ -171,27 +152,17 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p> But we&#8217;ve got one more new thing here. Since we&#8217;ve decided to be smart and add more informative error checking if our image fails to load we will throw a runtime_error which will tell us what happened and more helpfully, which image caused the error. However if you leave this error uncaught when you call the function later in your program and it occurs, it will crash the program. Depending on the situation this may be desirable, but at the moment we&#8217;ll want it to tell us what happened as opposed to just crashing.</p>
-
 <p>但是我们这里又有另外一个新东西。因为我们决定要让程序变得更智能，并让它的错误处理方式能提供更多错误信息。当我们的图片加载失败之后，我们需要抛出（throw）一个runtime_error的异常，它告诉我们发生了什么，并且告诉我们哪一个图片导致了这项错误。虽然这样，如果你没有捕捉（catch）到这项错误，但之后的运行中这项错误发生了，这个程序还是会崩溃。取决于实际的情况，这或许是可以预计的，但是到崩溃的时候，我们还是希望它告诉我们实际发生了什么而不是直接崩溃。</p>
-
-<p> We&#8217;re almost ready to draw our images, for this lesson we&#8217;ll be using this image as our background:</p>
 
 <p>现在我们准备好绘制图像了，本节我们会用这张图做背景：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson3/background.png"></p>
 
-<p>and our foreground image will be:</p>
-
 <p>前景图是这张：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson3/image.png"></p>
 
-<p>If you look at our foreground image you&#8217;ll notice that it has a transparent background, I&#8217;ve set it like this to demonstrate that IMG_LoadTexture will respect alpha channels and that when the texture is drawn the transparent properties will be retained.</p>
-
 <p>观察了前景图之后你就会发现它的背景是透明的。我这样做是为了示范IMG_LoadTexture函数可以接受Alpha通道，而当texture绘制出来的时候，会显示出透明的效果。</p>
-
-<p>Now that we&#8217;ve got our images we can write our loading code, but recall that we&#8217;ll need to add a try/catch structure to handle the error if one is thrown. Also, don&#8217;t forget to set the file paths to match the image locations on your system.</p>
 
 <p>现在我们有图了，开始编写加载代码。但是先回想一下为了进行错误处理，我们需要添加try/catch结构。还有，别忘了正确地设置图片的文件路径。</p>
 
@@ -207,28 +178,17 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
     }</code></pre></noscript></div>
 
 
-<p>In our catch statement we tell the program to print out e.what(), which will display the string that we put into the runtime_error&#8217;s parentheses. Note that depending on how you&#8217;ve configured your project to build you may not get stdout displayed, if that is the case you can simply write the information to a file instead.</p>
-
 <p>在catch语句中我们让程序打印出了e.what(),它会显示出我们之前放在runtime_error里的信息。注意，取决于你怎样配置的你的项目，你很可能看不到标准输出的结果（译注：比如VS中的某些编译选项会导致目标程序没有控制台窗口），如果遇到这种情况，你可以把错误信息输出到一个文件里。</p>
-
-<p>The rest of the code is not shown as it is identical to what was written for Lesson 2, so you can just drop in this new functionality into the old program. If you want to mess with the image positions, feel free to play around. When running the program with the same position settings as Lesson 2 you should see this:</p>
 
 <p>剩下的代码我没有放在这里，因为它和第二节中的一样。如果你想改图像的位置，那就改吧。当运行和第二节中图片位置相同的程序的时候，你应该可以看到这个：</p>
 
 <p><img src="/sdltutorialcn/images/blogimages/lesson3/lesson3result.png"></p>
 
-<p>Note that the transparency of the foreground image was preserved. This is a very useful effect as it means we won&#8217;t have to use color keying to cut out the background of our images but instead can use simple transparency. However if you do wish to use color keying, it will be covered in later lessons.</p>
-
 <p>注意前景图的透明度被保留了。这个效果很有用，因为有了它我们就不必使用color key(色彩键？透明色？）来把图片的背景色抠出来，直接使用透明度就可以了。但如果你想使用color key，后面的教程中会讲到。</p>
-
-<p>End of Lesson 3: SDL Extension Libraries
-If you have issues compiling or running the code make sure that you&#8217;ve added the include paths and linker settings correctly, along with putting the dlls from SDL_image and its dependencies, located in the externals folder of the source code, into the same folder as your executable.</p>
 
 <p>第三节的结束。</p>
 
 <p>如果你编译或者运行的时候出现了问题，确认你正确地添加了include路径和链接设置，并且把SDL_image还有它的依赖库放在你的可执行文件的文件夹里了。</p>
-
-<p>I&#8217;ll see you again soon in Lesson 4: Event Driven Programming!</p>
 
 <p>我们第四节：事件驱动的编程见！</p>
 </div>

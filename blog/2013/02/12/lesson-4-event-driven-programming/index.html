@@ -9,7 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="原文地址：http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html Now that we&#8217;ve learned how to draw images to the screen &hellip;">
+  <meta name="description" content="原文地址：http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html 既然我们已经学习了怎样往屏幕上绘制图像，现在该学习怎样读取用户的输入了。如果都不能玩的话，那就连游戏都不是了！ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,20 +96,14 @@
 
 <div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html</a></p>
 
-<p>Now that we&#8217;ve learned how to draw images to the screen it&#8217;s time to learn how to read user input. Our game won&#8217;t be very good if there&#8217;s no way to play it! In this lesson we will cover simple event handling using SDL and begin designing a primitive &#8216;main loop&#8217;.</p>
-
-<p>既然我们已经学习了怎样往屏幕上绘制图像，现在该学习怎样读取用户的输入了。如果都不能玩的话，我们的游戏就不好了！本节我们会学习SDL的简单事件处理并开始设计一个基本的主循环(&#8220;main loop&#8221;).</p>
+<p>既然我们已经学习了怎样往屏幕上绘制图像，现在该学习怎样读取用户的输入了。如果都不能玩的话，那就连游戏都不是了！本节我们会学习SDL的简单事件处理并开始设计一个基本的主循环(&#8220;main loop&#8221;).</p>
 
 <!-- more -->
 
 
-<p> Before we begin it&#8217;s important to mention that the majority of the code being used for this lesson is the code that we&#8217;ve built up from previous lessons, and as such the repeated code will not be shown as it is assumed you have it already and  are using what you&#8217;re learning here to add on to the previous lesson&#8217;s code. If you don&#8217;t have the code, head back to the earlier lessons, or if you already understand the material grab the code from Lesson 3 off Github and let&#8217;s get started modifying it.</p>
+<p>在我们开始之前，要先提到一个重要的问题，本节所使用的大部分代码是上一节中写的。我们假定你已经有了这些代码，所以这些代码这里将不在赘述，直接在上一节代码的基础上添加代码。如果你没有这些代码，你可以回头去看前面的几节。又或者如果已经你理解了从github上获取到的第三节的代码，那么就让我们开始改代码吧。</p>
 
-<p>在我们开始之前，要先提到一个重要的问题，本节所使用的大部分代码是上一节中写的。我们假定你已经有了这些代码，所以这些代码这里将不会重复写了，将直接在上一节代码的基础上添加代码。如果你没有这些代码，你可以回头去看前面的几节，又或者如果已经你理解了从github上获取到的第三节的代码，那么就让我们开始改代码吧。</p>
-
-<p> We&#8217;ll create the renderer and window the same as before, and our LoadImage and ApplySurface functions remain unchanged. The first change to our program is the loading of a different image, note that you will need to change the filepath to match the location of the image relative to the executable on your system, or the program will fail to run.</p>
-
-<p>像以前一样创建renderer和window，loadImage和ApplySurface函数保持原来的样子不变。第一个更改是把加载的图片改成另一张，注意你需要更改文件路径以便与可执行文件的路径匹配，否则的话程序会运行失败。</p>
+<p>像以前一样创建renderer和window。loadImage和ApplySurface函数保持原来的样子不变。第一个更改是把加载的图像改成另一幅图像，注意你需要更改文件路径以便与可执行文件的路径匹配，否则的话程序会运行失败。</p>
 
 <div><script src='https://gist.github.com/3161759.js?file=1.cpp'></script>
 <noscript><pre><code>//In main...
@@ -127,69 +121,43 @@
     int y = SCREEN_HEIGHT / 2 - iH / 2;</code></pre></noscript></div>
 
 
-<p>We also use the same equation as before for centering our image in the window. For this lesson our image will be:</p>
+<p>我们使用和之前一样的方程将图像居中显示。本节我们用这幅图像：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson4/image.png"></p>
 
-<p> Now before we dive into writing our main loop and event handling code, we&#8217;ll want to get an understanding of how the SDL event system works.</p>
-
 <p>现在，在我们专注于编写主循环和事件处理代码之前，我们需要弄明白SDL event系统是怎样工作的。</p>
 
-<p>An event is any interaction with the program done by the user: keypresses, mouse motion, mouse presses, joystick movement, window resizing, minimizing or closing, etc. SDL provides a structure for storing these events called SDL_Event. Let&#8217;s create one now.</p>
-
 <p>一个事件就是指用户做出的与程序交互的行为，比如：按下键，移动鼠标，鼠标点击，手柄移动，窗口改变大小、最小化或者关闭，等等。SDL提供了一个叫做SDL_Event的结构体来存储这些事件。现在我们创建一个SDL_Event。</p>
-
-<p>Whenever an event occurs it&#8217;s added to a stack in chronological order. If we want to read an event from this stack we can pull the oldest event using SDL_PollEvent. This may be a bit confusing, hopefully this handy graphic will help make it a bit clearer.</p>
 
 <p>无论什么时候发生事件，它都会被按时间顺序被存放在一个栈里。如果我们想要读取一个事件，我们可以使用SDL_PollEvent取出一个最老的事件。这可能让人困惑，但是幸运的是，下面这张示意图会使这个问题清晰一点。</p>
 
 <p><img src="/sdltutorialcn/images/blogimages/lesson4/evntstack.png"></p>
 
-<p>So in this case the user resized the window, then clicked the mouse, then pushed a key. When we call SDL_PollEvent on this queue it will get the event that happened first, or the oldest event, and put it into our SDL_Event structure so that we can look at the event data in our program.</p>
-
 <p>在此情况下，用户更改了窗口大小，然后点了鼠标，然后按了一个键。 当我们调用SDL_PollEvent，它会获取到第一个发生的事件，或者说是最老的那个时间，然后把它放在我们的SDL_Event结构体中，以便于让我们看到这个事件的数据。</p>
-
-<p>So if each frame of our game we want to process all events in the queue we&#8217;ll want to loop through until there&#8217;s nothing left to read, then continue on and do our other stuff like logic and rendering. This is starting to sound like something we could call our main loop!</p>
 
 <p>如果我们希望处理队列中每一帧的消息的话，我们需要循环直到队列中没有任何消息剩余，然后继续做其他的诸如逻辑、绘制之类的工作。这听起来像在主循环中调用的东西。</p>
 
-<p>In each iteration of the loop we&#8217;ll want to process our event queue, do some program logic and draw the frame and then do it all over again until the user quits.
-在循环中的每一次遍历中，我们都希望处理事件队列，处理一些程序逻辑然后将这一帧绘制出来，然后重复这些工作直到用户退出程序。</p>
+<p>在循环中的每一次遍历中，我们都希望处理事件队列，处理一些程序逻辑然后将这一帧绘制出来，然后重复这些工作直到用户退出程序。</p>
 
 <div><script src='https://gist.github.com/3161759.js?file=2.cpp'></script>
 <noscript><pre><code>    SDL_Event e;</code></pre></noscript></div>
 
 
-<p>Next we&#8217;ll want to do our event polling. Our goal was to run over all the events in the queue each frame, so let&#8217;s use another while loop, as PollEvent will return 1, &#8216;true&#8217;, if there are any pending events, so our loop will run until there are no more events in the queue.
- First we get an event from the queue with SDL_PollEvent, which we pass an address too as its signature is SDL_PollEvent(SDL_Event*) and then we do whatever we want to with the input. In this case we&#8217;re just going to quit the program if the user pushes any key, clicks the mouse or closes the window, so if just about anything happens we set quit to true. Note that clicking the X on the window is read as SDL_QUIT.</p>
-
 <p>下一步，我们需要做的是事件轮询。我们的目标是读取每帧中的所有事件，所以我们使用另一个while循环。因为当没有未处理的消息的时候，PollEvent会返回1，也就是true，所以我们的循环会持续直到队列中再没有任何事件。首先，我们使用SDL_PollEvent得到一个事件，因为函数声明是 SDL_PollEvent(SDL_Event*) 所以我们需要传入一个地址，然后我们对获得的输入做所有我们需要的处理。在本例中，我们想要当用户按下任意按键，点击鼠标或者关闭窗口的时候直接退出程序，所以如果发生了什么事件的话，我们就把quit设为true。注意，单击窗口右上的红叉会被识别为SDL_QUIT.</p>
-
-<p>SDL&#8217;s event structure is able to read many different types of events and provides all the valid information tied to each event that may be needed in deciding what to do with the input. For more information on the various event types and the data that comes with them, check out the SDL_Event documentation.</p>
 
 <p>SDL的event结构可以获取很多种类型的事件，并且能够提供与每个事件有关的所有有用的信息供你决定怎样处理用户输入。如果你想知道关于多种事件类型和event类型的数据的信息，就去看SDL_Event的相关文档吧。</p>
 
-<p>The next step in our loop would be to do various calculations that our program needs to do, such as determining movement, collision outcomes and etc. However since our program is very primitive we don&#8217;t need to do any logic at the moment, so we&#8217;ll continue on to rendering.</p>
-
 <p>主循环的下一步是把我们程序该计算的计算出来，比如判断移动、碰撞输出等等……尽管如此，因为我们的程序非常原始，现在我们不需要做太多的逻辑操作，所以我们继续绘制图像。</p>
-
-<p> The code is identical to before, but we must be sure each time to clear the screen before drawing our new scene or we could have images left over from previous frames start showing up.</p>
 
 <p>代码和之前的是相同的，但是我们必须确定我们每次绘制新的场景之前都清空了屏幕。不这么做的话，我们会让上一帧绘制的图像在下一帧里依旧显示着。</p>
 
-<p> You&#8217;ll want to wrap up the program by destroying the texture, renderer and window and quit SDL.</p>
-
 <p>最后你需要释放掉texture、renderer还有window所占用的内存，退出SDL。</p>
-
-<p> When you run the program you should be able to quit by clicking the X on the window, clicking in the window or pressing a key while the window is selected. You may also notice something a bit interesting when running the program if you check its CPU usage. If you&#8217;ve seen tutorials where the main loop is discussed or have written SDL1.2 code you&#8217;d expect that our program for this lesson would max out one of your CPU cores because there&#8217;s no framerate limiting being done. This is no longer the case with our program as we have created our renderer with the SDL_PRESENTVSYNC flag which tells the renderer to delay and match the framerate of our monitor, letting SDL take care of the framerate limiting for us, and letting us skip writing a line or two of code.</p>
 
 <p>当你运行这个程序的时候，你可以通过在窗口激活的状态下点击窗口的红叉、在窗口中点击或者按下任何一个按键来退出程序。如果你查看了CPU占用的话，你也许会注意到一个有趣的东西。如果你看过讨论主循环的教程，或者写过SDL1.2的代码，你会发现我们本节的程序会把你CPU的一个核心占用到最大程度，这是因为这个程序并没有对帧率做任何限制。但这已经不是问题了，因为我们创建的renderer使用了SDL_PRESENTVSYNC这个flag，它会告诉renderer延迟绘制以匹配显示器的刷新率，让SDL自动为我们控制帧率，为我们省下了一到两行的代码。</p>
 
-<p> Lesson 4 Extra Challenge!</p>
+<p>Lesson 4 Extra Challenge!</p>
 
-<p> Try getting the image to move on the screen.</p>
-
-<p> Hint</p>
+<p>Hint</p>
 
 <p>第四节的额外挑战！</p>
 
@@ -198,9 +166,7 @@
 <p>提示</p>
 
 <p>第四节的结束
-感谢加入！我们第五节：裁剪精灵表见~
- End of Lesson 4: Event Driven Programming
- Thanks for joining me! I&#8217;ll see you again soon in Lesson 5: Clipping Sprite Sheets</p>
+感谢加入！我们第五节：裁剪精灵表见~</p>
 </div>
 
 

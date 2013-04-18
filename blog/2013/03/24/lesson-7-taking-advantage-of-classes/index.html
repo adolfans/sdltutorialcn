@@ -9,7 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="原文地址：http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html If you recall from the previous lessons we&#8217;ve used a &hellip;">
+  <meta name="description" content="原文地址：http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html 回头看看之前的课程，你会发现我们使用了SDL_Window和SDL_Renderer的全局变量，以便于在main. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,30 +96,18 @@
 
 <div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
 
-<p>If you recall from the previous lessons we&#8217;ve used a global SDL_Window and SDL_Renderer so that we could access them from within our various functions throughout main.cpp, however using non-constant globals is a very bad idea, and when we start wanting to write more complicated programs this method will become unusable.</p>
-
-<p>回头看看之前的课程，你会发现我们使用了SDL_Window和SDL_Renderer的全局变量，以便于在main.cpp的每一个函数处都能访问到它们。但是，其实使用非const的全局变量是个很不好的做法，当我们开始想要写一些稍微复杂点的程序的时候，这个方法就没用了。</p>
+<p>回头看看之前的课程，你会发现我们使用了SDL_Window和SDL_Renderer的全局变量，以便于在main.cpp的每一个函数处都能访问到它们。但是，其实使用非const的全局变量是个很不好的做法，当我们想写一些稍微复杂点的程序的时候，这个方法就不行了。</p>
 
 <!-- more -->
 
 
-<p>In this lesson we will look to object oriented programming to resolve these issues and put together a useful class to represent our Window that we can use for loading and drawing images and text. In addition to this we will discover SDL&#8217;s more powerful rendering function, SDL_RenderCopyEx, which will allow us to specify rotations about points and flips to apply to the texture when it&#8217;s drawn.</p>
-
-<p>本节我们将看看使用面向对象的编程方法来解决这些问题，并且拼凑出一个可以代表Window的有用的类，我们可以用它来加载和绘制图片还有文本。此外，我们还会发现SDL的更强大的绘制函数，SDL_RenderCopyEx, 这个函数允许我们指定在绘制时应用到texture上的对点的旋转还有翻转。</p>
-
-<p>For this lesson you&#8217;ll need to have at least some knowledge of C++ classes along with the C++11 std::unique_ptr, as we will be using both throughout the lesson.</p>
+<p>本节我们将看看使用面向对象的编程方法来解决这些问题，并且拼凑出一个可以代表Window的类，我们可以用它来加载和绘制图片还有文本。此外，我们还会用到SDL的更强大的绘制函数，SDL_RenderCopyEx, 这个函数允许我们指定在绘制时应用到texture上的对点的旋转还有翻转。</p>
 
 <p>本节你需要至少知道C++中的类以及C++11中的 std::unique_ptr，这两者在本节中都要用到。</p>
 
-<p>Before we jump into coding we&#8217;ll need to have a plan of how our class looks and how we want it to be used. For simplicity I&#8217;ve chosen to make all members of the class static, which enables us to call the functions on our window from anywhere in the program that includes its header file. It would be undesirable to do this if you plan to use SDL 2.0&#8217;s new ability to support multiple windows, but for now this method will be acceptable.</p>
+<p>在我们开始编码之前，我们需要计划一下我们的类应该是怎样的，它应该怎样用。为简单起见，我选择将这个类中所有的成员都设为了static，这样只要包含了这个头文件，我们可以在程序的任意一处调用这些函数。但如果你想使用SDL2.0的多窗口功能的话，这种方法就不恰当了。但是在这里我们只有一个窗口，所以这个方法是可以的。</p>
 
-<p>在我们开始编码之前，我们需要计划一下我们的类应该是怎样的，它应该能够怎样用。为简单起见，我选择了将这个类中所有的成员都设为了static，这样只要包含了这个头文件，我们可以在程序的任意一处调用这些函数。但如果你想使用SDL2.0的多窗口功能的话，这种方法就不恰当了。但是在这里我们只有一个窗口，所以这个方法是可以的。</p>
-
-<p>Now we can move on to planning out individual functions for our class. Obviously we&#8217;ll want to bring in our ApplySurface, LoadImage and RenderText functions from the previous lessons. In addition to this we will need some sort of initialization and quitting functions to create and close the window and start/exit SDL and SDL_ttf. We&#8217;ll also need to be able to tell the window when to clear and present, and it would be useful to get the window&#8217;s width and height, so we&#8217;ll make a function for that as well.</p>
-
-<p>现在我们可以继续计划我们的类中的函数了。很显然我们应该把我们之前写的的ApplySurface, LoadImage以及RenderText放进去。此外，我们还需要一些初始化和退出的函数，以创建/关闭窗口，开启/退出SDL和SDL_ttf.我们还需要告诉窗口什么时候清屏什么时候呈现，而且还想要获得窗口的宽度和高度。所以我们为它们也分别写一个函数。</p>
-
-<p>So here&#8217;s what we&#8217;ve got planned out for the Window class:</p>
+<p>现在我们可以继续计划我们的类中的函数了。很显然我们应该把我们之前写的的ApplySurface, LoadImage以及RenderText放进去。此外，我们还需要一些初始化和退出的函数，以创建/关闭窗口，开启/退出SDL和SDL_ttf.我们还需要告诉窗口什么时候清屏什么时候呈现，而且还想要获得窗口的宽度和高度。所以我们为clear和present也分别写一个函数。</p>
 
 <p>所以下面就是我们计划中的Window类的样子：</p>
 
@@ -156,27 +144,15 @@ private:
 #endif</code></pre></noscript></div>
 
 
-<p>Where I&#8217;ve included the appropriate header guards and renamed ApplySurface to Draw and omitted most of its parameters as they&#8217;ll be a good bit longer now that we also need to pass a rotation angle, point of rotation and flip to SDL_RenderCopyEx.</p>
-
-<p>这里我还写了header guard，把ApplySurface改名为Draw并省略了它的大部分参数——因为这里我们还需要传入旋转角度，旋转的点以及翻转的参数给SDL_RenderCopyEx，所以它的参数列表可能会有点长。</p>
-
-<p>This looks pretty good for a simple Window class, so lets start turning it into real code.</p>
+<p>这里我还加了header guard，把ApplySurface改名为Draw并省略了它的大部分参数——因为这里我们还需要传入旋转角度，旋转的点以及翻转的参数给SDL_RenderCopyEx，所以它的参数列表可能会有点长。</p>
 
 <p>看起来这对一个简单的window类来说已经挺好的了，于是现在我们来实现它吧。</p>
 
-<p>The first thing I want to cover is how we&#8217;ll be handling our SDL_Window and SDL_Renderer. Instead of using a raw pointer and calling SDL_DestroyX in the Quit function, we&#8217;ll be using a new C++11 feature known as the std::unique_ptr. This pointer is included in the <memory> header and allows for use of lifetime managed objects. In the case of the unique_ptr it allows for only one pointer to use the object at a time and once that pointer goes out of scope it will call the destructor function chosen for the pointer, freeing the memory automatically.</p>
+<p>我想要谈到的第一件事是，怎样处理SDL_Window和SDL_Renderer。我们使用C++11中的新特性：std::unique_ptr，来替代使用一个原始的指针（raw pointer），并在Quit函数中使用SDL_DestoyX释放它的方法. 这个指针包含在<memory>头文件里面，它允许我们管理对象的生命周期。unique_ptr在同一时间只允许一个指针使用这个对象，一旦这个指针脱离了当前的作用域，它会调用你所指定的析构函数（译注：这里并不一定是类的destructor），自动释放掉内存空间。</p>
 
-<p>我想要谈到的第一件事是，怎样处理SDL_Window和SDL_Renderer。作为使用一个原始的指针，并在Quit函数中使用SDL_DestoyX释放它的方式的替代，我们使用C++11中的新特性：std::unique_ptr. 这个指针包含在<memory>头文件里面，它允许我们管理对象的生命周期。unique_ptr在同一时间只允许一个指针使用这个对象，一旦这个指针脱离了当前的作用域，它会调用你所指定的析构函数，自动释放掉内存空间。</p>
+<p>unique_ptr的用处显而易见。我们不必担心怎样管理对象的内存，也不必担心对象没有释放所造成的错误了。试想一下吧，当我们命中了某些运行时错误的时候，我们从一个函数里崩溃出来，或者直接整个程序崩溃掉了，我们就没有办法调用必要的内存释放函数了。在这种情况下，这些内存就再也不能用了。但是使用了unique_ptr之后，当它离开作用域时，它会自动调用对象的默认析构函数或者你指定的释放内存的函数。这实在是太方便了！</p>
 
-<p>It&#8217;s easy to see how this unique_ptr can be useful, we don&#8217;t need to worry about managing the objects memory and we don&#8217;t need to worry about it not being freed in the case that an error arises. Suppose in our program we were to hit some runtime error and crash out of a function or the whole program without calling the necessary memory releasing functions. The memory would never be freed! However with a unique_ptr it would go out of scope, calling either the default destructor of the object, or a specified function passed to it to clean up the memory. Very handy indeed!</p>
-
-<p>unique_ptr的用处显而易见。我们不必担心怎样管理对象的内存，也不必担心对象没有释放所造成的错误了。试想一下吧，当我们命中了某些运行时错误的时候，我们从一个函数里崩溃出来，或者直接整个程序崩溃掉了，我们就没有办法调用必要的内存释放函数了。在这种情况下，这些内存就再也不能用了！但是使用了unique_ptr之后，当它离开作用域时，它会自动调用对象的默认析构函数或者你指定的释放内存的函数。这实在是太方便了！</p>
-
-<p> This is not to say that the new unique_ptr, shared_ptr and weak_ptr are a magical band-aid to resolve any memory issues in C++11 as they most certainly are not. Raw pointers still have their place and misuse of the new types will still result in memory issues. It&#8217;s important to use the appropriate type for the application. In this case the unique_ptr is an excellent choice for our use.</p>
-
-<p>这也并不是说unique_ptr, shared_ptr以及weak_ptr就是能够治疗C++11中所有的内存问题的万用药，因为其实它们大部分时候都不能。原始的指针仍然有着它们的用武之地，滥用这些新的指针也会导致内存问题。对应用程序来说，选择合适的类型很重要。而在这里, unique_ptr对我们来说就是一个不错的选择。</p>
-
-<p> Since we want to use the SDL_DestroyX function instead of the object&#8217;s destructor to free the managed object, we need to specify the function signature of  the desired destruction function to our unique_ptr, which in this case is the signature for SDL_DestroyX, which is void(<em>)(SDL_X</em>). So mWindow and mRenderer will end up being:</p>
+<p>这也并不是说unique_ptr, shared_ptr以及weak_ptr就是能够治疗C++11中所有的内存问题的万用药，因为其实它们大部分时候都不能。raw pointer仍然有着它们的用武之地，滥用这些新的指针也会导致内存问题。对应用程序来说，选择合适的类型很重要。而在这里, unique_ptr对我们来说就是一个不错的选择。</p>
 
 <p>因为我们想要使用SDL_Destroy函数而不是对象的析构函数来释放对象，我们需要指定想要的销毁函数的函数原型，在这里就是SDL_DestroyX的函数原型，也就是void(<em>)(SDL_X</em>)。 所以mWindow和mRender最终会被这样释放。</p>
 
@@ -188,11 +164,7 @@ private:
 };</code></pre></noscript></div>
 
 
-<p>Now that we know how mWindow and mRenderer will be implemented we can move on to writing our functions, and declaring the static member variables in window.cpp.</p>
-
 <p>既然我们知道了怎样实现mWindow和mRender,我们可以继续编写函数了，在window.cpp中定义（原文为declare,疑有误）静态变量。</p>
-
-<p>First, the declaration of our variables: mWindow, mRenderer and mBox.</p>
 
 <p>首先，定义三个变量：mWindow, mRenderer还有mBox.</p>
 
@@ -206,15 +178,9 @@ std::unique_ptr&lt;SDL_Renderer, void (*)(SDL_Renderer*)&gt; Window::mRenderer
 SDL_Rect Window::mBox;</code></pre></noscript></div>
 
 
-<p>It looks a bit messy, but it really isn&#8217;t so bad. We simply set our unique_ptrs to be pointing to the appropriate destructor function and set the data to nullptr.</p>
-
 <p>看起来有点乱，不过这其实还不坏。我只是让unique_ptr指向了对应的的销毁函数并把数据置为nullptr.</p>
 
-<p> As mentioned earlier, our constructor and destructor do nothing, so we&#8217;ll skip covering writing those, as there&#8217;s nothing to write and jump into putting together our Init function.</p>
-
 <p>之前也提到了，我们的构造函数和析构函数事实上啥也不干，所以我们会跳过它们的编写，直接开始编写Init函数。</p>
-
-<p>For Init we just want to start up SDL and TTF and create our SDL_Window and SDL_Renderer, so we just want to take lines 75-97 of Lesson6 main.cpp and put them into their own function, and allow for a string to be passed that will be set as the window title. Simple enough! So our function definition will look like:</p>
 
 <p>在Init函数里，我们只想打开SDL和TTF并且创建我们的SDL_Window还有SDL_Renderer，所以我们只需要把第六节main.cpp中的75-97行代码拿来放在这里，并接受传入的一个字符串，把它设为窗口标题。够简单了吧～所以我们的函数定义是这样的：</p>
 
@@ -226,8 +192,6 @@ SDL_Rect Window::mBox;</code></pre></noscript></div>
 */
 static void Init(std::string title = &quot;Window&quot;);</code></pre></noscript></div>
 
-
-<p>Where I have used doxygen style comments, to enable usage of doxygen to generate easy to understand documentation for the code. Our implementation of the function is simply lines 75-97 of the previous lesson:</p>
 
 <p>当我使用doxygen风格的注释的时候，是为了让doxygen为代码生成易于理解的文档。我们的函数实现就是上一节中的75-97行。</p>
 
@@ -261,13 +225,9 @@ void Window::Init(std::string title){
 }</code></pre></noscript></div>
 
 
-<p>This function should look very familiar, the only difference being that we use the unique_ptr reset function to change the data that it points to, instead of the previous methods used. In this case we simply change the nullptr they&#8217;re currently managing to the created SDL_Window or SDL_Renderer that they should be managing.</p>
-
 <p>这个函数很眼熟，和上一节唯一的不同是我们使用unique_ptr的reset函数来改变它所指向的内存区域。这里我们仅仅把它们原来管理的nullptr改为了SDL_Window和SDL_Renderer.</p>
 
-<p>The Quit function is very simple, we just take the SDL_Quit and TTF_Quit calls and put them into the function.</p>
-
-<p>quit函数非常简单，我们只需要把SDL_Quit和TTF_Quit放进去。</p>
+<p>quit函数实现起来非常简单，我们只需要把SDL_Quit和TTF_Quit放进去。</p>
 
 <div><script src='https://gist.github.com/3615287.js?file=5.cpp'></script>
 <noscript><pre><code>//In window.cpp
@@ -277,11 +237,7 @@ void Window::Quit(){
 }</code></pre></noscript></div>
 
 
-<p>The most changed function is our former ApplySurface function (now named Draw), which we&#8217;ll need to rework to enable us to pass the extra parameters needed by SDL_RenderCopyEx. If we take a look at the documentation for the function we can see that in addition to a texture pointer, destination rect and clip rect we need an angle (in degrees), a pivot point and a flip value.</p>
-
 <p>改变最大的函数是我们之前的ApplySurface函数（现在被改名为Draw函数了），它需要我们把参数列表改为可以传入额外的SDL_RenderCopyEX的参数。如果看看这个函数的文档，我们可以看到除了texture指针、目标矩形、裁剪矩形之外，还需要提供一个角（以角度为单位），一个旋转轴点和一个翻转值。</p>
-
-<p>So now we know what we need, and can write the function, however I&#8217;ve chosen to pass the pivot point values as separate ints instead of an SDL_Point, in the future we&#8217;ll create a 2d vector class and use that instead, which will also enable us to perform more advanced vector math. So our function will look like so:</p>
 
 <p>所以现在我们知道我们需要什么了，我们可以编写函数了。这里我选择以单独的int值传入旋转中心而不是以SDL_Point结构体传入。以后我们会创建一个2D向量类来代替SDL_Point，这个类会提供更高级的向量运算的功能。总之我们的函数应该是这样的：</p>
 
@@ -302,11 +258,7 @@ static void Draw(SDL_Texture *tex, SDL_Rect &amp;dstRect, SDL_Rect *clip = NULL,
                  SDL_RendererFlip flip = SDL_FLIP_NONE);</code></pre></noscript></div>
 
 
-<p>Be sure to note the default parameters we&#8217;ve chosen, if we pass just a texture and destination, we&#8217;ll get an upright drawing of the texture within the destination rectangle, with the rest of the parameters defaulting to no change.</p>
-
 <p>注意一下我们所设置的默认参数。如果我们只传入一个texture和一个目标矩形，我们会看到texture使用目标矩形在屏幕右上角绘制的结果。</p>
-
-<p>Our function is quite easy to write as it&#8217;s simply serving as a wrapper around SDL_RenderCopyEx, with one extra thing. For simplicity we want the pivot point we pass to be relative to the center of the dstRect, while SDL will consider the point relative to the texture&#8217;s X and Y coordinates, so we must add an offset to center it. Alternatively, if NULL is passed as the SDL_Point* parameter it will set the rotation about the destination rect&#8217;s center.</p>
 
 <p>因为这个函数事实上就是个对SDL_RenderCopyEx的封装，再加上一个额外的东西。为了简单起见我们想要传入的旋转中心点是相对于目标矩形的中心的，但是SDL会把这当作相对于texture的x和y坐标的，所以我们必须增加一个偏移来把它置为中心。另一方面，如果给SDL_Point*参数传入NULL，它会把旋转中心设为目标矩形的中心。</p>
 
@@ -324,11 +276,7 @@ static void Draw(SDL_Texture *tex, SDL_Rect &amp;dstRect, SDL_Rect *clip = NULL,
 }</code></pre></noscript></div>
 
 
-<p>There&#8217;s one other new thing tucked away in the call to SDL_RenderCopyEx, which is that in order to access the raw SDL_Renderer pointer that the function expects we use mRenderer.get() to get it from the unique_ptr.</p>
-
 <p>此外，这里还有个隐藏的新知识点，在SDL_RenderCopyEx中，我们使用了mRenderer.get()以从unique_ptr获得SDL_Renderer指针。</p>
-
-<p>Next we define our LoadImage and RenderText functions:</p>
 
 <p>下一步我们定义我们的LoadImage和RenderText函数：</p>
 
@@ -353,11 +301,7 @@ static SDL_Texture* RenderText(const std::string &amp;message, const std::string
                                SDL_Color color, int fontSize);</code></pre></noscript></div>
 
 
-<p>I leave writing the function to you as it&#8217;s the same as the definitions in Lesson 7 with the small change to passing mRenderer.get() in place of renderer.</p>
-
 <p>我把编写这个函数的任务交给你，它和第七节中的定义相同，除了在传递renderer的指针的时候，写的是mRenderer.get()。</p>
-
-<p>Finally we define our Clear, Present and Box functions. Clear simply calls SDL_RenderClear on mRenderer and Present does the same for SDL_RenderPresent. Box lets us return an SDL_Rect containing the window&#8217;s width and height, which we can query using SDL_GetWindowSize. Our functions will look like:</p>
 
 <p>最后我们定义我们的Clear, Present和Box函数。Clear只需用mRenderer调用SDL_RenderClear, Present只需调用SDL_RenderPresent。Box返回一个SDL_Rect，其中包含了窗口的宽度和高度，这可以通过SDL_GetWindowSize获得。我们的函数看起来应该是这样的：</p>
 
@@ -376,13 +320,9 @@ SDL_Rect Window::Box(){
 }</code></pre></noscript></div>
 
 
-<p>If you have issues working out the class, my implementation can be found at the Github repo, window.h and window.cpp. Now that we&#8217;ve got our Window class written, it&#8217;s time to try it out in an application and make sure it works.</p>
-
 <p>如果你对这个类有问题，我的类实现可以在Github repo上找到，分别是window.h和window.cpp.现在我们写好了Window类，是时候在程序里试试它，看看它究竟能不能正常工作了。</p>
 
-<p>In main.cpp we now will also need to include our window header, &#8220;window.h&#8221; in order to use the class. Instead of calling SDL_Init and etc. as done previously we can now call Window::Init and catch any errors it may throw to create our window and make sure it went ok.</p>
-
-<p>在main.cpp中我们想要使用window类，需要包含它的头文件， &#8220;window.h&#8221;。作为之前的调用SDL_Init等物的替代，我们现在可以调用Window::Init来创建窗口，并catch它可能会抛出的异常以确认它已经正确执行。</p>
+<p>在main.cpp中我们想要使用window类，需要包含它的头文件， &#8220;window.h&#8221;。作为之前调用SDL_Init等物的方法的替代，我们现在可以调用Window::Init来创建窗口，并catch它可能会抛出的异常以确认它已经正确执行。</p>
 
 <div><script src='https://gist.github.com/3615776.js?file=9.cpp'></script>
 <noscript><pre><code>//In main()
@@ -396,8 +336,6 @@ catch (const std::runtime_error &amp;e){
     return -1;
 }</code></pre></noscript></div>
 
-
-<p>We can then load images and render text using the LoadImage and RenderText functions from our class.</p>
 
 <p>然后我们可以使用LoadImage和RenderText加载图像、绘制文本了。</p>
 
@@ -422,11 +360,7 @@ catch (const std::runtime_error &amp;e){
 }</code></pre></noscript></div>
 
 
-<p>Here we also perform error catching to respond appropriately to any errors that may be thrown by the functions.</p>
-
-<p>Now we can make use of our Box function to find the center of the window and set a position rect to draw our image and text too.</p>
-
-<p>这里我们还添加了捕获错误的代码，以捕获函数所有可能抛出的错误。</p>
+<p>这里我们还添加了异常捕获的代码，以捕获函数所有可能抛出的错误。</p>
 
 <p>现在我们可以利用Box函数来获得窗口的中心点，然后设置一个目标矩形来绘制图像和文本。</p>
 
@@ -437,8 +371,6 @@ SDL_Rect pos = { Window::Box().w / 2 - 150 / 2,
 //The angle to draw at, so we can play with it
 int angle = 0;</code></pre></noscript></div>
 
-
-<p>In addition we create a variable called angle so that we can test out drawing things with some rotation. To change the variable we add some keydown checks to increase or decrease the value of angle.</p>
 
 <p>此外，我们还创建了一个angle变量，以便于测试一些使用旋转的绘制。我添加了一些按键检查来增加或减少这个变量。</p>
 
@@ -453,8 +385,6 @@ case SDLK_a:
     break;</code></pre></noscript></div>
 
 
-<p>Finally we can use the new Window functions to Clear, Draw and Present our screen with a simple call:</p>
-
 <p>最后我们可以使用新的Window的函数来简单地Clear, Draw 和 Present了。</p>
 
 <div><script src='https://gist.github.com/3615776.js?file=13.cpp'></script>
@@ -467,20 +397,14 @@ Window::Draw(msg, pos, NULL, angle, 0, 0, SDL_FLIP_VERTICAL);
 Window::Present();</code></pre></noscript></div>
 
 
-<p>And before exiting the program, we simply call Destroy on the textures and Window::Quit to exit SDL and TTF.</p>
-
 <p>在退出程序之前，我们只需在texture上调用Destroy函数，然后调用Window::Quit以退出SDL和TTF。</p>
-
-<p>Lesson 7 Extra Challenge!</p>
-
-<p>Make it possible to set the window width and height when calling Init</p>
 
 <p>第七节的Extrra Challenge</p>
 
 <p>实现在调用Init函数的时候设置窗口的大小。</p>
 
-<p>Hint
- Super simple! Just pass a width and height to Init.</p>
+<p>【提示】
+超级简单的~只需要把窗口的宽高传给Init就够啦。</p>
 </div>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[SDL中文教程]]></title>
   <link href="http://adolfans.github.com/sdltutorialcn/atom.xml" rel="self"/>
   <link href="http://adolfans.github.com/sdltutorialcn/"/>
-  <updated>2013-03-29T12:15:47+08:00</updated>
+  <updated>2013-04-19T00:14:38+08:00</updated>
   <id>http://adolfans.github.com/sdltutorialcn/</id>
   <author>
     <name><![CDATA[Adolfans]]></name>
@@ -18,7 +18,9 @@
     <link href="http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-8-timers/"/>
     <updated>2013-03-24T23:29:00+08:00</updated>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-8-timers</id>
-    <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html</a></p>
+    <content type="html"><![CDATA[<p>【本文还没有翻译完毕】</p>
+
+<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html</a></p>
 
 <p>In this lesson we&#8217;ll add onto our small class library of one (the Window class) by creating a simple timer and then use it in a simple program. To do this we&#8217;ll be making use of the SDL_Timer functions, specifically SDL_GetTicks which returns the milliseconds elapsed since SDL was initialized.</p>
 
@@ -867,30 +869,18 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 9: Playing sounds
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes</id>
     <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
 
-<p>If you recall from the previous lessons we&#8217;ve used a global SDL_Window and SDL_Renderer so that we could access them from within our various functions throughout main.cpp, however using non-constant globals is a very bad idea, and when we start wanting to write more complicated programs this method will become unusable.</p>
-
-<p>回头看看之前的课程，你会发现我们使用了SDL_Window和SDL_Renderer的全局变量，以便于在main.cpp的每一个函数处都能访问到它们。但是，其实使用非const的全局变量是个很不好的做法，当我们开始想要写一些稍微复杂点的程序的时候，这个方法就没用了。</p>
+<p>回头看看之前的课程，你会发现我们使用了SDL_Window和SDL_Renderer的全局变量，以便于在main.cpp的每一个函数处都能访问到它们。但是，其实使用非const的全局变量是个很不好的做法，当我们想写一些稍微复杂点的程序的时候，这个方法就不行了。</p>
 
 <!-- more -->
 
 
-<p>In this lesson we will look to object oriented programming to resolve these issues and put together a useful class to represent our Window that we can use for loading and drawing images and text. In addition to this we will discover SDL&#8217;s more powerful rendering function, SDL_RenderCopyEx, which will allow us to specify rotations about points and flips to apply to the texture when it&#8217;s drawn.</p>
-
-<p>本节我们将看看使用面向对象的编程方法来解决这些问题，并且拼凑出一个可以代表Window的有用的类，我们可以用它来加载和绘制图片还有文本。此外，我们还会发现SDL的更强大的绘制函数，SDL_RenderCopyEx, 这个函数允许我们指定在绘制时应用到texture上的对点的旋转还有翻转。</p>
-
-<p>For this lesson you&#8217;ll need to have at least some knowledge of C++ classes along with the C++11 std::unique_ptr, as we will be using both throughout the lesson.</p>
+<p>本节我们将看看使用面向对象的编程方法来解决这些问题，并且拼凑出一个可以代表Window的类，我们可以用它来加载和绘制图片还有文本。此外，我们还会用到SDL的更强大的绘制函数，SDL_RenderCopyEx, 这个函数允许我们指定在绘制时应用到texture上的对点的旋转还有翻转。</p>
 
 <p>本节你需要至少知道C++中的类以及C++11中的 std::unique_ptr，这两者在本节中都要用到。</p>
 
-<p>Before we jump into coding we&#8217;ll need to have a plan of how our class looks and how we want it to be used. For simplicity I&#8217;ve chosen to make all members of the class static, which enables us to call the functions on our window from anywhere in the program that includes its header file. It would be undesirable to do this if you plan to use SDL 2.0&#8217;s new ability to support multiple windows, but for now this method will be acceptable.</p>
+<p>在我们开始编码之前，我们需要计划一下我们的类应该是怎样的，它应该怎样用。为简单起见，我选择将这个类中所有的成员都设为了static，这样只要包含了这个头文件，我们可以在程序的任意一处调用这些函数。但如果你想使用SDL2.0的多窗口功能的话，这种方法就不恰当了。但是在这里我们只有一个窗口，所以这个方法是可以的。</p>
 
-<p>在我们开始编码之前，我们需要计划一下我们的类应该是怎样的，它应该能够怎样用。为简单起见，我选择了将这个类中所有的成员都设为了static，这样只要包含了这个头文件，我们可以在程序的任意一处调用这些函数。但如果你想使用SDL2.0的多窗口功能的话，这种方法就不恰当了。但是在这里我们只有一个窗口，所以这个方法是可以的。</p>
-
-<p>Now we can move on to planning out individual functions for our class. Obviously we&#8217;ll want to bring in our ApplySurface, LoadImage and RenderText functions from the previous lessons. In addition to this we will need some sort of initialization and quitting functions to create and close the window and start/exit SDL and SDL_ttf. We&#8217;ll also need to be able to tell the window when to clear and present, and it would be useful to get the window&#8217;s width and height, so we&#8217;ll make a function for that as well.</p>
-
-<p>现在我们可以继续计划我们的类中的函数了。很显然我们应该把我们之前写的的ApplySurface, LoadImage以及RenderText放进去。此外，我们还需要一些初始化和退出的函数，以创建/关闭窗口，开启/退出SDL和SDL_ttf.我们还需要告诉窗口什么时候清屏什么时候呈现，而且还想要获得窗口的宽度和高度。所以我们为它们也分别写一个函数。</p>
-
-<p>So here&#8217;s what we&#8217;ve got planned out for the Window class:</p>
+<p>现在我们可以继续计划我们的类中的函数了。很显然我们应该把我们之前写的的ApplySurface, LoadImage以及RenderText放进去。此外，我们还需要一些初始化和退出的函数，以创建/关闭窗口，开启/退出SDL和SDL_ttf.我们还需要告诉窗口什么时候清屏什么时候呈现，而且还想要获得窗口的宽度和高度。所以我们为clear和present也分别写一个函数。</p>
 
 <p>所以下面就是我们计划中的Window类的样子：</p>
 
@@ -927,27 +917,15 @@ private:
 #endif</code></pre></noscript></div>
 
 
-<p>Where I&#8217;ve included the appropriate header guards and renamed ApplySurface to Draw and omitted most of its parameters as they&#8217;ll be a good bit longer now that we also need to pass a rotation angle, point of rotation and flip to SDL_RenderCopyEx.</p>
-
-<p>这里我还写了header guard，把ApplySurface改名为Draw并省略了它的大部分参数——因为这里我们还需要传入旋转角度，旋转的点以及翻转的参数给SDL_RenderCopyEx，所以它的参数列表可能会有点长。</p>
-
-<p>This looks pretty good for a simple Window class, so lets start turning it into real code.</p>
+<p>这里我还加了header guard，把ApplySurface改名为Draw并省略了它的大部分参数——因为这里我们还需要传入旋转角度，旋转的点以及翻转的参数给SDL_RenderCopyEx，所以它的参数列表可能会有点长。</p>
 
 <p>看起来这对一个简单的window类来说已经挺好的了，于是现在我们来实现它吧。</p>
 
-<p>The first thing I want to cover is how we&#8217;ll be handling our SDL_Window and SDL_Renderer. Instead of using a raw pointer and calling SDL_DestroyX in the Quit function, we&#8217;ll be using a new C++11 feature known as the std::unique_ptr. This pointer is included in the <memory> header and allows for use of lifetime managed objects. In the case of the unique_ptr it allows for only one pointer to use the object at a time and once that pointer goes out of scope it will call the destructor function chosen for the pointer, freeing the memory automatically.</p>
+<p>我想要谈到的第一件事是，怎样处理SDL_Window和SDL_Renderer。我们使用C++11中的新特性：std::unique_ptr，来替代使用一个原始的指针（raw pointer），并在Quit函数中使用SDL_DestoyX释放它的方法. 这个指针包含在<memory>头文件里面，它允许我们管理对象的生命周期。unique_ptr在同一时间只允许一个指针使用这个对象，一旦这个指针脱离了当前的作用域，它会调用你所指定的析构函数（译注：这里并不一定是类的destructor），自动释放掉内存空间。</p>
 
-<p>我想要谈到的第一件事是，怎样处理SDL_Window和SDL_Renderer。作为使用一个原始的指针，并在Quit函数中使用SDL_DestoyX释放它的方式的替代，我们使用C++11中的新特性：std::unique_ptr. 这个指针包含在<memory>头文件里面，它允许我们管理对象的生命周期。unique_ptr在同一时间只允许一个指针使用这个对象，一旦这个指针脱离了当前的作用域，它会调用你所指定的析构函数，自动释放掉内存空间。</p>
+<p>unique_ptr的用处显而易见。我们不必担心怎样管理对象的内存，也不必担心对象没有释放所造成的错误了。试想一下吧，当我们命中了某些运行时错误的时候，我们从一个函数里崩溃出来，或者直接整个程序崩溃掉了，我们就没有办法调用必要的内存释放函数了。在这种情况下，这些内存就再也不能用了。但是使用了unique_ptr之后，当它离开作用域时，它会自动调用对象的默认析构函数或者你指定的释放内存的函数。这实在是太方便了！</p>
 
-<p>It&#8217;s easy to see how this unique_ptr can be useful, we don&#8217;t need to worry about managing the objects memory and we don&#8217;t need to worry about it not being freed in the case that an error arises. Suppose in our program we were to hit some runtime error and crash out of a function or the whole program without calling the necessary memory releasing functions. The memory would never be freed! However with a unique_ptr it would go out of scope, calling either the default destructor of the object, or a specified function passed to it to clean up the memory. Very handy indeed!</p>
-
-<p>unique_ptr的用处显而易见。我们不必担心怎样管理对象的内存，也不必担心对象没有释放所造成的错误了。试想一下吧，当我们命中了某些运行时错误的时候，我们从一个函数里崩溃出来，或者直接整个程序崩溃掉了，我们就没有办法调用必要的内存释放函数了。在这种情况下，这些内存就再也不能用了！但是使用了unique_ptr之后，当它离开作用域时，它会自动调用对象的默认析构函数或者你指定的释放内存的函数。这实在是太方便了！</p>
-
-<p> This is not to say that the new unique_ptr, shared_ptr and weak_ptr are a magical band-aid to resolve any memory issues in C++11 as they most certainly are not. Raw pointers still have their place and misuse of the new types will still result in memory issues. It&#8217;s important to use the appropriate type for the application. In this case the unique_ptr is an excellent choice for our use.</p>
-
-<p>这也并不是说unique_ptr, shared_ptr以及weak_ptr就是能够治疗C++11中所有的内存问题的万用药，因为其实它们大部分时候都不能。原始的指针仍然有着它们的用武之地，滥用这些新的指针也会导致内存问题。对应用程序来说，选择合适的类型很重要。而在这里, unique_ptr对我们来说就是一个不错的选择。</p>
-
-<p> Since we want to use the SDL_DestroyX function instead of the object&#8217;s destructor to free the managed object, we need to specify the function signature of  the desired destruction function to our unique_ptr, which in this case is the signature for SDL_DestroyX, which is void(<em>)(SDL_X</em>). So mWindow and mRenderer will end up being:</p>
+<p>这也并不是说unique_ptr, shared_ptr以及weak_ptr就是能够治疗C++11中所有的内存问题的万用药，因为其实它们大部分时候都不能。raw pointer仍然有着它们的用武之地，滥用这些新的指针也会导致内存问题。对应用程序来说，选择合适的类型很重要。而在这里, unique_ptr对我们来说就是一个不错的选择。</p>
 
 <p>因为我们想要使用SDL_Destroy函数而不是对象的析构函数来释放对象，我们需要指定想要的销毁函数的函数原型，在这里就是SDL_DestroyX的函数原型，也就是void(<em>)(SDL_X</em>)。 所以mWindow和mRender最终会被这样释放。</p>
 
@@ -959,11 +937,7 @@ private:
 };</code></pre></noscript></div>
 
 
-<p>Now that we know how mWindow and mRenderer will be implemented we can move on to writing our functions, and declaring the static member variables in window.cpp.</p>
-
 <p>既然我们知道了怎样实现mWindow和mRender,我们可以继续编写函数了，在window.cpp中定义（原文为declare,疑有误）静态变量。</p>
-
-<p>First, the declaration of our variables: mWindow, mRenderer and mBox.</p>
 
 <p>首先，定义三个变量：mWindow, mRenderer还有mBox.</p>
 
@@ -977,15 +951,9 @@ std::unique_ptr&lt;SDL_Renderer, void (*)(SDL_Renderer*)&gt; Window::mRenderer
 SDL_Rect Window::mBox;</code></pre></noscript></div>
 
 
-<p>It looks a bit messy, but it really isn&#8217;t so bad. We simply set our unique_ptrs to be pointing to the appropriate destructor function and set the data to nullptr.</p>
-
 <p>看起来有点乱，不过这其实还不坏。我只是让unique_ptr指向了对应的的销毁函数并把数据置为nullptr.</p>
 
-<p> As mentioned earlier, our constructor and destructor do nothing, so we&#8217;ll skip covering writing those, as there&#8217;s nothing to write and jump into putting together our Init function.</p>
-
 <p>之前也提到了，我们的构造函数和析构函数事实上啥也不干，所以我们会跳过它们的编写，直接开始编写Init函数。</p>
-
-<p>For Init we just want to start up SDL and TTF and create our SDL_Window and SDL_Renderer, so we just want to take lines 75-97 of Lesson6 main.cpp and put them into their own function, and allow for a string to be passed that will be set as the window title. Simple enough! So our function definition will look like:</p>
 
 <p>在Init函数里，我们只想打开SDL和TTF并且创建我们的SDL_Window还有SDL_Renderer，所以我们只需要把第六节main.cpp中的75-97行代码拿来放在这里，并接受传入的一个字符串，把它设为窗口标题。够简单了吧～所以我们的函数定义是这样的：</p>
 
@@ -997,8 +965,6 @@ SDL_Rect Window::mBox;</code></pre></noscript></div>
 */
 static void Init(std::string title = &quot;Window&quot;);</code></pre></noscript></div>
 
-
-<p>Where I have used doxygen style comments, to enable usage of doxygen to generate easy to understand documentation for the code. Our implementation of the function is simply lines 75-97 of the previous lesson:</p>
 
 <p>当我使用doxygen风格的注释的时候，是为了让doxygen为代码生成易于理解的文档。我们的函数实现就是上一节中的75-97行。</p>
 
@@ -1032,13 +998,9 @@ void Window::Init(std::string title){
 }</code></pre></noscript></div>
 
 
-<p>This function should look very familiar, the only difference being that we use the unique_ptr reset function to change the data that it points to, instead of the previous methods used. In this case we simply change the nullptr they&#8217;re currently managing to the created SDL_Window or SDL_Renderer that they should be managing.</p>
-
 <p>这个函数很眼熟，和上一节唯一的不同是我们使用unique_ptr的reset函数来改变它所指向的内存区域。这里我们仅仅把它们原来管理的nullptr改为了SDL_Window和SDL_Renderer.</p>
 
-<p>The Quit function is very simple, we just take the SDL_Quit and TTF_Quit calls and put them into the function.</p>
-
-<p>quit函数非常简单，我们只需要把SDL_Quit和TTF_Quit放进去。</p>
+<p>quit函数实现起来非常简单，我们只需要把SDL_Quit和TTF_Quit放进去。</p>
 
 <div><script src='https://gist.github.com/3615287.js?file=5.cpp'></script>
 <noscript><pre><code>//In window.cpp
@@ -1048,11 +1010,7 @@ void Window::Quit(){
 }</code></pre></noscript></div>
 
 
-<p>The most changed function is our former ApplySurface function (now named Draw), which we&#8217;ll need to rework to enable us to pass the extra parameters needed by SDL_RenderCopyEx. If we take a look at the documentation for the function we can see that in addition to a texture pointer, destination rect and clip rect we need an angle (in degrees), a pivot point and a flip value.</p>
-
 <p>改变最大的函数是我们之前的ApplySurface函数（现在被改名为Draw函数了），它需要我们把参数列表改为可以传入额外的SDL_RenderCopyEX的参数。如果看看这个函数的文档，我们可以看到除了texture指针、目标矩形、裁剪矩形之外，还需要提供一个角（以角度为单位），一个旋转轴点和一个翻转值。</p>
-
-<p>So now we know what we need, and can write the function, however I&#8217;ve chosen to pass the pivot point values as separate ints instead of an SDL_Point, in the future we&#8217;ll create a 2d vector class and use that instead, which will also enable us to perform more advanced vector math. So our function will look like so:</p>
 
 <p>所以现在我们知道我们需要什么了，我们可以编写函数了。这里我选择以单独的int值传入旋转中心而不是以SDL_Point结构体传入。以后我们会创建一个2D向量类来代替SDL_Point，这个类会提供更高级的向量运算的功能。总之我们的函数应该是这样的：</p>
 
@@ -1073,11 +1031,7 @@ static void Draw(SDL_Texture *tex, SDL_Rect &amp;dstRect, SDL_Rect *clip = NULL,
                  SDL_RendererFlip flip = SDL_FLIP_NONE);</code></pre></noscript></div>
 
 
-<p>Be sure to note the default parameters we&#8217;ve chosen, if we pass just a texture and destination, we&#8217;ll get an upright drawing of the texture within the destination rectangle, with the rest of the parameters defaulting to no change.</p>
-
 <p>注意一下我们所设置的默认参数。如果我们只传入一个texture和一个目标矩形，我们会看到texture使用目标矩形在屏幕右上角绘制的结果。</p>
-
-<p>Our function is quite easy to write as it&#8217;s simply serving as a wrapper around SDL_RenderCopyEx, with one extra thing. For simplicity we want the pivot point we pass to be relative to the center of the dstRect, while SDL will consider the point relative to the texture&#8217;s X and Y coordinates, so we must add an offset to center it. Alternatively, if NULL is passed as the SDL_Point* parameter it will set the rotation about the destination rect&#8217;s center.</p>
 
 <p>因为这个函数事实上就是个对SDL_RenderCopyEx的封装，再加上一个额外的东西。为了简单起见我们想要传入的旋转中心点是相对于目标矩形的中心的，但是SDL会把这当作相对于texture的x和y坐标的，所以我们必须增加一个偏移来把它置为中心。另一方面，如果给SDL_Point*参数传入NULL，它会把旋转中心设为目标矩形的中心。</p>
 
@@ -1095,11 +1049,7 @@ static void Draw(SDL_Texture *tex, SDL_Rect &amp;dstRect, SDL_Rect *clip = NULL,
 }</code></pre></noscript></div>
 
 
-<p>There&#8217;s one other new thing tucked away in the call to SDL_RenderCopyEx, which is that in order to access the raw SDL_Renderer pointer that the function expects we use mRenderer.get() to get it from the unique_ptr.</p>
-
 <p>此外，这里还有个隐藏的新知识点，在SDL_RenderCopyEx中，我们使用了mRenderer.get()以从unique_ptr获得SDL_Renderer指针。</p>
-
-<p>Next we define our LoadImage and RenderText functions:</p>
 
 <p>下一步我们定义我们的LoadImage和RenderText函数：</p>
 
@@ -1124,11 +1074,7 @@ static SDL_Texture* RenderText(const std::string &amp;message, const std::string
                                SDL_Color color, int fontSize);</code></pre></noscript></div>
 
 
-<p>I leave writing the function to you as it&#8217;s the same as the definitions in Lesson 7 with the small change to passing mRenderer.get() in place of renderer.</p>
-
 <p>我把编写这个函数的任务交给你，它和第七节中的定义相同，除了在传递renderer的指针的时候，写的是mRenderer.get()。</p>
-
-<p>Finally we define our Clear, Present and Box functions. Clear simply calls SDL_RenderClear on mRenderer and Present does the same for SDL_RenderPresent. Box lets us return an SDL_Rect containing the window&#8217;s width and height, which we can query using SDL_GetWindowSize. Our functions will look like:</p>
 
 <p>最后我们定义我们的Clear, Present和Box函数。Clear只需用mRenderer调用SDL_RenderClear, Present只需调用SDL_RenderPresent。Box返回一个SDL_Rect，其中包含了窗口的宽度和高度，这可以通过SDL_GetWindowSize获得。我们的函数看起来应该是这样的：</p>
 
@@ -1147,13 +1093,9 @@ SDL_Rect Window::Box(){
 }</code></pre></noscript></div>
 
 
-<p>If you have issues working out the class, my implementation can be found at the Github repo, window.h and window.cpp. Now that we&#8217;ve got our Window class written, it&#8217;s time to try it out in an application and make sure it works.</p>
-
 <p>如果你对这个类有问题，我的类实现可以在Github repo上找到，分别是window.h和window.cpp.现在我们写好了Window类，是时候在程序里试试它，看看它究竟能不能正常工作了。</p>
 
-<p>In main.cpp we now will also need to include our window header, &#8220;window.h&#8221; in order to use the class. Instead of calling SDL_Init and etc. as done previously we can now call Window::Init and catch any errors it may throw to create our window and make sure it went ok.</p>
-
-<p>在main.cpp中我们想要使用window类，需要包含它的头文件， &#8220;window.h&#8221;。作为之前的调用SDL_Init等物的替代，我们现在可以调用Window::Init来创建窗口，并catch它可能会抛出的异常以确认它已经正确执行。</p>
+<p>在main.cpp中我们想要使用window类，需要包含它的头文件， &#8220;window.h&#8221;。作为之前调用SDL_Init等物的方法的替代，我们现在可以调用Window::Init来创建窗口，并catch它可能会抛出的异常以确认它已经正确执行。</p>
 
 <div><script src='https://gist.github.com/3615776.js?file=9.cpp'></script>
 <noscript><pre><code>//In main()
@@ -1167,8 +1109,6 @@ catch (const std::runtime_error &amp;e){
     return -1;
 }</code></pre></noscript></div>
 
-
-<p>We can then load images and render text using the LoadImage and RenderText functions from our class.</p>
 
 <p>然后我们可以使用LoadImage和RenderText加载图像、绘制文本了。</p>
 
@@ -1193,11 +1133,7 @@ catch (const std::runtime_error &amp;e){
 }</code></pre></noscript></div>
 
 
-<p>Here we also perform error catching to respond appropriately to any errors that may be thrown by the functions.</p>
-
-<p>Now we can make use of our Box function to find the center of the window and set a position rect to draw our image and text too.</p>
-
-<p>这里我们还添加了捕获错误的代码，以捕获函数所有可能抛出的错误。</p>
+<p>这里我们还添加了异常捕获的代码，以捕获函数所有可能抛出的错误。</p>
 
 <p>现在我们可以利用Box函数来获得窗口的中心点，然后设置一个目标矩形来绘制图像和文本。</p>
 
@@ -1208,8 +1144,6 @@ SDL_Rect pos = { Window::Box().w / 2 - 150 / 2,
 //The angle to draw at, so we can play with it
 int angle = 0;</code></pre></noscript></div>
 
-
-<p>In addition we create a variable called angle so that we can test out drawing things with some rotation. To change the variable we add some keydown checks to increase or decrease the value of angle.</p>
 
 <p>此外，我们还创建了一个angle变量，以便于测试一些使用旋转的绘制。我添加了一些按键检查来增加或减少这个变量。</p>
 
@@ -1224,8 +1158,6 @@ case SDLK_a:
     break;</code></pre></noscript></div>
 
 
-<p>Finally we can use the new Window functions to Clear, Draw and Present our screen with a simple call:</p>
-
 <p>最后我们可以使用新的Window的函数来简单地Clear, Draw 和 Present了。</p>
 
 <div><script src='https://gist.github.com/3615776.js?file=13.cpp'></script>
@@ -1238,20 +1170,14 @@ Window::Draw(msg, pos, NULL, angle, 0, 0, SDL_FLIP_VERTICAL);
 Window::Present();</code></pre></noscript></div>
 
 
-<p>And before exiting the program, we simply call Destroy on the textures and Window::Quit to exit SDL and TTF.</p>
-
 <p>在退出程序之前，我们只需在texture上调用Destroy函数，然后调用Window::Quit以退出SDL和TTF。</p>
-
-<p>Lesson 7 Extra Challenge!</p>
-
-<p>Make it possible to set the window width and height when calling Init</p>
 
 <p>第七节的Extrra Challenge</p>
 
 <p>实现在调用Init函数的时候设置窗口的大小。</p>
 
-<p>Hint
- Super simple! Just pass a width and height to Init.</p>
+<p>【提示】
+超级简单的~只需要把窗口的宽高传给Init就够啦。</p>
 ]]></content>
   </entry>
   
@@ -1262,18 +1188,14 @@ Window::Present();</code></pre></noscript></div>
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf</id>
     <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html</a></p>
 
-<p>In this lesson we will start learning how to use the SDL_ttf library to render text using True Type fonts. For this lesson you&#8217;ll need the SDL_ttf library which you should have from when you downloaded and compiled all the libraries on SDL2.0 Mercurial. If you don&#8217;t have the SDL2.0 version of SDL_ttf, you should download and compile it now. The library is linked up the same as SDL_image was in Lesson 3.</p>
-
 <p>本节我们将学习怎样使用SDL_ttf库来用True type字体绘制文本。在这之前，你需要从Mercurial里预先下载并编译好SDL_ttf库。如果你还没有SDL_ttf的SDL2.0版本，你应该现在赶紧下载编译。这个库和第三节提到的SDL_image的链接方法很相似。</p>
+
+<p>（译注：不要下载SDL_ttf主页上的源码和bin包，因为它们都是SDL1.2对应的版本，从Mercurial里clone。SDL_image也是这样。）</p>
 
 <!-- more -->
 
 
-<p>In addition to the library we&#8217;ll need a true type font to use to draw our text. It&#8217;s important that you&#8217;re careful when choosing a font as many fonts are proprietary or have rules about using them in software, and if used without the proper licensing can result in a nasty legal mess. Fortunately for us there are many excellent open fonts available online. For this lesson we&#8217;ll be using a set of open source fonts recently released by Adobe which you can download directly from sourceforge, the specific font I chose for this lesson is SourceSansPro-Regular, but you can use any font you like.</p>
-
 <p>除了这个库之外，我们还需要一个true type字体文件来绘制文本。需要强调的是你在选择字体的时候要小心，因为很多字体是专有的或者是需要你在使用过程中遵循一定规范。如果未经许可使用，可能会导致一些讨人厌的法律问题。不过幸运的是，网上仍然有很多优秀又开放的字体。本节我们使用一套最近由Adobe发布的开源字体，你可以从sourceforge上下载到。本节我选用的字体是SourceSansPro-Regular，你可以选任意你喜欢的字体。</p>
-
-<p>Now that we&#8217;ve got our font downloaded and libraries linked up lets take a look at how we can work with fonts via SDL_ttf. The library provides functionality for opening and closing TTF fonts and rendering text to SDL_Surface pointers. The library also lets us specify the color and font size we&#8217;d like to use when rendering the text. You can find the full library documentation here.</p>
 
 <p>既然我们已经下载了字体并链接好了库文件，我们看一下怎样通过SDL_ttf来使用字体。这个库提供了打开和关闭TTF字体与把文本会知道SDL_Surface指针上的功能。这个库还让我们指定绘制文本时的字体和颜色。你可以从这里找到库的文档全文。</p>
 
@@ -1288,8 +1210,6 @@ Window::Present();</code></pre></noscript></div>
 #include &lt;iostream&gt;</code></pre></noscript></div>
 
 
-<p>In order to use the library we need to initialize it in our main function after initializing SDL. Note that we check for errors similar to how we check for issues when starting SDL, except that now to get the appropriate error information we use TTF_GetError, similar to what we did in Lesson 3 to get SDL_image error information.</p>
-
 <p>为了使用这个库，我们需要在main函数中，初始化SDL完毕后，初始化SDL_ttf库。注意我们在检查错误的时候，使用的方法和检查初始化SDL时问题的方法类似，除了用的是TTF_GetError来获取适当的错误信息之外，和第三节中获取SDL_image的错误信息的方法类似。</p>
 
 <div><script src='https://gist.github.com/3390025.js?file=2.cpp'></script>
@@ -1299,13 +1219,9 @@ Window::Present();</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p>Next we&#8217;ll want to make a function to render a message and abstract away the work that goes into it, and simply return an SDL_Texture that we can draw to the screen. In addition to rendering the message the function will also need to convert the SDL_Surface pointer returned from TTF_RenderText_X to a SDL_Texture pointer and return that.</p>
-
 <p>下一步我们要编写一个绘制一行消息文本的函数并把它所做的工作抽象出来，然后简单地返回一个我们可以直接绘制到屏幕上的SDL_Texture。除了把消息的文字绘制出来之外，这个函数还需要把TTF_RenderText_X返回的SDL_Surface指针转化为SDL_Texture指针，并将之返回。</p>
 
-<p>The information needed to render the message is the message itself, a font file name, a font size and a font color. We can now add a nice function to render our desired message to our code:</p>
-
-<p>需要的信息包括需要绘制的消息，一个字体文件名，字体大小以及字体颜色。我们现在可以给我们的代码中添加一个可以绘制我们想要消息的美好的函数了：</p>
+<p>需要的信息包括需要绘制的消息，字体的文件名，字体大小以及字体颜色。我们现在可以给我们的代码中添加一个可以绘制我们想要消息的美好的函数了：</p>
 
 <div><script src='https://gist.github.com/3390025.js?file=3.cpp'></script>
 <noscript><pre><code>SDL_Texture* RenderText(std::string message, std::string fontFile, 
@@ -1328,27 +1244,15 @@ Window::Present();</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p>That&#8217;s quite a bit of code! Lets step through it and figure out exactly what&#8217;s going on. First, we know that we need a message, font file, font color and font size so that we can properly draw our message. SDL provides the SDL_Color structure that is used for specifying what color we want and takes three values for RGB which can each range from 0-255.</p>
-
-<p>这些代码真是相当地不少！让我们把它看一遍，看看它实际上在做什么。首先，我们需要一条消息，字体文件，字体颜色还有字体大小，以便于正确地绘制消息。SDL提供了SDL_Color结构来指定我们想要的颜色，它包含三个分别对应RGB的值，其中每个的取值范围为0-255.</p>
-
-<p>The first step in drawing the text is to open our font, which we do on line 4 using TTF_OpenFont, which takes the font file and the font size to open the font as. Note that the same nullptr error checking that we&#8217;ve used before in LoadImage is used to make sure the font opened ok. If it fails we throw an error and include the font file name that caused the error along with TTF_GetError so that we can have enough information to diagnose the issue.</p>
+<p>这些代码真是相当地不少！让我们把它看一遍，看看它实际上在做什么。我们需要一条要绘制的消息文本，字体文件，字体颜色还有字体大小，以便于正确地绘制消息。SDL提供了SDL_Color结构来指定我们想要的颜色，它包含三个分别对应RGB的值，其中每个的取值范围为0-255.</p>
 
 <p>绘制文本的第一步是打开这个字体，代码中第四行我们使用了TTF_OpenFont这个函数，它需要一个字体文件名与字体大小以打开字体。注意之前的LoadImage函数中使用的检查空指针的错误检测方法在这里也可以用于确认字体被正确地打开。如果打开失败，我们抛出一个错误，其中包括导致这个错误的字体文件的名称，以及TTF_GetError获得的错误，以便之后我们拥有足够的错误信息来解决这个问题。</p>
 
-<p>If the font loaded ok we use TTF_RenderText_Blended to write the message to an SDL_Surface and get the pointer back. There are a few methods provided by SDL_ttf for rendering text, blended is the slowest but provides a nice smooth look. The other methods can be found in the documentation linked above.</p>
-
 <p>如果字体加载正确了，我们使用TTF_RenderTextBlended函数，将消息文本写入SDL_Surface上，并且获取这个SDL_Surface指针。SDL_ttf提供了几种方法来绘制文本，blended是其中绘制效率最慢但是效果看起来最好的。其他的方法可以从文档中查找到。</p>
-
-<p>However because we use SDL_Textures in our rendering we need to convert the surface over. This isn&#8217;t too difficult because we&#8217;ve made our SDL_Renderer a global and so it&#8217;s easy to pass it into the function SDL_CreateTextureFromSurface. After creating the SDL_Texture we need to clean up things we no longer need to keep in memory, the SDL_Surface and the TTF_Font. We free the surface the same as before and can use TTF_CloseFont to close the font we opened.</p>
 
 <p>但是，因为在绘制过程中我们使用的是SDL_Texture，所以我们需要把surface转换为SDL_Texture. 这并不难，因为我们把SDL_Renderer设为了全局变量，所以把它直接传入SDL_CreateTextureFromSurface很容易。在创建完SDL_Texture之后，我们需要把不用的变量，SDL_Surface和TTF_Font的变量清理掉。我们和以前一样释放掉surface，使用TTF_CloseFont关闭掉我们打开的字体。</p>
 
-<p>Once everything is cleaned up we return the SDL_Texture pointer for usage in the program.</p>
-
 <p>当所有的东西被清理完毕后，我们返回SDL_Texture指针。</p>
-
-<p>When we want to render some text in our program we can now perform a call like so:</p>
 
 <p>当我们想要绘制一些文本的时候，我们可以执行如下这段代码：</p>
 
@@ -1365,24 +1269,15 @@ catch (const std::runtime_error &amp;e){
 }</code></pre></noscript></div>
 
 
-<p>Here we render the message &#8220;TTF fonts are cool!&#8221; using the font we downloaded above in white with a font size of 64.</p>
-
-<p>这里我们把消息“TTF fonts are cool!”使用之前下载的那个字体绘制了出来，大小为64。</p>
-
-<p>You can then treat the texture as any other texture and draw it the same as we&#8217;ve done previously with our ApplySurface function. If you draw the message centered, you should see something like this when you run the program:</p>
+<p>这里我们把消息“TTF fonts are cool!”使用之前下载的那个字体绘制了出来，字体大小为64。</p>
 
 <p>然后你可以把这个texture当作一般的texture，使用和以前一样的ApplySurface函数绘制出来。如果你将消息文本以居中的形式绘制了，你应该可以看到以下结果：</p>
 
 <p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson6/ttf_result.png"></p>
 
-<p>Try playing around with the other TTF_RenderText_X functions and see how they look!</p>
+<p>你可以试着玩玩其他的那些TTF_RenderText_X函数，看看它们的效果是什么样的！</p>
 
-<p>试着玩玩其他的那些TTF_RenderText_X函数吧，看看它们的效果是什么样的！</p>
-
-<p>End of Lesson 6
-Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advantage of Classes.</p>
-
-<p>第六节结束</p>
+<p>End of Lesson 6</p>
 
 <p>感谢你的加入！我们第七节：充分利用类再见！</p>
 ]]></content>
@@ -1395,8 +1290,6 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets</id>
     <content type="html"><![CDATA[<p>原文地址: <a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html</a></p>
 
-<p>It&#8217;s very common in sprite based games to use a large image file containing many smaller images, such as tiles for a tileset, as opposed to having a separate image file for each tile. This type of image is known as a sprite sheet, and is very useful because we don&#8217;t need to have a separate image file for each image in the game but instead can just draw the subset of the sheet that we want.</p>
-
 <p>在基于精灵的游戏中，通常会使用一幅包含了许多小图的大图——比如说使用包含tile的tile集，而不是一个tile就是一张独立的图片。这种图像的类型被称作精灵表（sprite sheet，我不能确定我这么翻译是否恰当——译注）。这种方式很有用，因为这样做我们的游戏就用不着每幅图像都用一个独立的文件来存储，而直接绘制表中我们需要的一部分就好了。</p>
 
 <!-- more -->
@@ -1404,21 +1297,13 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
 
 <p><em>译注：我不确定看这篇文章的初学者们——仅针对初学者们——是否理解诸如精灵(Sprite)、tile之类词语的含义。在2D游戏中，精灵大概就是2D游戏中能够移动来移动去的图块；至于tile，它大概算是精灵的子集，它的中文名称本来是瓦片，一般我们可以看到很多2D游戏的场景是由很多相同的图块拼出来的，那一块一块儿的玩意儿就是tile.欲纠结此问题请看维基百科Sprite_(computer_graphics)词条……= =</em></p>
 
-<p>In this lesson we will learn how to use a simple sprite sheet in our program and how we can specify the desired subset, known as a clip, to draw. The sprite sheet for this lesson is a simple one containing four circles:</p>
-
 <p>本节中我们将学习怎样使用一个简单的精灵表以及怎样指定精灵表中我们需要的子集，也就是绘制时的裁剪。本节的精灵表是一幅有四个圆形的简单图像。</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson5/image.png"></p>
 
-<p>In a sprite sheet images are divided up into sections of some sort of basic shape that we can clip. In this sheet each circle is within a 100x100 rectangle that we can pick to draw, instead of the entire image.</p>
-
-<p>在一个精灵表中，像被分割成了一些我们能够裁剪的基础图形。在这个表中呢，每个圆形都处于一个100x100的矩形中，这样我们就可以单独绘制而不是绘制整个图像。</p>
-
-<p>The code from this lesson will be building upon the code from Lesson 4, if you haven&#8217;t done Lesson 4 you should head back and do it. If you already know the material covered in Lesson 4 grab the code and let&#8217;s get started.</p>
+<p>在一个精灵表中，图像被分割成了一些我们能够裁剪的基础图形。在这个表中呢，每个圆形都处于一个100x100的矩形中，这样我们就可以单独绘制它们而不是绘制整个图像。</p>
 
 <p>本节的代码都是基于第四节中的代码的。如果你没有学完第四节，你需要回头去看。如果你已经知道了第四节所涵盖的内容，从github上拉取代码后，我们立刻开始。</p>
-
-<p>Within our ApplySurface function from Lesson 4 you&#8217;ll notice that there&#8217;s one last NULL value being passed to SDL_RenderCopy.</p>
 
 <p>通过上一节提到的ApplySurface函数，你可以发现最后传给SDL_RenderCopy一个NULL。</p>
 
@@ -1426,15 +1311,9 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
 <noscript><pre><code>    SDL_RenderCopy(rend, tex, NULL, &amp;pos);</code></pre></noscript></div>
 
 
-<p>This parameter is the source rect, more commonly known as the clip, and specifies a sub-rectangle of the image to draw, ie. the clip&#8217;s position, width and height. In order to pass a clip for the image we&#8217;ll want to add a clip parameter to ApplySurface.</p>
-
 <p>而这个参数就是源矩形（rect），被称为clip（裁剪），它指定了需要绘制的图像中的一个子矩形——或者说，它指定了裁剪的位置，宽度，还有高度。为了给源图像传递一个clip，我们需要给ApplySurface函数增加一个clip参数。</p>
 
-<p>But what if we had an image where we did want to draw the whole thing? Instead of forcing ourselves to pass a clip of the whole image, we can instead specify a default parameter and detect when we get it. We&#8217;ll take the clip parameter as an SDL_Rect pointer with a default value of NULL, that way if no clip is passed we can still pass the parameter to RenderCopy and the call will be the same as it was previously when we passed NULL to draw the whole image.</p>
-
 <p>但如果我们有一幅图像，我们想要把它全部绘制出来呢？用不着强迫我们自己传一个整张图片的clip过去，我们只需要指定一个默认的参数并且检测什么时候获得了这个参数就够了。我们要把clip参数当作SDL_Rect类型的指针，并把它的默认值设为NULL。通过这种方式，如果没有clip传入，我们仍可以把该参数传入RenderCopy。结果会是和当我们直接传NULL时一样，绘制整张图。</p>
-
-<p>We&#8217;ll also want to add one more thing to our function: If we pass a clip parameter we clearly would want to use the clip&#8217;s width and height as our destination values instead of the whole texture&#8217;s width and height. If we used the texture&#8217;s width and height our clip would be stretched to match the size of the original texture.</p>
 
 <p>我们还想给我们的函数添加另外一样东西：</p>
 
@@ -1455,15 +1334,9 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
 }</code></pre></noscript></div>
 
 
-<p> We&#8217;ll load our image the same as before with or LoadImage function.</p>
-
-<p>我们和以前一样使用LoadImage函数来加载图像。</p>
-
-<p>We now need to set up our clip rects, which we&#8217;ll store inside an array. Instead of typing all of our clips out by hand which is very tedious for images with lots of clips, we can take advantage of the pattern in which our image file is constructed to automate the creation of the clip rects with a for loop. If you did the extra challenge from Lesson 2 this method should look quite familiar.</p>
+<p>惯例，我们使用LoadImage函数来加载图像。</p>
 
 <p>我们现在需要准备好我们的裁剪矩形，把它们存储在一个数组里面。为了避免手动输入所有的裁剪数据的繁琐，我们可以充分使用在生成图像的时候自动循环生成裁剪矩形的方法。如果你完成了第二节中的extra challenge，这个方法对你来说会更容易上手一点。</p>
-
-<p>First we specify the width and height each clip should be, in this case 100x100 and we create an array to store four SDL_Rects to hold our clips. Next we use our knowledge of the arrangement of our clips to create a for loop with a column counter to appropriately set the x,y coordinate for each clip.</p>
 
 <p>首先我们指定每一次裁剪的宽和高，在本例中我们制定为100x100，并且定义一个存储四个SDL_Rect的数组。然后我们创建一个for循环还有一个计数器来适当地设置每次裁剪的坐标。</p>
 
@@ -1485,19 +1358,11 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
 </code></pre></noscript></div>
 
 
-<p>If you didn&#8217;t do the Lesson  2 challenge or are feeling a bit lost, let me explain how this works. We want to create four clips, so we set our loop to run four times, from zero to three to match the array indices. We also need to track which column we&#8217;re going down so that we can correctly set the x coordinate for our clip, we&#8217;ll begin with column zero and will increment the column value when we move over, which would be at the third clip, ie. i % 2 == 0 since we start counting from zero. We also want to make sure we don&#8217;t increment column when we first start out, because 0 % 2 is also 0, so we put a condition to ignore that case.</p>
-
 <p>如果你没有完成第二节的extra challenge或者你觉得这有点困难，我来解释一下这是怎样运作的。我们想要创建四次裁剪，所以我们for循环了四次，从0到3以匹配数组的下标。我们还需要把当前正在使用的列数保存下来，以便于正确地设置裁剪时的x坐标。从第0列开始向右移动，经过第三次裁剪，也就是从0开始遇到的i%2 == 0的时候列数增加.我们还需要确认当开始第一次裁剪的时候我们是位于第0列的，由于0%2结果也是0，所以我们设置了一个条件判断来忽略这种情况。</p>
-
-<p>Now we&#8217;ll want to calculate the x and y coordinates for our clip in the image. We want to increment the x coordinate by the image width each time we move over a column, and increase the y each time we move down one in the column. The x coordinate setting should be clear, we can just use tile width * column. The y coordinate setting uses our current loop iteration mod the number of clips per column to determine which row we&#8217;re on. We then multiple this row number by the tile height to get the location in pixels. The width and height are uniform for all clips so we can just set them, without any extra calculations.</p>
 
 <p>现在我们想要计算裁剪时的x和y坐标。我们需要在每次经过一列的时候给x坐标增加一个图片宽度的距离，每次经过一行的时候给y坐标增加一个图片高度的距离。x坐标的设置应该很清楚，我们可以直接设为tile的宽度*列数。y坐标的设置需要使用我们使用当前的循环迭代数与每列裁剪的个数来确认它的像素位置。宽度和高度对于所有的裁剪来说都是均匀的，所以我们可以直接设好它们而不需要多余的计算。</p>
 
-<p> Thus when we run this loop we will create four clips and each clip will take the appropriate coordinate for the sub-rectangle. Still not sure how it works? Try running the for loop in your head and calculating the column, x and y values for each iteration and see where they line up on the sprite sheet.</p>
-
 <p>于是，当我们运行这个循环的时候，我们会创建四个裁剪，每个裁剪会获取其对应的子矩形的坐标。你还不明白它是怎么回事吗？试着在你脑中运行这个循环，并计算列数以及每次迭代的x与y坐标，然后看看它们在精灵表中是怎样排列的吧。</p>
-
-<p>The last step is to set a value which can track which clip we want to draw, in this case an integer corresponding to the clip&#8217;s index in the array. Let&#8217;s begin by drawing clip 0.</p>
 
 <p>最后一步是设置一个让我们知道我们想要绘制的究竟是哪一个裁剪的值，在这里，它就是一个对应于裁剪数组下标的值。我们先把它设为第0个裁剪。</p>
 
@@ -1506,11 +1371,7 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
     int useClip = 0;</code></pre></noscript></div>
 
 
-<p>Before beginning our main loop we&#8217;ll also need to set an x and y position to draw the image at. I chose to calculate the center position for the image using the same method as in previous lessons. We&#8217;ll also want to create a bool quit variable and an SDL_Event.</p>
-
 <p>在开始主循环之前，我们还需要设置图像的绘制坐标。我选择使用和上一节同样的方法计算出图像的中间坐标。我们还想创建一个bool类型的退出变量以及一个SDL_Event.</p>
-
-<p>In order to make sure our clips were set correctly and display correctly we&#8217;ll want to be able to draw each one individually, to do this we can set up some event polling to change the value of useClip so that we can draw each clip.</p>
 
 <p>为了确认我们的裁剪正确设置并且正确显示了，我们想要单独绘制每一个裁剪。为了做到这一点，我们可以设置一些时间轮训，以此来改变useClip的值，以便于我们可以绘制每一个clip。</p>
 
@@ -1540,27 +1401,18 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
     }</code></pre></noscript></div>
 
 
-<p> Here we check if the input type is a key down event, and then use a switch statement on the key symbol to pick the appropriate response.</p>
-
 <p>这里我们检查了输入类型是否是一个按键消息，然后在key上使用了switch语句，来选择适当的响应。</p>
-
-<p> Finally in our render section we clear the screen, pass the clip&#8217;s value to our ApplySurface function in the rendering section of our loop:</p>
 
 <p>绘制部分的最后，我们清屏，将裁剪的值传入ApplySurface函数。</p>
 
 <p> <div><script src='https://gist.github.com/3185765.js?file=6.cpp'></script>
 <noscript><pre><code>    ApplySurface(x, y, image, renderer, &amp;clips[useClip]);</code></pre></noscript></div></p>
 
-<p>And finally, present the renderer to display the changes.</p>
-
 <p>最后将renderer呈现出来，让它显示出结果。</p>
-
-<p> When you run the program you should be able to push the number keys 1-4 and see the different colored circles appear individually on screen!</p>
 
 <p>当你运行这个程序的时候，你可以按键盘上的1-4键，然后可以看到不同颜色的圆被单独地绘制到了屏幕上！</p>
 
-<p> End of Lesson 5
- Thanks for joining me! I&#8217;ll see you again soon in Lesson 6: True Type Fonts with SDL_ttf</p>
+<p> End of Lesson 5</p>
 
 <p> 感谢加入！我们第六节：使用SDL_ttf绘制True type字体见！</p>
 ]]></content>
@@ -1573,20 +1425,14 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
     <id>http://adolfans.github.com/sdltutorialcn/blog/2013/02/12/lesson-4-event-driven-programming</id>
     <content type="html"><![CDATA[<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html</a></p>
 
-<p>Now that we&#8217;ve learned how to draw images to the screen it&#8217;s time to learn how to read user input. Our game won&#8217;t be very good if there&#8217;s no way to play it! In this lesson we will cover simple event handling using SDL and begin designing a primitive &#8216;main loop&#8217;.</p>
-
-<p>既然我们已经学习了怎样往屏幕上绘制图像，现在该学习怎样读取用户的输入了。如果都不能玩的话，我们的游戏就不好了！本节我们会学习SDL的简单事件处理并开始设计一个基本的主循环(&#8220;main loop&#8221;).</p>
+<p>既然我们已经学习了怎样往屏幕上绘制图像，现在该学习怎样读取用户的输入了。如果都不能玩的话，那就连游戏都不是了！本节我们会学习SDL的简单事件处理并开始设计一个基本的主循环(&#8220;main loop&#8221;).</p>
 
 <!-- more -->
 
 
-<p> Before we begin it&#8217;s important to mention that the majority of the code being used for this lesson is the code that we&#8217;ve built up from previous lessons, and as such the repeated code will not be shown as it is assumed you have it already and  are using what you&#8217;re learning here to add on to the previous lesson&#8217;s code. If you don&#8217;t have the code, head back to the earlier lessons, or if you already understand the material grab the code from Lesson 3 off Github and let&#8217;s get started modifying it.</p>
+<p>在我们开始之前，要先提到一个重要的问题，本节所使用的大部分代码是上一节中写的。我们假定你已经有了这些代码，所以这些代码这里将不在赘述，直接在上一节代码的基础上添加代码。如果你没有这些代码，你可以回头去看前面的几节。又或者如果已经你理解了从github上获取到的第三节的代码，那么就让我们开始改代码吧。</p>
 
-<p>在我们开始之前，要先提到一个重要的问题，本节所使用的大部分代码是上一节中写的。我们假定你已经有了这些代码，所以这些代码这里将不会重复写了，将直接在上一节代码的基础上添加代码。如果你没有这些代码，你可以回头去看前面的几节，又或者如果已经你理解了从github上获取到的第三节的代码，那么就让我们开始改代码吧。</p>
-
-<p> We&#8217;ll create the renderer and window the same as before, and our LoadImage and ApplySurface functions remain unchanged. The first change to our program is the loading of a different image, note that you will need to change the filepath to match the location of the image relative to the executable on your system, or the program will fail to run.</p>
-
-<p>像以前一样创建renderer和window，loadImage和ApplySurface函数保持原来的样子不变。第一个更改是把加载的图片改成另一张，注意你需要更改文件路径以便与可执行文件的路径匹配，否则的话程序会运行失败。</p>
+<p>像以前一样创建renderer和window。loadImage和ApplySurface函数保持原来的样子不变。第一个更改是把加载的图像改成另一幅图像，注意你需要更改文件路径以便与可执行文件的路径匹配，否则的话程序会运行失败。</p>
 
 <div><script src='https://gist.github.com/3161759.js?file=1.cpp'></script>
 <noscript><pre><code>//In main...
@@ -1604,69 +1450,43 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
     int y = SCREEN_HEIGHT / 2 - iH / 2;</code></pre></noscript></div>
 
 
-<p>We also use the same equation as before for centering our image in the window. For this lesson our image will be:</p>
+<p>我们使用和之前一样的方程将图像居中显示。本节我们用这幅图像：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson4/image.png"></p>
 
-<p> Now before we dive into writing our main loop and event handling code, we&#8217;ll want to get an understanding of how the SDL event system works.</p>
-
 <p>现在，在我们专注于编写主循环和事件处理代码之前，我们需要弄明白SDL event系统是怎样工作的。</p>
 
-<p>An event is any interaction with the program done by the user: keypresses, mouse motion, mouse presses, joystick movement, window resizing, minimizing or closing, etc. SDL provides a structure for storing these events called SDL_Event. Let&#8217;s create one now.</p>
-
 <p>一个事件就是指用户做出的与程序交互的行为，比如：按下键，移动鼠标，鼠标点击，手柄移动，窗口改变大小、最小化或者关闭，等等。SDL提供了一个叫做SDL_Event的结构体来存储这些事件。现在我们创建一个SDL_Event。</p>
-
-<p>Whenever an event occurs it&#8217;s added to a stack in chronological order. If we want to read an event from this stack we can pull the oldest event using SDL_PollEvent. This may be a bit confusing, hopefully this handy graphic will help make it a bit clearer.</p>
 
 <p>无论什么时候发生事件，它都会被按时间顺序被存放在一个栈里。如果我们想要读取一个事件，我们可以使用SDL_PollEvent取出一个最老的事件。这可能让人困惑，但是幸运的是，下面这张示意图会使这个问题清晰一点。</p>
 
 <p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson4/evntstack.png"></p>
 
-<p>So in this case the user resized the window, then clicked the mouse, then pushed a key. When we call SDL_PollEvent on this queue it will get the event that happened first, or the oldest event, and put it into our SDL_Event structure so that we can look at the event data in our program.</p>
-
 <p>在此情况下，用户更改了窗口大小，然后点了鼠标，然后按了一个键。 当我们调用SDL_PollEvent，它会获取到第一个发生的事件，或者说是最老的那个时间，然后把它放在我们的SDL_Event结构体中，以便于让我们看到这个事件的数据。</p>
-
-<p>So if each frame of our game we want to process all events in the queue we&#8217;ll want to loop through until there&#8217;s nothing left to read, then continue on and do our other stuff like logic and rendering. This is starting to sound like something we could call our main loop!</p>
 
 <p>如果我们希望处理队列中每一帧的消息的话，我们需要循环直到队列中没有任何消息剩余，然后继续做其他的诸如逻辑、绘制之类的工作。这听起来像在主循环中调用的东西。</p>
 
-<p>In each iteration of the loop we&#8217;ll want to process our event queue, do some program logic and draw the frame and then do it all over again until the user quits.
-在循环中的每一次遍历中，我们都希望处理事件队列，处理一些程序逻辑然后将这一帧绘制出来，然后重复这些工作直到用户退出程序。</p>
+<p>在循环中的每一次遍历中，我们都希望处理事件队列，处理一些程序逻辑然后将这一帧绘制出来，然后重复这些工作直到用户退出程序。</p>
 
 <div><script src='https://gist.github.com/3161759.js?file=2.cpp'></script>
 <noscript><pre><code>    SDL_Event e;</code></pre></noscript></div>
 
 
-<p>Next we&#8217;ll want to do our event polling. Our goal was to run over all the events in the queue each frame, so let&#8217;s use another while loop, as PollEvent will return 1, &#8216;true&#8217;, if there are any pending events, so our loop will run until there are no more events in the queue.
- First we get an event from the queue with SDL_PollEvent, which we pass an address too as its signature is SDL_PollEvent(SDL_Event*) and then we do whatever we want to with the input. In this case we&#8217;re just going to quit the program if the user pushes any key, clicks the mouse or closes the window, so if just about anything happens we set quit to true. Note that clicking the X on the window is read as SDL_QUIT.</p>
-
 <p>下一步，我们需要做的是事件轮询。我们的目标是读取每帧中的所有事件，所以我们使用另一个while循环。因为当没有未处理的消息的时候，PollEvent会返回1，也就是true，所以我们的循环会持续直到队列中再没有任何事件。首先，我们使用SDL_PollEvent得到一个事件，因为函数声明是 SDL_PollEvent(SDL_Event*) 所以我们需要传入一个地址，然后我们对获得的输入做所有我们需要的处理。在本例中，我们想要当用户按下任意按键，点击鼠标或者关闭窗口的时候直接退出程序，所以如果发生了什么事件的话，我们就把quit设为true。注意，单击窗口右上的红叉会被识别为SDL_QUIT.</p>
-
-<p>SDL&#8217;s event structure is able to read many different types of events and provides all the valid information tied to each event that may be needed in deciding what to do with the input. For more information on the various event types and the data that comes with them, check out the SDL_Event documentation.</p>
 
 <p>SDL的event结构可以获取很多种类型的事件，并且能够提供与每个事件有关的所有有用的信息供你决定怎样处理用户输入。如果你想知道关于多种事件类型和event类型的数据的信息，就去看SDL_Event的相关文档吧。</p>
 
-<p>The next step in our loop would be to do various calculations that our program needs to do, such as determining movement, collision outcomes and etc. However since our program is very primitive we don&#8217;t need to do any logic at the moment, so we&#8217;ll continue on to rendering.</p>
-
 <p>主循环的下一步是把我们程序该计算的计算出来，比如判断移动、碰撞输出等等……尽管如此，因为我们的程序非常原始，现在我们不需要做太多的逻辑操作，所以我们继续绘制图像。</p>
-
-<p> The code is identical to before, but we must be sure each time to clear the screen before drawing our new scene or we could have images left over from previous frames start showing up.</p>
 
 <p>代码和之前的是相同的，但是我们必须确定我们每次绘制新的场景之前都清空了屏幕。不这么做的话，我们会让上一帧绘制的图像在下一帧里依旧显示着。</p>
 
-<p> You&#8217;ll want to wrap up the program by destroying the texture, renderer and window and quit SDL.</p>
-
 <p>最后你需要释放掉texture、renderer还有window所占用的内存，退出SDL。</p>
-
-<p> When you run the program you should be able to quit by clicking the X on the window, clicking in the window or pressing a key while the window is selected. You may also notice something a bit interesting when running the program if you check its CPU usage. If you&#8217;ve seen tutorials where the main loop is discussed or have written SDL1.2 code you&#8217;d expect that our program for this lesson would max out one of your CPU cores because there&#8217;s no framerate limiting being done. This is no longer the case with our program as we have created our renderer with the SDL_PRESENTVSYNC flag which tells the renderer to delay and match the framerate of our monitor, letting SDL take care of the framerate limiting for us, and letting us skip writing a line or two of code.</p>
 
 <p>当你运行这个程序的时候，你可以通过在窗口激活的状态下点击窗口的红叉、在窗口中点击或者按下任何一个按键来退出程序。如果你查看了CPU占用的话，你也许会注意到一个有趣的东西。如果你看过讨论主循环的教程，或者写过SDL1.2的代码，你会发现我们本节的程序会把你CPU的一个核心占用到最大程度，这是因为这个程序并没有对帧率做任何限制。但这已经不是问题了，因为我们创建的renderer使用了SDL_PRESENTVSYNC这个flag，它会告诉renderer延迟绘制以匹配显示器的刷新率，让SDL自动为我们控制帧率，为我们省下了一到两行的代码。</p>
 
-<p> Lesson 4 Extra Challenge!</p>
+<p>Lesson 4 Extra Challenge!</p>
 
-<p> Try getting the image to move on the screen.</p>
-
-<p> Hint</p>
+<p>Hint</p>
 
 <p>第四节的额外挑战！</p>
 
@@ -1675,9 +1495,7 @@ Thanks for joining me! I&#8217;ll see you again soon in Lesson 7: Taking Advanta
 <p>提示</p>
 
 <p>第四节的结束
-感谢加入！我们第五节：裁剪精灵表见~
- End of Lesson 4: Event Driven Programming
- Thanks for joining me! I&#8217;ll see you again soon in Lesson 5: Clipping Sprite Sheets</p>
+感谢加入！我们第五节：裁剪精灵表见~</p>
 ]]></content>
   </entry>
   
@@ -1696,32 +1514,19 @@ _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
 
 <p>通过使用这些库，我们可以给我们的程序增加更多功能并使很多事情变得容易许多。在此我们只使用SDL_image，以后的课程中我们会讲到其他的扩展库。</p>
 
-<p>In Lesson 0, when you cloned from the Mercurial and built the libraries you should have also downloaded and built the source for SDL_image, SDL_ttf and SDL_mixer, although I was unable to get SDL_mixer to compile with Visual Studio at the time of writing. This part of the tutorial will be updated when SDL 2.0 is officially released to simply contain links to download the libraries.</p>
-
-<p>在第0节中，当你从Mercurial中同步下来一份源码，并且生成库文件之后，你还需要下载并编译SDL_image,SDL_ttf还有SDL_mixer的源码，尽管在写这篇教程的时候我没能在Visual Studio里把SDL_mixer编译成功。当SDL2.0正式发布的时候，我会更新这个教程并提供编译好的库以直接下载。</p>
-
-<p>If you have not done this, head over to the SDL Mercurial and clone and build the extension libraries available there.</p>
+<p>在第0节中，当你从Mercurial中同步下来一份源码，并且生成库文件之后，你还需要下载并编译SDL_image,SDL_ttf还有SDL_mixer的源码，<del>尽管在写这篇教程的时候我没能在Visual Studio里把SDL_mixer编译成功</del>。(译注:现在去掉MP3格式支持就可以编译成功，详见第〇节译注)当SDL2.0正式发布的时候，我会更新这个教程并提供编译好的库以直接下载。</p>
 
 <p>如果你还没做完这些，回到SDL的mercurial版本库中同步到代码并生成这些扩展库。</p>
 
-<p> To include the headers and library files on Windows simply paste them in the include and lib directories of your SDL 2.0 folder and add SDL_image.lib and etc. to your linker settings. On Linux following the configure, make, make install pattern will spit out a location where the libraries were installed that you can link against.</p>
+<p>在windows下，要包含头文件和库文件，只需要把SDL2.0文件夹中对应路径粘贴到include和lib路径设置中，然后把SDL_image.lib还有其他等等的一些lib文件添加到连接器选项中。在linux中，使用configure，make还有make install的方式，它会告诉你在链接时需要的库安装的路径，</p>
 
-<p>在windows下，要包含头文件和库文件，只需要把SDL2.0文件夹中对应路径粘贴到include和lib路径设置中，然后把SDL_image.lib还有其他等等的一些lib文件添加到连接器选项中。在linux中，使用configure，make还有make install的模式，它会告诉你在链接时需要的库安装的路径，</p>
-
-<p> In addition to setting up the includes and libraries you will also need to put the dlls that are located in the externals folder along with the dll that was created when building the project. Some dlls are dynamically loaded and as such, only needed if you intend to use their functionality, you may consult the extension library page for the specifics on which dlls behave this way.</p>
-
-<p>除此之外，你还需要把外部文件夹中的dll放到项目生成dll的文件夹内。某些dll是动态加载的，如果你需要它的功能，你才需要添加它。你可以参考扩展库的主页来弄明白哪些dll是这么工作的。</p>
-
-<p> In addition to exploring the SDL_image library in this lesson we will also begin to learn about throwing and catching exceptions by adding some error handling to our LoadImage function from last time, instead of checking if the returned pointer was still null. This will allow us to get more information about the exact error that happened and help us track down the cause of the error faster.</p>
+<p>除此之外，你还需要把外部文件夹中的dll放到项目生成dll的文件夹内。某些dll是动态加载的，当你需要它的功能才需要添加。你可以参考扩展库的主页来弄明白哪些dll是这么工作的。</p>
 
 <p>本节除了研究SDL_image库之外，我们还会通过为loadimage函数添加一些错误处理的代码来学习throw与catch异常，以此替代检测返回值是否为NULL的错误处理机制。这允许我们获取实际发生的错误的更多信息，并帮我们更快地追踪到导致错误的原因。</p>
 
-<p> For this lesson we will simply be adding some extra stuff to the code we wrote in Lesson 2, so let&#8217;s get that open. IDE users will want to add SDL_image to their linker settings as described above, and for those of you compiling with g++ add -lSDL_image or -lSDL2_image depending on how your 2.0 libraries are named.</p>
-
 <p>在本节中，我们只会在第二节的代码中添加一些额外的东西，所以让我们打开它。IDE用户需要按前文中所说的，给连接器选项添加SDL_image。对那些使用G++的人来说，取决于你SDL2.0的库名，你可以添加比如-lSDL_image或者-lSDL2_image的链接选项。</p>
 
-<p> We&#8217;ll need to add the extra includes for the new things we want to use, SDL_image and stdexcept.
-我们还要把新东西，SDL_image和stdexcept,include进去.<br/>
+<p>我们还要把新东西，SDL_image和stdexcept,include进去.<br/>
  <div><script src='https://gist.github.com/3139999.js?file=1.cpp'></script>
 <noscript><pre><code>#include &quot;SDL.h&quot;</p>
 
@@ -1733,9 +1538,7 @@ _net，数量庞大而又健壮有力的库扩展着SDL的功能。</p>
 
 <h1>include &lt;iostream&gt;</code></pre></noscript></div></h1>
 
-<p> From here we setup as before our screen parameters and create a global window and renderer. If you&#8217;re feeling ill from the use of global objects you may want to take a moment.</p>
-
-<p>从这里开始我们和以往一样设定好屏幕参数并且创建全局的window和renderer。如果你觉得用全局对象不太好，你也许需要等一会儿。</p>
+<p>从这里开始我们和以往一样设定好屏幕参数并且创建全局的window和renderer。如果你觉得用全局对象不太好，你也许需要等一会儿了。</p>
 
 <div><script src='https://gist.github.com/3139999.js?file=2.cpp'></script>
 <noscript><pre><code>const int SCREEN_WIDTH  = 640;
@@ -1745,11 +1548,7 @@ SDL_Renderer *renderer = nullptr;
 SDL_Window *window = nullptr;</code></pre></noscript></div>
 
 
-<p> Now let&#8217;s rework our LoadImage function to use SDL_image&#8217;s IMG_LoadTexture to directly load a texture from an image. SDL_image supports many image formats: BMP, GIF, JPEG, LBM, PCX, PNG, PNM, TGA, TIFF, WEBP, XCF, XPM, XV and as such is a very powerful and useful library, as we are no longer limited to the BMP format</p>
-
 <p>现在，我们开始用SDL_image的IMG_LoadTexture函数把之前的LoadImage改成直接从图像文件中读取texture。SDL_image支持许多图像格式：BMP,GIF,JPEG,LBM,PCX,PNG,PNM,TGA,TIFF,WEBP,XCF,XPM,XV.它是个非常强大的库。有了它，我们就不再被BMP格式限制啦~</p>
-
-<p> Reworking our function is surprisingly simple, we just take out the SDL_Surface business and load the texture directly. Note that we now use IMG_GetError() instead of SDL_GetError(), this is because we&#8217;re now using the SDL_image library to load the image, and as such the appropriate error information would be stored there instead of in SDL.</p>
 
 <p>这回对这个函数的返工简单得让人惊讶。我们只需要去掉SDL_Surface的工作，直接加载texture。注意我们现在使用IMG_GetError()替代SDL_GetError()，因为我们现在正在使用的是SDL_image库来加载图像，因此，对应的错误信息应该在IMG而不是SDL里。</p>
 
@@ -1763,27 +1562,17 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p> But we&#8217;ve got one more new thing here. Since we&#8217;ve decided to be smart and add more informative error checking if our image fails to load we will throw a runtime_error which will tell us what happened and more helpfully, which image caused the error. However if you leave this error uncaught when you call the function later in your program and it occurs, it will crash the program. Depending on the situation this may be desirable, but at the moment we&#8217;ll want it to tell us what happened as opposed to just crashing.</p>
-
 <p>但是我们这里又有另外一个新东西。因为我们决定要让程序变得更智能，并让它的错误处理方式能提供更多错误信息。当我们的图片加载失败之后，我们需要抛出（throw）一个runtime_error的异常，它告诉我们发生了什么，并且告诉我们哪一个图片导致了这项错误。虽然这样，如果你没有捕捉（catch）到这项错误，但之后的运行中这项错误发生了，这个程序还是会崩溃。取决于实际的情况，这或许是可以预计的，但是到崩溃的时候，我们还是希望它告诉我们实际发生了什么而不是直接崩溃。</p>
-
-<p> We&#8217;re almost ready to draw our images, for this lesson we&#8217;ll be using this image as our background:</p>
 
 <p>现在我们准备好绘制图像了，本节我们会用这张图做背景：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson3/background.png"></p>
 
-<p>and our foreground image will be:</p>
-
 <p>前景图是这张：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson3/image.png"></p>
 
-<p>If you look at our foreground image you&#8217;ll notice that it has a transparent background, I&#8217;ve set it like this to demonstrate that IMG_LoadTexture will respect alpha channels and that when the texture is drawn the transparent properties will be retained.</p>
-
 <p>观察了前景图之后你就会发现它的背景是透明的。我这样做是为了示范IMG_LoadTexture函数可以接受Alpha通道，而当texture绘制出来的时候，会显示出透明的效果。</p>
-
-<p>Now that we&#8217;ve got our images we can write our loading code, but recall that we&#8217;ll need to add a try/catch structure to handle the error if one is thrown. Also, don&#8217;t forget to set the file paths to match the image locations on your system.</p>
 
 <p>现在我们有图了，开始编写加载代码。但是先回想一下为了进行错误处理，我们需要添加try/catch结构。还有，别忘了正确地设置图片的文件路径。</p>
 
@@ -1799,28 +1588,17 @@ SDL_Window *window = nullptr;</code></pre></noscript></div>
     }</code></pre></noscript></div>
 
 
-<p>In our catch statement we tell the program to print out e.what(), which will display the string that we put into the runtime_error&#8217;s parentheses. Note that depending on how you&#8217;ve configured your project to build you may not get stdout displayed, if that is the case you can simply write the information to a file instead.</p>
-
 <p>在catch语句中我们让程序打印出了e.what(),它会显示出我们之前放在runtime_error里的信息。注意，取决于你怎样配置的你的项目，你很可能看不到标准输出的结果（译注：比如VS中的某些编译选项会导致目标程序没有控制台窗口），如果遇到这种情况，你可以把错误信息输出到一个文件里。</p>
-
-<p>The rest of the code is not shown as it is identical to what was written for Lesson 2, so you can just drop in this new functionality into the old program. If you want to mess with the image positions, feel free to play around. When running the program with the same position settings as Lesson 2 you should see this:</p>
 
 <p>剩下的代码我没有放在这里，因为它和第二节中的一样。如果你想改图像的位置，那就改吧。当运行和第二节中图片位置相同的程序的时候，你应该可以看到这个：</p>
 
 <p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson3/lesson3result.png"></p>
 
-<p>Note that the transparency of the foreground image was preserved. This is a very useful effect as it means we won&#8217;t have to use color keying to cut out the background of our images but instead can use simple transparency. However if you do wish to use color keying, it will be covered in later lessons.</p>
-
 <p>注意前景图的透明度被保留了。这个效果很有用，因为有了它我们就不必使用color key(色彩键？透明色？）来把图片的背景色抠出来，直接使用透明度就可以了。但如果你想使用color key，后面的教程中会讲到。</p>
-
-<p>End of Lesson 3: SDL Extension Libraries
-If you have issues compiling or running the code make sure that you&#8217;ve added the include paths and linker settings correctly, along with putting the dlls from SDL_image and its dependencies, located in the externals folder of the source code, into the same folder as your executable.</p>
 
 <p>第三节的结束。</p>
 
 <p>如果你编译或者运行的时候出现了问题，确认你正确地添加了include路径和链接设置，并且把SDL_image还有它的依赖库放在你的可执行文件的文件夹里了。</p>
-
-<p>I&#8217;ll see you again soon in Lesson 4: Event Driven Programming!</p>
 
 <p>我们第四节：事件驱动的编程见！</p>
 ]]></content>
@@ -1851,15 +1629,9 @@ SDL_Window *window = nullptr;
 SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 
 
-<p>We&#8217;ll also declare some constant values for our screen width and height along with global declarations of a window and renderer so that they&#8217;re accessible by our functions. Again we initialize the pointers as nullptr for safety. If you&#8217;re not using C++11 initialize them as NULL.</p>
-
 <p>我们还声明了一些表示窗口宽度和高度的常量，连同window还有renderer的全局变量，以便于所有的函数都能够访问到它们。这里有一次为了安全我们把指针初始化为nullptr.如果你没有使用C++11，那就把它们初始化为NULL吧。</p>
 
-<p>Note: You should avoid using non-constant global values or global values in general as much as possible, ie. you should never ever declare a global SDL_Window or SDL_Renderer. However, for this simple lesson we&#8217;ll let it slide. But it&#8217;s ok if you feel grossed out. We&#8217;ll cover a solution to global objects in a few lessons.</p>
-
-<p>注意：你应该尽可能地避免适用非常量的全局数或者全局变量，这即是说，你从来都不应该声明全局的SDL_Window和SDL_Renderer。尽管这样，在这个简单的课程中，我们不要纠结这个。但是如果你觉得这样做恶心的话，这也没关系。在以后几节课程中，我们将提到一个解决方案。</p>
-
-<p>Remember from Lesson 1 where we loaded a texture? It wasn&#8217;t so bad to just have it in main for loading one image, but what if we had lots images to load? We&#8217;d have to type it out every time! We can do much better, instead let&#8217;s define a function for loading textures from a filename:</p>
+<p>注意：你应该尽可能地避免适用非常量的全局数或者全局变量，这即是说，你从来都不应该声明全局的SDL_Window和SDL_Renderer。尽管这样，鉴于这是一套非常简单的教程，我们还是不要纠结这个问题了。但是如果你觉得这样做恶心的话，这也没关系。在以后几节课程中，我们将提到一个解决方案。</p>
 
 <p>还记得在第一节中我们加载了一个texture么。把加载图像的代码放到main里并不是太坏，但是如果我们需要加载很多图像呢？我们不得不每次都要写一遍那些代码！我们可以做得更好——定义一个可以通过文件名来加载texture的函数。</p>
 
@@ -1879,11 +1651,7 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p>The function here should look very familiar as it&#8217;s the exact same code we wrote in Lesson 1, but now we have wrapped it up in a nice function. With this function we can pass a file name as a string and get back a pointer to the loaded SDL_Texture. Note that the pointer will be nullptr if the loading fails because we initialize both pointers as nullptr for error checking.</p>
-
 <p>这里的这个函数看起来应该非常眼熟才对，因为它就是我们在第一节写的代码。但是这一次，我们把它们用一个美妙的函数包裹了起来。有了这个函数，我们就可以传给它一个文件名的字符串，然后得到一个SDL_Texture的指针。注意，如果图片加载失败了，这个指针会是nullptr，因为我们为了错误检测，把所有的指针都初始化为了nullptr。</p>
-
-<p> Next we&#8217;ll want to write a function to simplify our draw calls and also allow us to specify a position to draw the image too on the screen. We&#8217;ll want it to be able to take an x, y coordinate position along with a texture pointer and a renderer pointer and then draw the texture to that position.</p>
 
 <p>下一步，我们想要写一个可以简化我们绘制调用，并且允许我们指定图像在屏幕上绘制的位置的函数。我们需要它能够取得x, y坐标位置还有一个texture指针，以及一个renderer指针，然后把那个texture画在那个位置。</p>
 
@@ -1898,23 +1666,13 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p> In order to specify a position for the texture to be drawn too we need to create a SDL_Rect that we can pass the address to SDL_RenderCopy&#8217;s destination rect parameter. This is done because the last two parameters of SDL_RenderCopy are SDL_Rect pointers, so it&#8217;s expecting an address.</p>
-
 <p>为了指定Texture绘制的位置，我们需要创建一个SDL_Rect，这样我们就可以把它的地址传给SDL_RenderCopy的目标rect参数。这样做是因为SDL_RenderCopy的最后两个参数是SDL_Rect类型的指针，所以需要传入一个地址。</p>
-
-<p>To create our rectangle we take the x and y values that we passed in and the set rectangle&#8217;s values equal to them. However we must also specify the width and height we want the texture to be drawn with as SDL 2.0 also gives us the ability to scale our textures. Try playing with the width and height values once the tutorial is done and see what happens!</p>
 
 <p>为了创建这个矩形（rectangle），我们将传入的x与y赋给rectangle的x和y.另外，我们还必须指定需要texture绘制的宽度和高度，因为SDL2.0在这里赋予了我们缩放texture的能力。在本教程结束后，你可以试着更改高度和宽度并看看会发生什么情况。</p>
 
-<p>For now we just want to pass the texture&#8217;s width and height so that we draw it at a 1:1 scale. We can get these values by using SDL_QueryTexture. This function takes the texture pointer we want to query, the two parameters we pass NULL to are the format and access level parameters respectively, which we can ignore. Finally we must pass the addresses of the variables that we want to fill with the width and height of the texture.</p>
-
 <p>但是现在我们只想把texture原本的宽度和高度传入，以便于以1：1的比例来绘制它。我们可以通过SDL_QueryTexure来获取这些值。这个函数需要我们传入texture的指针，后面两个参数我们传入NULL，它们分别是texture格式（? 待考证函数说明）和访问级别，现在我们可以无视它们。最后我们将需要填texture宽高的变量的地址传入。</p>
 
-<p>Now that we&#8217;ve got our SDL_Rect set up we can pass it, along with the renderer and texture as before, to SDL_RenderCopy so that our texture will be drawn at the point specified and with its original width and height. The remaining NULL parameter in this function is for taking a clip of the source texture, which we&#8217;ll cover later.</p>
-
 <p>现在我们已经有了SDL_Rect，我们可以把它还有renderer，以及之前的texture传给SDL_RenderCopy ，这样texture就会以它原始的尺寸绘制在我们制定的位置。剩下的那个NULL的参数是为了裁剪原来的texture之用的，这点我们会在后面提及。</p>
-
-<p>Let&#8217;s see our functions in action. First we&#8217;ve got to start up SDL and create our window and renderer as before. We&#8217;ve also got something new here, SDL_WINDOWPOS_CENTERED. This is an option we can use when creating our window to tell SDL to center its position on the specified axis, here we do it for x and y.</p>
 
 <p>现在我们实际看一下我们的函数。首先我们和以前一样开启SDL，创建窗口还有renderer。这里还有个新东西，SDL_WINDOWPOS_CENTERED.这是个可以用来在创建窗口的时候告诉SDL把窗口设到指定坐标轴中央的选项，这里我们指定的是x和y。</p>
 
@@ -1939,19 +1697,15 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
     }</code></pre></noscript></div>
 
 
-<p>Now let&#8217;s load up our images. For this lesson we&#8217;ll be drawing a tiled background image and drawing a centered image on top of it. Here&#8217;s our background:</p>
-
 <p>现在我们加载图片。本节我们将绘制一个平铺的背景图还有位于它上面的一张居中的图。张是我们的背景图：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson2/background.bmp"></p>
 
-<p>And this will be our foreground image:
-然后这张是前景图：</p>
+<p>然后这张是前景图：</p>
 
 <p><img src="https://raw.github.com/Twinklebear/TwinklebearDev-Lessons/master/res/Lesson2/image.bmp"></p>
 
-<p>Let&#8217;s load them up with the LoadImage function we just wrote.
-我们用刚才写的LoadImage 函数来加载它。</p>
+<p>我们用刚才写的LoadImage 函数来加载它。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=5.cpp'></script>
 <noscript><pre><code>    SDL_Texture *background = nullptr, *image = nullptr;
@@ -1961,28 +1715,17 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
         return 4;</code></pre></noscript></div>
 
 
-<p>Note that you will have to change the file paths to match the relative location of the image to the executable on your system.
-注意你也许需要更改文件路径以便与文件实际运行的路径匹配。</p>
-
-<p>Before we draw the images we&#8217;ll need to know where we want to position them, specifically how we&#8217;ll tile our background and also how we can draw the foreground image centered on the screen. First we&#8217;ll have to understand how SDL&#8217;s coordinate system works, as it is a bit different than the standard 2D Cartesian coordinate system. SDL&#8217;s coordinate system looks like this:</p>
+<p>注意你也许需要更改文件路径以便与文件实际运行的路径匹配。</p>
 
 <p>在绘制图片之前，我们需要知道我们要把它们放在那里，特别是我们应该如何平铺背图，还有如何把前景图绘制在屏幕中央。首先，我们必须弄明白SDL的坐标系统是怎样工作的。SDL的坐标系统看起来是这样的：</p>
 
 <p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson2/sdlcoord.png"></p>
 
-<p>With 0, 0 being in the top-left corner of the screen. Y values increase as we move down the screen and X values increase as we move to the right on the screen. Another thing to note about SDL&#8217;s coordinate system is that the x, y point specified to draw an image at is used as the location to draw the top-left corner of the image, as opposed to the center of the image like some other libraries.</p>
-
 <p>坐标0,0处从屏幕左上角开始。Y坐标从上到下增加，X坐标从左到右增加。另外还有一个需要注意的问题，SDL的坐标系统是，指定的图片绘制的x,y坐标，将以这个坐标为图片左上角的坐标来绘制——而不是像其他一些库一样把这个坐标当作图片的中心。</p>
-
-<p>Before we draw: A note about SDL&#8217;s drawing order: The order in which things are drawn will be the order in which they sit on top of each other, so the first thing drawn is the bottom-most image, and the last image drawn will sit on top of everything.</p>
 
 <p>在绘制之前，还有一个需要注意的问题：SDL的绘制顺序。我们绘制时的顺序就是图像叠加的顺序，所以我们首先绘制的东西将位于最底层，最后绘制的将位于所有图像的最上层。</p>
 
-<p>If you&#8217;ve taken a peek at the background image yet you&#8217;ll have noticed that it has a width of 320 and a height of 240, with a screen that is 640x280 we&#8217;ll need to draw the background image four times to tile it over the window scooting it over by its width or height each time.</p>
-
 <p>如果你看了那张背景图，你会发现这张图长320宽240，如果是640x480的屏幕的话，我们需要把它画四次以覆盖整个窗口，每次都要依据图片长宽来移动图片。</p>
-
-<p>Before drawing anything, we&#8217;ll want to clear the screen, next we&#8217;ll want to setup the positioning of elements on the window. We can get the width and height of the image again by using the QueryTexture function on the background, this gives us a more versatile method in which we could instead create a for loop to iterate over the positions based on the image width and height, perhaps if we were placing many small tiles. For this case we&#8217;re only drawing it four times, so we can take the &#8216;dumb&#8217; route and just type it out.</p>
 
 <p>在绘制之前，我们需要清屏，然后创建好需要画到窗口中的元素。我们可以通过QueryTexture函数来获取背景图的长和宽，它为我们提供了相较之用一个for循环来迭代图像的长宽的一个更便捷的方法，如果我们需要绘制很多小的tile（方块？就是2D游戏中常见的一张图储存了很多种方块，方块的不同排列组成场景的不同部分。。。的那种方块。= =||）在本例中我们一共只需要画四次，所以我们用笨方法直接敲四次代码好了。</p>
 
@@ -1997,8 +1740,6 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
     ApplySurface(bW, bH, background, renderer);</code></pre></noscript></div>
 
 
-<p>Now we want to draw our foreground image on top of the background, and centered in the window. We can calculate the center point quite easily but because the point we pass to ApplySurface is the location of the top-left corner of the image we must also apply an offset to the point relative to the image&#8217;s width for x and height for y to put the real center of the image at the center point of the screen.</p>
-
 <p>现在，我们想要把前景图画在背景图上方并在窗口中居中显示。我们可以很容易地计算出中间点的坐标，但是因为传入ApplySurface函数的图片坐标应该在图片左上角，我们必须给这个点应用一个基于原图像宽度和高度的偏移，以把图片正确地放到屏幕中央。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=7.cpp'></script>
@@ -2009,16 +1750,12 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
     ApplySurface(x, y, image, renderer);</code></pre></noscript></div>
 
 
-<p>In order to see our drawing we&#8217;ll have to present the renderer and then have SDL wait for a second or two so we have a chance to see the image.</p>
-
 <p>为了看到我们绘制的结果，我们需要把renderer呈现（present）出来，并且让SDL等待一两秒钟以便于我们能看到显示的图像。</p>
 
 <div><script src='https://gist.github.com/3139927.js?file=8.cpp'></script>
 <noscript><pre><code>    SDL_RenderPresent(renderer);
     SDL_Delay(2000);</code></pre></noscript></div>
 
-
-<p>Finally, we wrap up the program by freeing the memory being used by the textures, renderer and window, quit SDL and return.</p>
 
 <p>最后，我们为了圆满地结束这个程序，需要释放掉texture、renderer还有window所占用的内存，退出SDL并返回。</p>
 
@@ -2034,18 +1771,9 @@ SDL_Renderer *renderer = nullptr;</code></pre></noscript></div>
 }</code></pre></noscript></div>
 
 
-<p>When you compile and run the program your window should look like this:</p>
-
 <p>当你编译并运行了这个程序，你的窗口看起来应该这样的：</p>
 
 <p><img src="http://adolfans.github.com/sdltutorialcn/images/blogimages/lesson2/Lesson2_Result.png"></p>
-
-<p>Lesson 2 Extra Challenge!
-Find a way to convert our dumb method of tiling the background into a lean mean for loop! While it may not be so effecient for four background tiles, using a for loop for tiling is a very nice method for placing a large amount of tiles.</p>
-
-<p>Hint</p>
-
-<p>Think about happens when we want to increment the y value if tiling row by row, or when we want to increment x when tiling column by column.</p>
 
 <p>第二节的Extra Challenge！</p>
 

@@ -9,7 +9,7 @@
   <meta name="author" content="Adolfans">
 
   
-  <meta name="description" content="原文地址：http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html In this lesson we&#8217;ll add onto our small class library of one (the Window &hellip;">
+  <meta name="description" content="【本文还没有翻译完毕】 原文地址：http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html In this lesson we&#8217;ll add onto our small class library of one ( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,7 +97,9 @@
   </header>
 
 
-  <div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html</a></p>
+  <div class="entry-content"><p>【本文还没有翻译完毕】</p>
+
+<p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html">http://twinklebeardev.blogspot.com/2012/10/lesson-8-timers.html</a></p>
 
 <p>In this lesson we&#8217;ll add onto our small class library of one (the Window class) by creating a simple timer and then use it in a simple program. To do this we&#8217;ll be making use of the SDL_Timer functions, specifically SDL_GetTicks which returns the milliseconds elapsed since SDL was initialized.</p>
 
@@ -146,9 +148,7 @@
 
   <div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html">http://twinklebeardev.blogspot.com/2012/09/lesson-7-taking-advantage-of-classes.html</a></p>
 
-<p>If you recall from the previous lessons we&#8217;ve used a global SDL_Window and SDL_Renderer so that we could access them from within our various functions throughout main.cpp, however using non-constant globals is a very bad idea, and when we start wanting to write more complicated programs this method will become unusable.</p>
-
-<p>回头看看之前的课程，你会发现我们使用了SDL_Window和SDL_Renderer的全局变量，以便于在main.cpp的每一个函数处都能访问到它们。但是，其实使用非const的全局变量是个很不好的做法，当我们开始想要写一些稍微复杂点的程序的时候，这个方法就没用了。</p>
+<p>回头看看之前的课程，你会发现我们使用了SDL_Window和SDL_Renderer的全局变量，以便于在main.cpp的每一个函数处都能访问到它们。但是，其实使用非const的全局变量是个很不好的做法，当我们想写一些稍微复杂点的程序的时候，这个方法就不行了。</p>
 
 </div>
   
@@ -193,9 +193,9 @@
 
   <div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html">http://twinklebeardev.blogspot.com/2012/08/lesson-6-true-type-fonts-with-sdlttf.html</a></p>
 
-<p>In this lesson we will start learning how to use the SDL_ttf library to render text using True Type fonts. For this lesson you&#8217;ll need the SDL_ttf library which you should have from when you downloaded and compiled all the libraries on SDL2.0 Mercurial. If you don&#8217;t have the SDL2.0 version of SDL_ttf, you should download and compile it now. The library is linked up the same as SDL_image was in Lesson 3.</p>
-
 <p>本节我们将学习怎样使用SDL_ttf库来用True type字体绘制文本。在这之前，你需要从Mercurial里预先下载并编译好SDL_ttf库。如果你还没有SDL_ttf的SDL2.0版本，你应该现在赶紧下载编译。这个库和第三节提到的SDL_image的链接方法很相似。</p>
+
+<p>（译注：不要下载SDL_ttf主页上的源码和bin包，因为它们都是SDL1.2对应的版本，从Mercurial里clone。SDL_image也是这样。）</p>
 
 </div>
   
@@ -239,8 +239,6 @@
 
 
   <div class="entry-content"><p>原文地址: <a href="http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html">http://twinklebeardev.blogspot.com/2012/08/lesson-5-clipping-sprite-sheets.html</a></p>
-
-<p>It&#8217;s very common in sprite based games to use a large image file containing many smaller images, such as tiles for a tileset, as opposed to having a separate image file for each tile. This type of image is known as a sprite sheet, and is very useful because we don&#8217;t need to have a separate image file for each image in the game but instead can just draw the subset of the sheet that we want.</p>
 
 <p>在基于精灵的游戏中，通常会使用一幅包含了许多小图的大图——比如说使用包含tile的tile集，而不是一个tile就是一张独立的图片。这种图像的类型被称作精灵表（sprite sheet，我不能确定我这么翻译是否恰当——译注）。这种方式很有用，因为这样做我们的游戏就用不着每幅图像都用一个独立的文件来存储，而直接绘制表中我们需要的一部分就好了。</p>
 
@@ -287,9 +285,7 @@
 
   <div class="entry-content"><p>原文地址：<a href="http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html">http://twinklebeardev.blogspot.com/2012/07/lesson-4-event-driven-programming.html</a></p>
 
-<p>Now that we&#8217;ve learned how to draw images to the screen it&#8217;s time to learn how to read user input. Our game won&#8217;t be very good if there&#8217;s no way to play it! In this lesson we will cover simple event handling using SDL and begin designing a primitive &#8216;main loop&#8217;.</p>
-
-<p>既然我们已经学习了怎样往屏幕上绘制图像，现在该学习怎样读取用户的输入了。如果都不能玩的话，我们的游戏就不好了！本节我们会学习SDL的简单事件处理并开始设计一个基本的主循环(&#8220;main loop&#8221;).</p>
+<p>既然我们已经学习了怎样往屏幕上绘制图像，现在该学习怎样读取用户的输入了。如果都不能玩的话，那就连游戏都不是了！本节我们会学习SDL的简单事件处理并开始设计一个基本的主循环(&#8220;main loop&#8221;).</p>
 
 </div>
   
