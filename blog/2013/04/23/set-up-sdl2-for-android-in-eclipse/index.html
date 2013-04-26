@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>在Eclipse中配置SDL2.0 for Android - SDL中文教程</title>
+  <meta name="author" content="Adolfans">
+
+  
+  <meta name="description" content="首先要有个装好Android SDK的eclipse不是么。因为我现在用的是在Android developer官网上下的ADT bundle，所以就不多说了。 为了编译SDL我们还需要Android NDK,下好之后在Window-preference-android-ndk里指定路径。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://adolfans.github.com/sdltutorialcn/blog/2013/04/23/set-up-sdl2-for-android-in-eclipse/">
+  <link href="/sdltutorialcn/favicon.png" rel="icon">
+  <link href="/sdltutorialcn/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/sdltutorialcn/javascripts/modernizr-2.0.js"></script>
+  <script src="/sdltutorialcn/javascripts/ender.js"></script>
+  <script src="/sdltutorialcn/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/sdltutorialcn/atom.xml" rel="alternate" title="SDL中文教程" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/sdltutorialcn/">SDL中文教程</a></h1>
+  
+    <h2>_(:3」∠)_目前一团乱还请各位见谅<br>总之各位随意~</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/sdltutorialcn/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:adolfans.github.com/sdltutorialcn" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/sdltutorialcn/">Blog</a></li>
+  <li><a href="/sdltutorialcn/blog/archives">Archives</a></li>
+  <li><a href="/sdltutorialcn/sdl-2-dot-0-tutorial-index/">SDL2.0教程目录</a></li>
+  <li><a href="/sdltutorialcn/about">关于</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">在Eclipse中配置SDL2.0 for Android</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-23T16:39:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>首先要有个装好Android SDK的eclipse不是么。因为我现在用的是在Android developer官网上下的ADT bundle，所以就不多说了。</p>
+
+<p>为了编译SDL我们还需要Android NDK,下好之后在Window-preference-android-ndk里指定路径。</p>
+
+<!-- more -->
+
+
+<p>然后新建工程，选择&#8221;Android Application Project&#8221;，然后一路选择下去，其中在Create Activity界面取消选择Create Activity。</p>
+
+<p>将SDL文件夹内/android-project/文件夹内的src和jni文件夹复制到你新建的项目的文件夹内。</p>
+
+<p>在jni下新建SDL文件夹，将（clone来的）SDL目录内的include、src文件夹和Android.mk复制到新建的SDL文件夹内。</p>
+
+<p>测试SDL</p>
+
+<p>在jni/src／下新建main.c（当然其实文件名你可以随意取，也可以是c++文件）</p>
+
+<p>然后将以下代码写进去：</p>
+
+<pre><code>#include "SDL.h"
+#include "stdio.h" 
+int main(int argc, char *argv[]) {
+    printf("hello world....\n");
+}
+</code></pre>
+
+<p>需要注意的是不能写无参的main函数，因为Android ndk里.so库的入口点并不是main，SDL自己声明了一个main函数以调用，这就是我们的main。</p>
+
+<p>然后编辑该文件夹下的Android.mk文件，将YourSourceHere.c改为main.c（就是刚才新建的文件的文件名）</p>
+
+<p>回到eclipse里，刷新文件浏览视图，可以在jni目录下看到我们刚才复制进去的文件。</p>
+
+<p>编辑根目录下的AndroidManifest.xml，将package改为&#8221;org.libsdl.app&#8221;，在<application></application>标签中间加入以下代码：</p>
+
+<pre><code>&lt;activity android:name="SDLActivity"
+              android:label="@string/app_name"&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name="android.intent.action.MAIN" /&gt;
+            &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
+        &lt;/intent-filter&gt;
+    &lt;/activity&gt;
+</code></pre>
+
+<p>打开终端，在jni文件夹下执行Android ndk中的ndk-build（如果不想把ndk-build添加到环境变量中直接把那个文件拽过来就可以了），应该可以看到生成了libSDL2.so与libmain.so两个文件。</p>
+
+<p><img src="/sdltutorialcn/images/blogimages/set-up-for-android/sdl-compiled.png" alt="SDL compiled" /></p>
+
+<p>扯句题外话，libmain.so这个文件名是SDL自己定的，跟刚才建的main.c无关哟。</p>
+
+<p>这时回到eclipse内，点运行，它会提示你新建一个avd（android模拟器），按照它提示的步骤建就好了，注意你选择的系统版本应该和你所建的项目版本相兼容才对。［这个问题稍后叙述</p>
+
+<p>在模拟器中运行刚才新建的项目，它应该会显示一个黑屏才对。别指望能看到printf的输出。如果程序提示错误或者你eclipse里的logcat里疯狂地刷红字的错误警告，那么八成是因为库没有加载成功。这样的话就回头看看在ndk-build的那一步是否正确地生成了libmain.so和libSDL2.so吧，它们应该被放在了libs/armebi/下面。</p>
+
+<p>这样我们的SDL程序就算是跑起来了。</p>
+
+<p><img src="/sdltutorialcn/images/blogimages/set-up-for-android/test-sdl-image.png" alt="test SDL_image" /></p>
+
+<p>但是这样不方便，我们希望刚才的ndk-build的步骤能直接用eclipse执行。否则要eclipse何用。</p>
+
+<p>选择Help-install new software,然后在work with后面选择Android Developer Tools Update Site.在下面的列表里勾选NDK tools，然后取消勾选左下角的 &#8220;Contact all update sites during install to find required software&#8221;（不然会安装出错），一路选择next accept，最后finnish.它会开始安装，这里我们先点Run in background，去干别的。</p>
+
+<p><img src="/sdltutorialcn/images/blogimages/set-up-for-android/installing-ndk-plugin.png" alt="installing ndk plugin" /></p>
+
+<p>我们先来研究一下SDL的几个扩展库的编译。</p>
+
+<p>首先是SDL_image.</p>
+
+<p>我们先把SDL_image整个文件夹复制到jni文件夹内（其实需要的只是几个源文件和Android.mk），SDL_image需要png和jpeg支持，二者分别可以从https://github.com/julienr/libpng-android和https://github.com/folecr/jpeg8d获得。</p>
+
+<p>对libpng:将文件夹jni放到项目目录的jni文件夹内，重命名为png</p>
+
+<p>对libjpeg：将Android.mk中的LOCAL_MODULE := cocos_jpeg_static，改为LOCAL_MODULE := libjpeg,然后将整个文件夹重命名为jpeg,复制到项目的jni文件夹内</p>
+
+<pre><code>LOCAL_MODULE := libjpeg
+</code></pre>
+
+<p>执行ndk-build，应该可以生成libSDL2_image.so</p>
+
+<p>使用SDL_image：</p>
+
+<p>用IMG_LoadTexture加载Texture,然后把图片放到assets文件夹内。这里需要说两句，IMG_LoadTexture这个函数在android平台上是会自动帮你从assets里读取文件的。IMG_Load也是。</p>
+
+<p>因为我们的main.c并不知道SDL_image的路径，我们需要在Android.mk文件夹里添加。</p>
+
+<p>打开src文件夹里的Android.mk，给 LOCAL_C_INCLUDES 添加$(LOCAL_PATH)/../SDL_image，注意大小写。</p>
+
+<pre><code>LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
+            $(LOCAL_PATH)/../SDL_image
+</code></pre>
+
+<p>然后添加SDL_image库：</p>
+
+<pre><code>LOCAL_SHARED_LIBRARIES := SDL2 SDL2_image
+</code></pre>
+
+<p>最后打开org.libsdl.app包下的SDLActivity.java
+把</p>
+
+<pre><code>System.loadLibrary("SDL2_image");
+</code></pre>
+
+<p>取消注释，不然SDL2_image库不会被加载～</p>
+
+<p>然后我们可以运行了～</p>
+
+<p>然后我们开始尝试使用刚才安装的Android ndk plugin……= =</p>
+
+<p>这个插件是很囧很囧很囧的。你必须通过它的功能新建一个so库，它才能用。但是一旦你新建了一个，它的新建功能就消失了，无论你如何处置，就算直接把库的源代码删除，它那个选项也回不来= =。而且你不建还不能用。</p>
+
+<p>于是我们新建一个，右键单击工程，依次选择Android Tools -> Add Native Support.然后随便填个库名，然后删除自动生成的那个源码文件。［我知道这很囧，但不这样做，IDE就不知道你在用native库，就不能调试native代码。</p>
+
+<p>好吧，这样就好了，直接run，它会自动执行ndk-build.</p>
+
+<p>关于SDL_ttf的编译。</p>
+
+<p>先把SDL_ttf放到我们的jni文件夹里，这就不多说了。</p>
+
+<p>需要freetype库～在http://sourceforge.net/projects/freetype/files/?source=navbar这里下载，解压后重命名为freetype，然后放到SDL_ttf文件夹里。</p>
+
+<p>然后直接在jni文件夹下执行ndk-build，应该不会有任何问题。</p>
+
+<p>然后在程序的Android.mk里修改路径使其识别SDL_ttf的路径。编辑jni/src/Android.mk</p>
+
+<pre><code>LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
+            $(LOCAL_PATH)/../SDL_image \
+            $(LOCAL_PATH)/../SDL_ttf
+</code></pre>
+
+<p>&#8230;</p>
+
+<pre><code>LOCAL_SHARED_LIBRARIES := SDL2 SDL2_image SDL2_ttf
+</code></pre>
+
+<p>以及在SDLActivity.java中，将</p>
+
+<pre><code>System.loadLibrary("SDL2_ttf");
+</code></pre>
+
+<p>取消注释。</p>
+
+<p>OK，那就可以在main.c里用SDL_ttf了。跟SDL_image一样，把图片放到assets文件夹内就好。</p>
+
+<p>老实说，其实Android NDK插件有很囧的bug,它的code analysis很多时候会以为你的代码有错误，但其实你的代码完全正确，就是它不懂。而当code analysis认为你有错误的时候，就算你的代码已经编译成功，你也照样不能运行它。遇到这种情况……请到Properties里面把code analysis的内容都取消勾选吧！</p>
+
+<p>最后是SDL_mixer的编译～
+把SDL_mixer放到jni文件夹内，然后去https://code.google.com/p/libmikmod-android/source/checkout获取mikmod的源码。</p>
+
+<p>把其中的Android.mk文件的最后一行改为</p>
+
+<pre><code>include $(BUILD_STATIC_LIBRARY)
+</code></pre>
+
+<p>找到其中的jni文件夹，将里面的libmikmod-3.1.11文件夹复制到我们的jni目录，并重命名为mikmod</p>
+
+<p>svn co http://svn.xiph.org/trunk/Tremor获取tremor的源码</p>
+
+<p>然后还要去http://www.xiph.org/downloads/里下载一份libogg</p>
+
+<p>然后把里面的Tremor重命名为tremor后放到jni文件夹下，把libogg的include文件夹下的ogg文件夹也复制到jni文件夹下，把libogg文件夹下src文件夹里的那俩＊.c复制到tremor文件夹下。</p>
+
+<p>然后，在tremor里新建Android.mk，这么写：</p>
+
+<pre><code>LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+LOCAL_MODULE := tremor
+
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/.. 
+
+LOCAL_CFLAGS := -I$(LOCAL_PATH) -DHAVE_ALLOCA_H
+
+LOCAL_SRC_FILES := $(notdir $(wildcard $(LOCAL_PATH)/*.c))
+
+include $(BUILD_STATIC_LIBRARY)
+</code></pre>
+
+<p>最后编辑SDL_mixer的Android.mk文件</p>
+
+<p>把其中的：</p>
+
+<pre><code>LOCAL_SHARED_LIBRARIES := SDL2 mikmod
+LOCAL_STATIC_LIBRARIES := tremor
+</code></pre>
+
+<p>改为：</p>
+
+<pre><code>LOCAL_SHARED_LIBRARIES := SDL2
+LOCAL_STATIC_LIBRARIES := tremor mikmod
+</code></pre>
+
+<p>之后是老规矩：</p>
+
+<pre><code>LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include \
+            $(LOCAL_PATH)/../SDL_image \
+            $(LOCAL_PATH)/../SDL_ttf \
+            $(LOCAL_PATH)/../SDL_mixer
+...
+
+LOCAL_SHARED_LIBRARIES := SDL2 SDL2_image SDL2_ttf SDL2_mixer
+</code></pre>
+
+<p>还有把</p>
+
+<pre><code>System.loadLibrary("SDL2_mixer");
+</code></pre>
+
+<p>取消注释。</p>
+
+<p>然后就该怎么着怎么着了。老规矩，把音乐文件放到assets文件夹里就够了。</p>
+
+<p>PS：这里我遇到了一个很囧的问题，按照默认的编译方式——将mikmod编译为共享库的话，会导致Activity在加载库的时候有一些问题。
+如果我加上System.loadLibrary(&#8220;mikmod&#8221;);的话，程序就卡在这行代码，进行不下去了；如果我去掉这一行代码，在System.loadLibrary(&#8220;SDL2_mixer&#8221;);的阶段，SDL_mixer就哼哼唧唧加载不上，好像还报一堆找不到库的错误。无奈只有改链接方式，把mikmod库整个链进SDL_mixer.</p>
+
+<p>整个jni目录的结构大概是这样的：</p>
+
+<p><img src="/sdltutorialcn/images/blogimages/set-up-for-android/tree.png" alt="file tree" /></p>
+
+<p>如果你“去你的！老子编译不过！！！！！”那么你可以尝试clone https://github.com/alanwoolley/CorsixTH-Android的项目……</p>
+
+<p>剩下的我不说了=____,=。同志们该怎么用怎么用吧，用不来的话直接去github上clone人家的代码。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Adolfans</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-23T16:39:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/sdltutorialcn/blog/2013/03/24/lesson-8-timers/" title="Previous Post: 第八节：计时器">&laquo; 第八节：计时器</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/04/23/set-up-sdl2-for-android-in-eclipse/">在Eclipse中配置SDL2.0 for Android</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/03/24/lesson-8-timers/">第八节：计时器</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/03/24/lesson-7-taking-advantage-of-classes/">第七节：充分利用类</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/03/23/lesson-6-true-type-fonts-with-sdl-ttf/">第六节: 使用SDL_ttf绘制True Type字体</a>
+      </li>
+    
+      <li class="post">
+        <a href="/sdltutorialcn/blog/2013/02/14/lesson-5-clipping-sprite-sheets/">第五节：裁剪精灵表</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/117151825287907703585?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Adolfans -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'sdltutorialcn';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://adolfans.github.com/sdltutorialcn/blog/2013/04/23/set-up-sdl2-for-android-in-eclipse/';
+        var disqus_url = 'http://adolfans.github.com/sdltutorialcn/blog/2013/04/23/set-up-sdl2-for-android-in-eclipse/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
